@@ -8,12 +8,14 @@
 
 import React from 'react';
 import type {Node} from 'react';
+
 import {
   SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
+  Button,
   useColorScheme,
   View,
 } from 'react-native';
@@ -52,6 +54,16 @@ const Section = ({children, title}): Node => {
   );
 };
 
+function DetailsScreen() {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Details Screen</Text>
+    </View>
+  );
+}
+
+const Stack = createNativeStackNavigator();
+
 const App: () => Node = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -69,6 +81,13 @@ const App: () => Node = () => {
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
+          <Button
+            // onPress={onPressLearnMore}
+            title="Learn More"
+            color="#841584"
+            onPress={() => navigation.navigate('Details')}
+            // accessibilityLabel="Learn more about this purple button"
+          />
           <Section title="Step One">
             Edit <Text style={styles.highlight}>App.js</Text> to change this
             screen and then come back to see your edits.

@@ -16,13 +16,13 @@ import {
   Text,
   useColorScheme,
   View,
+  Button,
 } from 'react-native';
+
+import { NavigationContainer } from '@react-navigation/native';
 
 import {
   Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
@@ -76,14 +76,11 @@ const App: () => Node = () => {
           <Section title="See Your Changes">
             <ReloadInstructions />
           </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
         </View>
+        <Button
+          title="Press me"
+          onPress={() => Alert.alert('Simple Button pressed')}
+        />
       </ScrollView>
     </SafeAreaView>
   );

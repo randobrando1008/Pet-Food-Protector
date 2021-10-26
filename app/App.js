@@ -18,6 +18,7 @@ import {
   View,
   Button,
   TextInput,
+  Image,
 } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -25,12 +26,20 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { format } from "date-fns";
 
+function LogoTitle() {
+  return (
+    <Image
+      style={{ resizeMode:'contain', alignSelf: 'center', height: 70, width: 400, right: 17 }}
+      source={require('./happyDoggo.png')}
+    />
+  );
+}
+
 function HomeScreen({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
       <Button
-        title="Go to Details"
+        title="Sign In"
         onPress={() => navigation.navigate('Details')}
       />
     </View>
@@ -104,7 +113,11 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ headerTitle: (props) => <LogoTitle {...props} /> }}
+      />
         <Stack.Screen name="Details" component={DetailsScreen} />
       </Stack.Navigator>
     </NavigationContainer>

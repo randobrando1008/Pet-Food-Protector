@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, {useState} from 'react';
 import type {Node} from 'react';
 import {
   SafeAreaView,
@@ -17,10 +17,13 @@ import {
   useColorScheme,
   View,
   Button,
+  TextInput,
 } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { format } from "date-fns";
 
 function HomeScreen({ navigation }) {
   return (
@@ -35,9 +38,62 @@ function HomeScreen({ navigation }) {
 }
 
 function DetailsScreen() {
+  const [amountnumber, onChangeAmountNumber] = React.useState(null);
+  const [timesNumber, onChangeTimesNumber] = React.useState(null);
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (date) => {
+    hours = ((date.getHours() + 11) % 12 + 1);
+    minutes = date.getMinutes();
+    if(date.getHours() > 12)
+    {
+      dd = "PM"
+    }
+    else
+    {
+      dd = "AM"
+    }
+    console.log("A time has been picked: ", hours + ":" + minutes + dd);
+    hideDatePicker();
+  };
+
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Details Screen</Text>
+    <View>
+      <Text>How Much To Feed:</Text>
+      <TextInput
+        style={styles.input}
+        onChangeText={onChangeAmountNumber}
+        value={amountnumber}
+        placeholder="Quantity"
+        keyboardType="numeric"
+      />
+      <Text>Feed Number: {amountnumber}</Text>
+
+      <Text>How many times a day:</Text>
+      <TextInput
+        style={styles.input}
+        onChangeText={onChangeTimesNumber}
+        value={timesNumber}
+        placeholder="Quantity"
+        keyboardType="numeric"
+      />
+      <Text>Times Number: {timesNumber}</Text>
+
+      <Button title="What time to feed?" onPress={showDatePicker} />
+      <DateTimePickerModal
+        isVisible={isDatePickerVisible}
+        mode="time"
+        onConfirm={handleConfirm}
+        onCancel={hideDatePicker}
+      />
     </View>
   );
 }
@@ -55,23 +111,13 @@ function App() {
   );
 }
 
-// const styles = StyleSheet.create({
-//   sectionContainer: {
-//     marginTop: 32,
-//     paddingHorizontal: 24,
-//   },
-//   sectionTitle: {
-//     fontSize: 24,
-//     fontWeight: '600',
-//   },
-//   sectionDescription: {
-//     marginTop: 8,
-//     fontSize: 18,
-//     fontWeight: '400',
-//   },
-//   highlight: {
-//     fontWeight: '700',
-//   },
-// });
+const styles = StyleSheet.create({
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+  },
+});
 
 export default App;

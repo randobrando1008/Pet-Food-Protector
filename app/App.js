@@ -70,6 +70,10 @@ function DetailsScreen() {
     {
       dd = "AM"
     }
+    if(minutes < 10)
+    {
+      minutes = "0" + minutes;
+    }
     console.log("A time has been picked: ", hours + ":" + minutes + dd);
     hideDatePicker();
   };

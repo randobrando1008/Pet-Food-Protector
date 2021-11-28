@@ -36,8 +36,27 @@ function LogoTitle() {
 }
 
 function HomeScreen({ navigation }) {
+  const [username, onChangeUsername] = React.useState(null);
+  const [password, onChangePassword] = React.useState(null);
+
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <View>
+      <Text>Username:</Text>
+      <TextInput
+        style={styles.input}
+        onChangeText={onChangeUsername}
+        value={username}
+        placeholder="Username"
+      />
+      <Text>Username: {username}</Text>
+      <Text>Password:</Text>
+      <TextInput
+        style={styles.input}
+        onChangeText={onChangePassword}
+        value={password}
+        placeholder="Password"
+      />
+      <Text>Password: {password}</Text>
       <Button
         title="Sign In"
         onPress={() => navigation.navigate('Details')}

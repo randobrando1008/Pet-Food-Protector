@@ -12,6 +12,5 @@ namespace PFP_API
 
         public string Password { get; set; }
 
-        public bool IsManager { get; set; }
     }
 }

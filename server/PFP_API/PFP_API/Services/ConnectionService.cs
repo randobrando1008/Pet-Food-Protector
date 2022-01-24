@@ -5,7 +5,7 @@ namespace PFP_API.Services
 {
     public class ConnectionService : IDisposable
     {
-        public MySqlConnection Connection = new MySqlConnection("server=173.90.136.43;user=brandon;database=tms;port=3306;password=P@ssw0rd");
+        public MySqlConnection Connection = new MySqlConnection("server=localhost;user=root;database=pfp;port=3306;password=bggbgg1017");
 
         public void Connect()
         {

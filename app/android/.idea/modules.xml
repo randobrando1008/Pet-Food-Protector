@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-253340308/app.react-native-community_datetimepicker.iml" filepath="$PROJECT_DIR$/.idea/modules/-253340308/app.react-native-community_datetimepicker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1092377862/app.react-native-date-picker.iml" filepath="$PROJECT_DIR$/.idea/modules/-1092377862/app.react-native-date-picker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-767467940/app.react-native-safe-area-context.iml" filepath="$PROJECT_DIR$/.idea/modules/-767467940/app.react-native-safe-area-context.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1494335860/app.react-native-screens.iml" filepath="$PROJECT_DIR$/.idea/modules/1494335860/app.react-native-screens.iml" />
+    </modules>
+  </component>
+</project>

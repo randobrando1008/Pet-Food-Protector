@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="data1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/build/intermediates/compressed_assets/debug/out/assets/net/time4j/calendar/data/tsuchihashi.data.jar!/" />
+      <root url="jar://$PROJECT_DIR$/build/intermediates/compressed_assets/debug/out/assets/net/time4j/calendar/data/nengo.data.jar!/" />
+      <root url="jar://$PROJECT_DIR$/build/intermediates/compressed_assets/debug/out/assets/net/time4j/calendar/data/islamic_diyanet.data.jar!/" />
+      <root url="jar://$PROJECT_DIR$/build/intermediates/compressed_assets/debug/out/assets/net/time4j/calendar/data/islamic_icu4j.data.jar!/" />
+      <root url="jar://$PROJECT_DIR$/build/intermediates/compressed_assets/debug/out/assets/net/time4j/calendar/data/islamic_umalqura.data.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

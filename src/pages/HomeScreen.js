@@ -64,7 +64,7 @@ class HomeScreen extends React.Component {
             value={this.state.password}
             placeholder="Password"
           /> */}
-          <SignInButton title="Sign In" />
+          <SignInButton title="Sign In" onPress={() => this.props.navigation.navigate('Details')} />
           <CreateAccountButton title="Create an Account" />
       </View>
     );

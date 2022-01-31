@@ -19,7 +19,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { format } from "date-fns";
 
 import HomeScreen from './pages/HomeScreen';
-import DetailsScreen from './pages/DetailsScreen';
+import SignInScreen from './pages/SignInScreen';
 
 class App extends React.Component {
 
@@ -28,12 +28,14 @@ class App extends React.Component {
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home">
           <Stack.Screen
+            options={{headerShown:false}}
             name="Home"
             component={HomeScreen}
           />
-          <Stack.Screen 
-            name="Details" 
-            component={DetailsScreen} 
+          <Stack.Screen
+            options={{headerShown:false}}
+            name="SignIn" 
+            component={SignInScreen} 
           />
         </Stack.Navigator>
       </NavigationContainer>

@@ -8,7 +8,6 @@ import {
   Text,
   useColorScheme,
   View,
-  Button,
   TouchableOpacity,
   Pressable,
   TextInput,
@@ -25,6 +24,7 @@ const SignInButton = ({ onPress, title}) => (
       <Text style={styles.signInButtonText}>{title}</Text>
     </TouchableOpacity>
 );
+
 const CreateAccountButton = ({ onPress, title}) => (
     <TouchableOpacity onPress={onPress} style={styles.createAccountButtonContainer}>
       <Text style={styles.createAccountButtonText}>{title}</Text>
@@ -64,7 +64,7 @@ class HomeScreen extends React.Component {
             value={this.state.password}
             placeholder="Password"
           /> */}
-          <SignInButton title="Sign In" onPress={() => this.props.navigation.navigate('Details')} />
+          <SignInButton title="Sign In" onPress={() => this.props.navigation.navigate('SignIn')} />
           <CreateAccountButton title="Create an Account" />
       </View>
     );

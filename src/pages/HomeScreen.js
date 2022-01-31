@@ -20,13 +20,13 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { format } from "date-fns";
 
-const SignInButton = ({ onPress, title}) => (
-    <TouchableOpacity onPress={onPress} style={styles.signInButtonContainer}>
+const SignInButton = ({title}) => (
+    <TouchableOpacity style={styles.signInButtonContainer}>
       <Text style={styles.signInButtonText}>{title}</Text>
     </TouchableOpacity>
 );
-const CreateAccountButton = ({ onPress, title}) => (
-    <TouchableOpacity onPress={onPress} style={styles.createAccountButtonContainer}>
+const CreateAccountButton = ({title}) => (
+    <TouchableOpacity style={styles.createAccountButtonContainer}>
       <Text style={styles.createAccountButtonText}>{title}</Text>
     </TouchableOpacity>
 );
@@ -40,7 +40,11 @@ class HomeScreen extends React.Component {
           password: ''
       }
   }
-
+  // handlePress() {
+  //   const { navigation, route, params } = this.props
+  //   console.log(route, params)
+  //   navigation.navigate(route, params)
+  // }
   render() {
     return (
       <View style={{flex: 1,backgroundColor: '#fff'}}>
@@ -48,10 +52,10 @@ class HomeScreen extends React.Component {
           style={{ resizeMode:'contain', alignSelf: 'center', height: 70, width: 400 }}
           source={require('./happyDoggo.png')}
           />
-          <View style = {styles.lineStyle} />
+          <View style={styles.lineStyle} />
           <Text style={styles.headerText}>Welcome to The Happy Doggo!</Text>
           <Text style={styles.extraText}>If you already have an account click the Sign In button below, if you're a new user go ahead and Create an Account.</Text>
-          <View style = {styles.lineStyle} />
+          <View style={styles.lineStyle} />
           {/* <Text>Username:</Text>
           <TextInput
             style={styles.input}
@@ -64,7 +68,7 @@ class HomeScreen extends React.Component {
             value={this.state.password}
             placeholder="Password"
           /> */}
-          <SignInButton title="Sign In" />
+          <SignInButton title="Sign In" onPress={() => this.props.navigation.navigate('Details')} />
           <CreateAccountButton title="Create an Account" />
       </View>
     );

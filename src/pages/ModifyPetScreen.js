@@ -60,35 +60,40 @@ class ModifyPetScreen extends React.Component {
     render() {
         return (
           <View>
-            <Text>How Much To Feed:</Text>
-            <TextInput
-              style={styles.input}
-              value={this.state.feedNumber}
-              placeholder="Quantity"
-              keyboardType="numeric"
-            />
+            <ScrollView style={styles.scrollView}>
+              <Text>How Much To Feed:</Text>
+              <TextInput
+                style={styles.input}
+                value={this.state.feedNumber}
+                placeholder="Quantity"
+                keyboardType="numeric"
+              />
 
-            <Text>How many times a day:</Text>
-            <TextInput
-              style={styles.input}
-              value={this.state.timesNumber}
-              placeholder="Quantity"
-              keyboardType="numeric"
-            />
+              <Text>How many times a day:</Text>
+              <TextInput
+                style={styles.input}
+                value={this.state.timesNumber}
+                placeholder="Quantity"
+                keyboardType="numeric"
+              />
 
-            <Button title="What time to feed?" onPress={this.showDatePicker} />
-            <DateTimePickerModal
-              isVisible={this.state.isDatePickerVisible}
-              mode="time"
-              onConfirm={this.handleConfirm}
-              onCancel={this.hideDatePicker}
-            />
+              <Button title="What time to feed?" onPress={this.showDatePicker} />
+              <DateTimePickerModal
+                isVisible={this.state.isDatePickerVisible}
+                mode="time"
+                onConfirm={this.handleConfirm}
+                onCancel={this.hideDatePicker}
+              />
+            </ScrollView>
           </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
+  scrollView: {
+    marginHorizontal: 20,
+  },
   input: {
     height: 40,
     margin: 12,

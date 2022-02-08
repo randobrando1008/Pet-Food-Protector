@@ -24,6 +24,7 @@ import CreateAccountScreen from './pages/CreateAccountScreen';
 import CreateScheduleScreen from './pages/CreateScheduleScreen';
 import AddPetScreen from './pages/AddPetScreen';
 import ModifyPetScreen from './pages/ModifyPetScreen';
+import SettingScreen from './pages/SettingScreen';
 
 class App extends React.Component {
 
@@ -60,6 +61,11 @@ class App extends React.Component {
             options={{headerShown:false}}
             name="ModifyPet"
             component={ModifyPetScreen}
+          />
+          <Stack.Screen
+            options={{headerShown:false}}
+            name="Setting"
+            component={SettingScreen}
           />
         </Stack.Navigator>
       </NavigationContainer>

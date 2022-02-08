@@ -37,6 +37,7 @@ class CreateAccountScreen extends React.Component {
 
   render() {
     return (
+      <ScrollView style={styles.scrollView}>
         <View style={{flex: 1,backgroundColor: '#fff'}}>
             <Text style={styles.headerStyle}>Create An Account</Text>
             <View style={styles.lineStyle} />
@@ -71,13 +72,18 @@ class CreateAccountScreen extends React.Component {
                 placeholder="Type in your Password"
             />
             <CreateAccountButton title="Create Account" onPress={() => this.props.navigation.navigate('CreateAccount')} />
+
         </View>
+        </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
 
+  scrollView: {
+    marginHorizontal: 20,
+  },
   headerStyle:{
     color:"#000",
     fontSize: 62,
@@ -120,7 +126,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignSelf: "center",
     margin: 5,
-    marginTop: 150,
+    marginTop: 50,
   },
   CreateAccountButtonText: {
     fontSize: 18,

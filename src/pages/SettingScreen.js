@@ -38,12 +38,14 @@ class SettingScreen extends React.Component {
   render() {
     return (
       <View style={{flex: 1,backgroundColor: '#fff'}}>
+        <ScrollView style={styles.scrollView}>
           <View style = {styles.lineStyle} />
           <Text style={styles.headerText}>Welcome to The Happy Doggo!</Text>
           <Text style={styles.extraText}>If you already have an account click the Sign In button below, if you're a new user go ahead and Create an Account.</Text>
           <View style = {styles.lineStyle} />
           <SignInButton title="Sign In" onPress={() => this.props.navigation.navigate('SignIn')} />
           <CreateAccountButton title="Create an Account" onPress={() => this.props.navigation.navigate('CreateAccount')} />
+        </ScrollView>
       </View>
     );
   }
@@ -51,22 +53,25 @@ class SettingScreen extends React.Component {
 
 const styles = StyleSheet.create({
 
-  lineStyle:{
-    borderWidth: 2,
-    borderColor: "#00A5FF",
-    borderRadius: 35,
-    margin: 10,
-    marginTop: 30
-  },
-  headerText: {
-    color: '#000',
-    fontWeight: 'bold',
-    fontSize: 18,
-    justifyContent: 'center',
-    alignSelf: "center",
-    margin: 5,
-    marginTop: 15
-  }
+    scrollView: {
+        marginHorizontal: 20,
+    },
+    lineStyle:{
+        borderWidth: 2,
+        borderColor: "#00A5FF",
+        borderRadius: 35,
+        margin: 10,
+        marginTop: 30
+    },
+    headerText: {
+        color: '#000',
+        fontWeight: 'bold',
+        fontSize: 18,
+        justifyContent: 'center',
+        alignSelf: "center",
+        margin: 5,
+        marginTop: 15
+    }
 
 });
 

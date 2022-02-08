@@ -37,8 +37,8 @@ class CreateAccountScreen extends React.Component {
 
   render() {
     return (
-      <ScrollView style={styles.scrollView}>
         <View style={{flex: 1,backgroundColor: '#fff'}}>
+          <ScrollView style={styles.scrollView}>
             <Text style={styles.headerStyle}>Create An Account</Text>
             <View style={styles.lineStyle} />
             <Text style={styles.extraText}>First Name:</Text>
@@ -71,10 +71,10 @@ class CreateAccountScreen extends React.Component {
                 style={styles.inputStyle}
                 placeholder="Type in your Password"
             />
-            <CreateAccountButton title="Create Account" onPress={() => this.props.navigation.navigate('CreateAccount')} />
-
+            <CreateAccountButton title="Create Account" onPress={() => this.props.navigation.navigate('SignIn')} />
+          </ScrollView>
         </View>
-        </ScrollView>
+
     );
   }
 }

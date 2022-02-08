@@ -38,18 +38,22 @@ class CreateScheduleScreen extends React.Component {
   render() {
     return (
         <View style={{flex: 1,backgroundColor: '#fff'}}>
+          <ScrollView style={styles.scrollView}>
             <Text style={styles.headerStyle}>Let's Feed Some Doggo</Text>
             <View style={styles.lineStyle} />
 
             <SignInButton title="Add Pet" onPress={() => this.props.navigation.navigate('AddPet')} />
             <SignInButton title="Modify Pet" onPress={() => this.props.navigation.navigate('ModifyPet')} />
+          </ScrollView>
         </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-
+  scrollView: {
+    marginHorizontal: 20,
+  },
   headerStyle:{
     color:"#000",
     fontSize: 26,

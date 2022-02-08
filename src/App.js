@@ -20,6 +20,10 @@ import { format } from "date-fns";
 
 import HomeScreen from './pages/HomeScreen';
 import SignInScreen from './pages/SignInScreen';
+import CreateAccountScreen from './pages/CreateAccountScreen';
+import CreateScheduleScreen from './pages/CreateScheduleScreen';
+import AddPetScreen from './pages/AddPetScreen';
+import ModifyPetScreen from './pages/ModifyPetScreen';
 
 class App extends React.Component {
 
@@ -36,6 +40,26 @@ class App extends React.Component {
             options={{headerShown:false}}
             name="SignIn" 
             component={SignInScreen} 
+          />
+          <Stack.Screen
+            options={{headerShown:false}}
+            name="CreateAccount"
+            component={CreateAccountScreen}
+          />
+          <Stack.Screen
+            options={{headerShown:false}}
+            name="CreateSchedule"
+            component={CreateScheduleScreen}
+          />
+          <Stack.Screen
+            options={{headerShown:false}}
+            name="AddPet"
+            component={AddPetScreen}
+          />
+          <Stack.Screen
+            options={{headerShown:false}}
+            name="ModifyPet"
+            component={ModifyPetScreen}
           />
         </Stack.Navigator>
       </NavigationContainer>

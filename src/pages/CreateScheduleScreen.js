@@ -25,7 +25,7 @@ const SignInButton = ({ onPress, title}) => (
     </TouchableOpacity>
 );
 
-class SignInScreen extends React.Component {
+class CreateScheduleScreen extends React.Component {
 
   constructor(props) {
       super(props);
@@ -38,21 +38,11 @@ class SignInScreen extends React.Component {
   render() {
     return (
         <View style={{flex: 1,backgroundColor: '#fff'}}>
-            <Text style={styles.headerStyle}>Sign In</Text>
+            <Text style={styles.headerStyle}>Let's Feed Some Doggo</Text>
             <View style={styles.lineStyle} />
-            <Text style={styles.extraText}>Username:</Text>
-            <TextInput
-                value={this.state.email}
-                style={styles.inputStyle}
-                placeholder="Email"
-            />
-            <Text style={styles.extraText}>Password:</Text>
-            <TextInput
-                value={this.state.password}
-                style={styles.inputStyle}
-                placeholder="Password"
-            />
-            <SignInButton title="Sign In" onPress={() => this.props.navigation.navigate('CreateSchedule')} />
+
+            <SignInButton title="Add Pet" onPress={() => this.props.navigation.navigate('AddPet')} />
+            <SignInButton title="Modify Pet" onPress={() => this.props.navigation.navigate('ModifyPet')} />
         </View>
     );
   }
@@ -62,7 +52,7 @@ const styles = StyleSheet.create({
 
   headerStyle:{
     color:"#000",
-    fontSize: 62,
+    fontSize: 26,
     fontWeight: "bold",
     textAlign: "center",
     textAlignVertical: "center"
@@ -114,4 +104,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default SignInScreen
+export default CreateScheduleScreen

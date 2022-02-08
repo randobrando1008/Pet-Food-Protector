@@ -19,13 +19,13 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { format } from "date-fns";
 
-const SignInButton = ({ onPress, title}) => (
-    <TouchableOpacity onPress={onPress} style={styles.signInButtonContainer}>
-      <Text style={styles.signInButtonText}>{title}</Text>
+const CreateAccountButton = ({ onPress, title}) => (
+    <TouchableOpacity onPress={onPress} style={styles.CreateAccountButtonContainer}>
+      <Text style={styles.CreateAccountButtonText}>{title}</Text>
     </TouchableOpacity>
 );
 
-class SignInScreen extends React.Component {
+class CreateAccountScreen extends React.Component {
 
   constructor(props) {
       super(props);
@@ -38,21 +38,39 @@ class SignInScreen extends React.Component {
   render() {
     return (
         <View style={{flex: 1,backgroundColor: '#fff'}}>
-            <Text style={styles.headerStyle}>Sign In</Text>
+            <Text style={styles.headerStyle}>Create An Account</Text>
             <View style={styles.lineStyle} />
-            <Text style={styles.extraText}>Username:</Text>
+            <Text style={styles.extraText}>First Name:</Text>
+            <TextInput
+                value={this.state.fName}
+                style={styles.inputStyle}
+                placeholder="Type in your First Name"
+            />
+            <Text style={styles.extraText}>Last Name:</Text>
+            <TextInput
+                value={this.state.lName}
+                style={styles.inputStyle}
+                placeholder="Type in your Last Name"
+            />
+            <Text style={styles.extraText}>Email:</Text>
             <TextInput
                 value={this.state.email}
                 style={styles.inputStyle}
-                placeholder="Email"
+                placeholder="Type in your Email"
             />
             <Text style={styles.extraText}>Password:</Text>
             <TextInput
                 value={this.state.password}
                 style={styles.inputStyle}
-                placeholder="Password"
+                placeholder="Type in your Password"
             />
-            <SignInButton title="Sign In" onPress={() => this.props.navigation.navigate('CreateSchedule')} />
+            <Text style={styles.extraText}>Confirm Password:</Text>
+            <TextInput
+                value={this.state.cPassword}
+                style={styles.inputStyle}
+                placeholder="Type in your Password"
+            />
+            <CreateAccountButton title="Create Account" onPress={() => this.props.navigation.navigate('CreateAccount')} />
         </View>
     );
   }
@@ -94,7 +112,7 @@ const styles = StyleSheet.create({
     margin: 10,
     marginTop: 30
   },
-  signInButtonContainer: {
+  CreateAccountButtonContainer: {
     backgroundColor: "#00A5FF",
     borderRadius: 35,
     width: 190,
@@ -104,14 +122,14 @@ const styles = StyleSheet.create({
     margin: 5,
     marginTop: 150,
   },
-  signInButtonText: {
+  CreateAccountButtonText: {
     fontSize: 18,
     color: "#fff",
     fontWeight: "bold",
     textAlign: "center",
     textAlignVertical: "center"
-  },
+  }
 
 });
 
-export default SignInScreen
+export default CreateAccountScreen

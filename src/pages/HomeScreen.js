@@ -7,6 +7,8 @@ import {
   StyleSheet,
   Text,
   useColorScheme,
+  NativeModules,
+  NativeEventEmitter,
   View,
   Button,
   TouchableOpacity,
@@ -19,6 +21,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { format } from "date-fns";
+
+import BleManager from '../Bluetooth/BleManager';
+const BleManagerModule = NativeModules.BleManager;
+const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
 
 const SignInButton = ({ onPress, title}) => (
     <TouchableOpacity onPress={onPress} style={styles.signInButtonContainer}>
@@ -34,11 +40,23 @@ const CreateAccountButton = ({ onPress, title}) => (
 class HomeScreen extends React.Component {
 
   constructor(props) {
-      super(props);
-      this.state = {
-          email: '',
-          password: ''
-      }
+    super(props);
+    this.state = {
+        email: '',
+        password: ''
+    }
+  }
+
+  componentDidMount = () => {
+    BleManager.start().then(() => {
+      // Success code
+      console.log("Module initialized");
+
+      BleManager.scan([], 5, true).then(() => {
+        // Success code
+        console.log("Scan started");
+      });
+    });
   }
 
   render() {

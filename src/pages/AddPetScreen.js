@@ -18,7 +18,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { format } from "date-fns";
 
-class DetailsScreen extends React.Component {
+class AddPetScreen extends React.Component {
 
     constructor(props) {
         super(props);
@@ -97,4 +97,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DetailsScreen
+export default AddPetScreen

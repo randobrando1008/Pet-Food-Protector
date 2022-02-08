@@ -19,7 +19,11 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { format } from "date-fns";
 
 import HomeScreen from './pages/HomeScreen';
-import DetailsScreen from './pages/DetailsScreen';
+import SignInScreen from './pages/SignInScreen';
+import CreateAccountScreen from './pages/CreateAccountScreen';
+import CreateScheduleScreen from './pages/CreateScheduleScreen';
+import AddPetScreen from './pages/AddPetScreen';
+import ModifyPetScreen from './pages/ModifyPetScreen';
 
 class App extends React.Component {
 
@@ -28,12 +32,34 @@ class App extends React.Component {
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home">
           <Stack.Screen
+            options={{headerShown:false}}
             name="Home"
             component={HomeScreen}
           />
-          <Stack.Screen 
-            name="Details" 
-            component={DetailsScreen} 
+          <Stack.Screen
+            options={{headerShown:false}}
+            name="SignIn" 
+            component={SignInScreen} 
+          />
+          <Stack.Screen
+            options={{headerShown:false}}
+            name="CreateAccount"
+            component={CreateAccountScreen}
+          />
+          <Stack.Screen
+            options={{headerShown:false}}
+            name="CreateSchedule"
+            component={CreateScheduleScreen}
+          />
+          <Stack.Screen
+            options={{headerShown:false}}
+            name="AddPet"
+            component={AddPetScreen}
+          />
+          <Stack.Screen
+            options={{headerShown:false}}
+            name="ModifyPet"
+            component={ModifyPetScreen}
           />
         </Stack.Navigator>
       </NavigationContainer>

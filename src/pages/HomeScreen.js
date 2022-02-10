@@ -47,17 +47,17 @@ class HomeScreen extends React.Component {
     }
   }
 
-  componentDidMount = () => {
-    BleManager.start().then(() => {
-      // Success code
-      console.log("Module initialized");
+  // componentDidMount = () => {
+  //   BleManager.start().then(() => {
+  //     // Success code
+  //     console.log("Module initialized");
 
-      BleManager.scan([], 5, true).then(() => {
-        // Success code
-        console.log("Scan started");
-      });
-    });
-  }
+  //     BleManager.scan([], 5, true).then(() => {
+  //       // Success code
+  //       console.log("Scan started");
+  //     });
+  //   });
+  // }
 
   render() {
     return (

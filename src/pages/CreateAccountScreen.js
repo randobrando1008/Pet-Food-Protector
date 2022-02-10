@@ -39,24 +39,24 @@ class CreateAccountScreen extends React.Component {
       }
   }
 
-  handleConfirm = e => {
-    e.preventDefault();
+  // handleConfirm = e => {
+  //   e.preventDefault();
 
-    console.log("It is in the handleConfirm Function");
+  //   console.log("It is in the handleConfirm Function");
 
-    axios.post('http://localhost:38621/User', {
-      FirstName: this.state.firstName,
-      LastName: this.state.lastName,
-      Email: this.state.email,
-      Password: this.state.password
-    })
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  }
+  //   axios.post('http://localhost:38621/User', {
+  //     FirstName: this.state.firstName,
+  //     LastName: this.state.lastName,
+  //     Email: this.state.email,
+  //     Password: this.state.password
+  //   })
+  //   .then(function (response) {
+  //     console.log(response);
+  //   })
+  //   .catch(function (error) {
+  //     console.log(error);
+  //   });
+  // }
 
   render() {
     return (
@@ -99,6 +99,7 @@ class CreateAccountScreen extends React.Component {
                 placeholder="Retype in your Password"
                 onChange={ e => this.setState({cPassword: e.target.value}) }
             />
+            {/* <CreateAccountButton title="Create Account" onPress={this.handleConfirm} /> */}
             <CreateAccountButton title="Create Account" onPress={this.handleConfirm} />
           </ScrollView>
         </View>

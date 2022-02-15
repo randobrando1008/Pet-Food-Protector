@@ -18,6 +18,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { format } from "date-fns";
 
+import externalStyle from './styles/externalStyle';
+
 import HomeScreen from './pages/HomeScreen';
 import SignInScreen from './pages/SignInScreen';
 import CreateAccountScreen from './pages/CreateAccountScreen';

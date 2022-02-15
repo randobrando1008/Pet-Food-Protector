@@ -18,10 +18,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { format } from "date-fns";
+import externalStyle from '../styles/externalStyle';
 
 const SignInButton = ({ onPress, title}) => (
-    <TouchableOpacity onPress={onPress} style={styles.signInButtonContainer}>
-      <Text style={styles.signInButtonText}>{title}</Text>
+    <TouchableOpacity onPress={onPress} style={externalStyle.primaryButtonContainer}>
+      <Text style={externalStyle.primaryButtonText}>{title}</Text>
     </TouchableOpacity>
 );
 
@@ -39,7 +40,7 @@ class SignInScreen extends React.Component {
     return (
         <View style={{flex: 1,backgroundColor: '#fff'}}>
             <Text style={styles.headerStyle}>Sign In</Text>
-            <View style={styles.lineStyle} />
+            <View style={externalStyle.lineStyle} />
             <Text style={styles.extraText}>Username:</Text>
             <TextInput
                 value={this.state.email}
@@ -86,32 +87,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignSelf: "center",
     margin: 5
-  },
-  lineStyle:{
-    borderWidth: 2,
-    borderColor: "#00A5FF",
-    borderRadius: 35,
-    margin: 10,
-    marginTop: 30
-  },
-  signInButtonContainer: {
-    backgroundColor: "#00A5FF",
-    borderRadius: 35,
-    width: 190,
-    height: 50,
-    justifyContent: 'center',
-    alignSelf: "center",
-    margin: 5,
-    marginTop: 150,
-  },
-  signInButtonText: {
-    fontSize: 18,
-    color: "#fff",
-    fontWeight: "bold",
-    textAlign: "center",
-    textAlignVertical: "center"
-  },
-
+  }
 });
 
 export default SignInScreen

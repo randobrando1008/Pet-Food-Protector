@@ -18,10 +18,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { format } from "date-fns";
+import externalStyle from '../styles/externalStyle';
 
 const SignInButton = ({ onPress, title}) => (
-    <TouchableOpacity onPress={onPress} style={styles.signInButtonContainer}>
-      <Text style={styles.signInButtonText}>{title}</Text>
+    <TouchableOpacity onPress={onPress} style={externalStyles.primaryButtonContainer}>
+      <Text style={externalStyles.primaryButtonText}>{title}</Text>
     </TouchableOpacity>
 );
 
@@ -38,13 +39,13 @@ class SettingScreen extends React.Component {
   render() {
     return (
       <View style={{flex: 1,backgroundColor: '#fff'}}>
-        <ScrollView style={styles.scrollView}>
-          <View style = {styles.lineStyle} />
-          <Text style={styles.headerText}>Welcome to The Happy Doggo!</Text>
-          <Text style={styles.extraText}>If you already have an account click the Sign In button below, if you're a new user go ahead and Create an Account.</Text>
-          <View style = {styles.lineStyle} />
-          <SignInButton title="Sign In" onPress={() => this.props.navigation.navigate('SignIn')} />
-          <CreateAccountButton title="Create an Account" onPress={() => this.props.navigation.navigate('CreateAccount')} />
+        <ScrollView style={externalStyle.scrollView}>
+          <View style = {externalStyle.lineStyle} />
+          <Text style={styles.headerText}>Settings</Text>
+          {/* <Text style={styles.extraText}>If you already have an account click the Sign In button below, if you're a new user go ahead and Create an Account.</Text> */}
+          <View style = {externalStyle.lineStyle} />
+          {/* <SignInButton title="Sign In" onPress={() => this.props.navigation.navigate('SignIn')} />
+          <CreateAccountButton title="Create an Account" onPress={() => this.props.navigation.navigate('CreateAccount')} /> */}
         </ScrollView>
       </View>
     );
@@ -53,16 +54,6 @@ class SettingScreen extends React.Component {
 
 const styles = StyleSheet.create({
 
-    scrollView: {
-        marginHorizontal: 20,
-    },
-    lineStyle:{
-        borderWidth: 2,
-        borderColor: "#00A5FF",
-        borderRadius: 35,
-        margin: 10,
-        marginTop: 30
-    },
     headerText: {
         color: '#000',
         fontWeight: 'bold',

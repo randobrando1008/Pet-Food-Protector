@@ -18,11 +18,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { format } from "date-fns";
-import axios from 'axios';
+import externalStyle from '../styles/externalStyle';
 
 const CreateAccountButton = ({ onPress, title}) => (
-    <TouchableOpacity onPress={onPress} style={styles.CreateAccountButtonContainer}>
-      <Text style={styles.CreateAccountButtonText}>{title}</Text>
+    <TouchableOpacity onPress={onPress} style={externalStyle.primaryButtonContainer}>
+      <Text style={externalStyle.primaryButtonText}>{title}</Text>
     </TouchableOpacity>
 );
 
@@ -61,9 +61,9 @@ class CreateAccountScreen extends React.Component {
   render() {
     return (
         <View style={{flex: 1,backgroundColor: '#fff'}}>
-          <ScrollView style={styles.scrollView}>
+          <ScrollView style={externalStyle.scrollView}>
             <Text style={styles.headerStyle}>Create An Account</Text>
-            <View style={styles.lineStyle} />
+            <View style={externalStyle.lineStyle} />
             <Text style={styles.extraText}>First Name:</Text>
             <TextInput
                 value={this.state.fName}
@@ -110,15 +110,13 @@ class CreateAccountScreen extends React.Component {
 
 const styles = StyleSheet.create({
 
-  scrollView: {
-    marginHorizontal: 20,
-  },
   headerStyle:{
     color:"#000",
     fontSize: 62,
     fontWeight: "bold",
     textAlign: "center",
-    textAlignVertical: "center"
+    textAlignVertical: "center",
+    marginTop: 10
   },
   extraText: {
     color: '#C4C4C4',
@@ -139,32 +137,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignSelf: "center",
     margin: 5
-  },
-  lineStyle:{
-    borderWidth: 2,
-    borderColor: "#00A5FF",
-    borderRadius: 35,
-    margin: 10,
-    marginTop: 30
-  },
-  CreateAccountButtonContainer: {
-    backgroundColor: "#00A5FF",
-    borderRadius: 35,
-    width: 190,
-    height: 50,
-    justifyContent: 'center',
-    alignSelf: "center",
-    margin: 5,
-    marginTop: 50,
-  },
-  CreateAccountButtonText: {
-    fontSize: 18,
-    color: "#fff",
-    fontWeight: "bold",
-    textAlign: "center",
-    textAlignVertical: "center"
   }
-
 });
 
 export default CreateAccountScreen

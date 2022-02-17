@@ -41,13 +41,16 @@ class CreateScheduleScreen extends React.Component {
     return (
         <View style={{flex: 1,backgroundColor: '#fff'}}>
           <ScrollView style={externalStyle.scrollView}>
-            <Text style={styles.headerStyle}>Let's Feed Some Doggo</Text>
+            <View style={externalStyle.header}>
+              <Text style={styles.headerText}>Let's Feed Some Doggos</Text>
+              <TouchableOpacity
+                style={{ backgroundColor:"#FFFFFF00", flexDirection: "row", padding: 2}}
+                onPress={() => this.props.navigation.navigate('Setting')}>
+                <Icon name="gear" size={30} color="#000000CC" backgroundColor="#FFFFFF00"/>
+              </TouchableOpacity>
+            </View>
             <View style={externalStyle.lineStyle} />
-            <TouchableOpacity
-              style={{ backgroundColor:"#FFFFFF00"}}
-              onPress={() => this.props.navigation.navigate('Setting')}>
-              <Icon name="gear" size={30} color="#000000CC" backgroundColor="#FFFFFF00"/>
-            </TouchableOpacity>
+
             <SignInButton title="Add Pet" onPress={() => this.props.navigation.navigate('AddPet')} />
             <SignInButton title="Modify Pet" onPress={() => this.props.navigation.navigate('ModifyPet')} />
           </ScrollView>
@@ -58,13 +61,14 @@ class CreateScheduleScreen extends React.Component {
 
 const styles = StyleSheet.create({
 
-  headerStyle:{
-    color:"#000",
-    fontSize: 26,
-    fontWeight: "bold",
-    textAlign: "center",
-    textAlignVertical: "center",
-    marginTop: 10
+  headerText: {
+    padding: 2,
+    color: '#000',
+    fontWeight: 'bold',
+    fontSize: 24,
+    justifyContent: 'center',
+    alignSelf: "center",
+    margin: 5
   },
   extraText: {
     color: '#C4C4C4',

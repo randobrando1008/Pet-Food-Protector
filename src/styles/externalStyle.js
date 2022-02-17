@@ -45,7 +45,35 @@ const externalStyle=StyleSheet.create({
         fontWeight: "bold",
         textAlign: "center",
         textAlignVertical: "center"
-    }
+    },
+    extraText: {
+        color: '#C4C4C4',
+        fontSize: 18,
+        width: 265,
+        justifyContent: 'center',
+        alignSelf: "center",
+        padding: 2,
+        margin: 5
+    },
+    inputStyle: {
+        borderColor: '#C4C4C4',
+        borderWidth: 1,
+        borderRadius: 20,
+        fontSize: 14,
+        width: 255,
+        height: 40,
+        justifyContent: 'center',
+        alignSelf: "center",
+        margin: 5
+    },
+    header: {
+        width: '100%',
+        height: '10%',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexWrap:'wrap'
+  },
 })
 
 export default externalStyle

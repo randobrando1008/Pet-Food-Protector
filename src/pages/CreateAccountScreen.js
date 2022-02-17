@@ -64,38 +64,38 @@ class CreateAccountScreen extends React.Component {
           <ScrollView style={externalStyle.scrollView}>
             <Text style={styles.headerStyle}>Create An Account</Text>
             <View style={externalStyle.lineStyle} />
-            <Text style={styles.extraText}>First Name:</Text>
+            <Text style={externalStyle.extraText}>First Name:</Text>
             <TextInput
                 value={this.state.fName}
-                style={styles.inputStyle}
+                style={externalStyle.inputStyle}
                 placeholder="Type in your First Name"
                 onChange={ e => this.setState({fName: e.target.value}) } 
             />
-            <Text style={styles.extraText}>Last Name:</Text>
+            <Text style={externalStyle.extraText}>Last Name:</Text>
             <TextInput
                 value={this.state.lName}
-                style={styles.inputStyle}
+                style={externalStyle.inputStyle}
                 placeholder="Type in your Last Name"
                 onChange={ e => this.setState({lName: e.target.value}) }
             />
-            <Text style={styles.extraText}>Email:</Text>
+            <Text style={externalStyle.extraText}>Email:</Text>
             <TextInput
                 value={this.state.email}
-                style={styles.inputStyle}
+                style={externalStyle.inputStyle}
                 placeholder="Type in your Email"
                 onChange={ e => this.setState({email: e.target.value}) }
             />
-            <Text style={styles.extraText}>Password:</Text>
+            <Text style={externalStyle.extraText}>Password:</Text>
             <TextInput
                 value={this.state.password}
-                style={styles.inputStyle}
+                style={externalStyle.inputStyle}
                 placeholder="Type in your Password"
                 onChange={ e => this.setState({password: e.target.value}) }
             />
-            <Text style={styles.extraText}>Confirm Password:</Text>
+            <Text style={externalStyle.extraText}>Confirm Password:</Text>
             <TextInput
                 value={this.state.cPassword}
-                style={styles.inputStyle}
+                style={externalStyle.inputStyle}
                 placeholder="Retype in your Password"
                 onChange={ e => this.setState({cPassword: e.target.value}) }
             />
@@ -117,26 +117,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     textAlignVertical: "center",
     marginTop: 10
-  },
-  extraText: {
-    color: '#C4C4C4',
-    fontSize: 18,
-    width: 265,
-    justifyContent: 'center',
-    alignSelf: "center",
-    padding: 2,
-    margin: 5
-  },
-  inputStyle: {
-    borderColor: '#C4C4C4',
-    borderWidth: 1,
-    borderRadius: 20,
-    fontSize: 14,
-    width: 255,
-    height: 40,
-    justifyContent: 'center',
-    alignSelf: "center",
-    margin: 5
   }
 });
 

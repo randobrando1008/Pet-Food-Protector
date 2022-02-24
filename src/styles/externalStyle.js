@@ -19,7 +19,7 @@ const externalStyle=StyleSheet.create({
         justifyContent: 'center',
         alignSelf: "center",
         margin: 5,
-        marginTop: 150,
+        marginTop: 100,
     },
     primaryButtonText: {
         fontSize: 18,
@@ -68,12 +68,22 @@ const externalStyle=StyleSheet.create({
     },
     header: {
         width: '100%',
-        height: '10%',
+        height: '15%',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
         flexWrap:'wrap'
-  },
+    },
+    headerText: {
+        padding: 2,
+        color: '#000',
+        fontWeight: 'bold',
+        fontSize: 24,
+        justifyContent: 'center',
+        alignSelf: "center",
+        margin: 5,
+        marginTop: 15
+  }
 })
 
 export default externalStyle

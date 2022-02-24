@@ -16,11 +16,14 @@ import {
   Image,
 } from 'react-native';
 
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { format } from "date-fns";
 import externalStyle from '../styles/externalStyle';
+import PawIcon from '../styles/PawIcon';
 
 const SignInButton = ({ onPress, title}) => (
     <TouchableOpacity onPress={onPress} style={externalStyle.primaryButtonContainer}>
@@ -59,16 +62,17 @@ class HomeScreen extends React.Component {
   render() {
     return (
       <View style={{flex: 1,backgroundColor: '#fff'}}>
-          <Image
-          style={{ resizeMode:'contain', alignSelf: 'center', height: 70, width: 400, marginTop: 10 }}
-          source={require('./happyDoggo.png')}
-          />
-          <View style = {externalStyle.lineStyle} />
-          <Text style={styles.headerText}>Welcome to The Happy Doggo!</Text>
-          <Text style={styles.extraText}>If you already have an account click the Sign In button below, if you're a new user go ahead and Create an Account.</Text>
-          <View style = {externalStyle.lineStyle} />
-          <SignInButton title="Sign In" onPress={() => this.props.navigation.navigate('SignIn')} />
-          <CreateAccountButton title="Create an Account" onPress={() => this.props.navigation.navigate('CreateAccount')} />
+        <Image
+        style={{ resizeMode:'contain', alignSelf: 'center', height: 70, width: 400, marginTop: 10 }}
+        source={require('./happyDoggo.png')}
+        />
+        <View style = {externalStyle.lineStyle} />
+        <Text style={styles.headerText}>Welcome to The Happy Doggo!</Text>
+        <Text style={styles.extraText}>If you already have an account click the Sign In button below, if you're a new user go ahead and Create an Account.</Text>
+        <View style = {externalStyle.lineStyle} />
+        <SignInButton title="Sign In" onPress={() => this.props.navigation.navigate('SignIn')} />
+        <CreateAccountButton title="Create an Account" onPress={() => this.props.navigation.navigate('CreateAccount')} />
+        <PawIcon />
       </View>
     );
   }

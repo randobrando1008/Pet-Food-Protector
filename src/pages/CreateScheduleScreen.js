@@ -10,16 +10,17 @@ import {
   View,
   TouchableOpacity,
   Pressable,
-  TextInput,
-  Image
+  TextInput
 } from 'react-native';
+
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { format } from "date-fns";
 import externalStyle from '../styles/externalStyle';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import PawIcon from '../styles/PawIcon';
 
 const SignInButton = ({ onPress, title}) => (
     <TouchableOpacity onPress={onPress} style={externalStyle.primaryButtonContainer}>
@@ -40,20 +41,20 @@ class CreateScheduleScreen extends React.Component {
   render() {
     return (
         <View style={{flex: 1,backgroundColor: '#fff'}}>
+          <View style={externalStyle.header}>
+            <Text style={styles.headerText}>Let's Feed Some Doggos</Text>
+            <TouchableOpacity
+              style={{ backgroundColor:"#FFFFFF00", flexDirection: "row", padding: 2}}
+              onPress={() => this.props.navigation.navigate('Setting')}>
+              <Icon name="gear" size={30} color="#000000CC" backgroundColor="#FFFFFF00"/>
+            </TouchableOpacity>
+          </View>
+          <View style={externalStyle.lineStyle} />
           <ScrollView style={externalStyle.scrollView}>
-            <View style={externalStyle.header}>
-              <Text style={styles.headerText}>Let's Feed Some Doggos</Text>
-              <TouchableOpacity
-                style={{ backgroundColor:"#FFFFFF00", flexDirection: "row", padding: 2}}
-                onPress={() => this.props.navigation.navigate('Setting')}>
-                <Icon name="gear" size={30} color="#000000CC" backgroundColor="#FFFFFF00"/>
-              </TouchableOpacity>
-            </View>
-            <View style={externalStyle.lineStyle} />
-
             <SignInButton title="Add Pet" onPress={() => this.props.navigation.navigate('AddPet')} />
             <SignInButton title="Modify Pet" onPress={() => this.props.navigation.navigate('ModifyPet')} />
           </ScrollView>
+          <PawIcon />
         </View>
     );
   }
@@ -68,15 +69,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     justifyContent: 'center',
     alignSelf: "center",
-    margin: 5
-  },
-  extraText: {
-    color: '#C4C4C4',
-    fontSize: 18,
-    width: 265,
-    justifyContent: 'center',
-    alignSelf: "center",
-    padding: 2,
     margin: 5
   },
   inputStyle: {

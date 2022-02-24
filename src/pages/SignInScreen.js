@@ -10,8 +10,7 @@ import {
   View,
   TouchableOpacity,
   Pressable,
-  TextInput,
-  Image,
+  TextInput
 } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -19,6 +18,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { format } from "date-fns";
 import externalStyle from '../styles/externalStyle';
+import PawIcon from '../styles/PawIcon';
 
 const SignInButton = ({ onPress, title}) => (
     <TouchableOpacity onPress={onPress} style={externalStyle.primaryButtonContainer}>
@@ -38,23 +38,26 @@ class SignInScreen extends React.Component {
 
   render() {
     return (
-        <View style={{flex: 1,backgroundColor: '#fff'}}>
-            <Text style={styles.headerStyle}>Sign In</Text>
-            <View style={externalStyle.lineStyle} />
-            <Text style={styles.extraText}>Username:</Text>
-            <TextInput
-                value={this.state.email}
-                style={styles.inputStyle}
-                placeholder="Email"
-            />
-            <Text style={styles.extraText}>Password:</Text>
-            <TextInput
-                value={this.state.password}
-                style={styles.inputStyle}
-                placeholder="Password"
-            />
-            <SignInButton title="Sign In" onPress={() => this.props.navigation.navigate('CreateSchedule')} />
-        </View>
+      <View style={{flex: 1,backgroundColor: '#fff'}}>
+          <Text style={styles.headerStyle}>Sign In</Text>
+          <View style={externalStyle.lineStyle} />
+          <Text style={styles.extraText}>Username:</Text>
+          <TextInput
+              value={this.state.email}
+              style={styles.inputStyle}
+              placeholder="Email"
+              onChange={ e => this.setState({email: e.target.value}) }
+          />
+          <Text style={styles.extraText}>Password:</Text>
+          <TextInput
+              value={this.state.password}
+              style={styles.inputStyle}
+              placeholder="Password"
+              onChange={ e => this.setState({password: e.target.value}) }
+          />
+          <SignInButton title="Sign In" onPress={() => this.props.navigation.navigate('CreateSchedule')} />
+          <PawIcon />
+      </View>
     );
   }
 }

@@ -11,7 +11,6 @@ import {
   TouchableOpacity,
   Pressable,
   TextInput,
-  Image,
 } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -19,6 +18,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { format } from "date-fns";
 import externalStyle from '../styles/externalStyle';
+import PawIcon from '../styles/PawIcon';
 
 const CreateAccountButton = ({ onPress, title}) => (
     <TouchableOpacity onPress={onPress} style={externalStyle.primaryButtonContainer}>
@@ -99,9 +99,9 @@ class CreateAccountScreen extends React.Component {
                 placeholder="Retype in your Password"
                 onChange={ e => this.setState({cPassword: e.target.value}) }
             />
-            {/* <CreateAccountButton title="Create Account" onPress={this.handleConfirm} /> */}
             <CreateAccountButton title="Create Account" onPress={this.handleConfirm} />
           </ScrollView>
+          <PawIcon />
         </View>
 
     );

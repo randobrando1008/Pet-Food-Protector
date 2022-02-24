@@ -10,8 +10,7 @@ import {
   View,
   TouchableOpacity,
   Pressable,
-  TextInput,
-  Image
+  TextInput
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -21,6 +20,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { format } from "date-fns";
 import externalStyle from '../styles/externalStyle';
+import PawIcon from '../styles/PawIcon';
 
 const MakeChangesButton = ({ onPress, title}) => (
     <TouchableOpacity onPress={onPress} style={externalStyle.primaryButtonContainer}>
@@ -47,7 +47,7 @@ class SettingScreen extends React.Component {
             onPress={() => this.props.navigation.goBack()}>
             <Icon name="arrow-left" size={30} color="#000000CC" backgroundColor="#FFFFFF00"/>
           </TouchableOpacity>
-          <Text style={styles.headerText}>Setting</Text>
+          <Text style={styles.headerText}>Settings</Text>
         </View>
 
         <ScrollView style={externalStyle.scrollView}>
@@ -87,6 +87,7 @@ class SettingScreen extends React.Component {
                 onChange={ e => this.setState({cPassword: e.target.value}) }
             />
           <MakeChangesButton title="Submit Changes" />
+          <PawIcon />
         </ScrollView>
       </View>
     );

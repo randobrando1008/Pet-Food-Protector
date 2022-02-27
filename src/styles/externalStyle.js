@@ -6,7 +6,7 @@ const externalStyle=StyleSheet.create({
         borderColor: "#00A5FF",
         borderRadius: 35,
         margin: 10,
-        marginTop: 30
+        marginTop: 15
     },
     scrollView: {
         marginHorizontal: 20,
@@ -16,7 +16,7 @@ const externalStyle=StyleSheet.create({
         borderRadius: 35,
         width: 190,
         height: 50,
-        justifyContent: 'center',
+        justifyContent: "center",
         alignSelf: "center",
         margin: 5,
         marginTop: 100,

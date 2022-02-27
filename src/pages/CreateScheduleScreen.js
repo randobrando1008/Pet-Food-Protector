@@ -50,9 +50,17 @@ class CreateScheduleScreen extends React.Component {
             </TouchableOpacity>
           </View>
           <View style={externalStyle.lineStyle} />
+
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate('AddPet')}
+            style={{backgroundColor:"#00A5FF", justifyContent: "center", width: 70, height: 70, borderRadius: 70/2, alignSelf: 'flex-end', position: 'absolute', bottom: 150, right: 40}}>
+            <View style={{justifyContent: "center", alignSelf: "center"}}>
+              <Icon name="plus" size={40} color="#FFFFFF"/>
+            </View>
+          </TouchableOpacity>
           <ScrollView style={externalStyle.scrollView}>
-            <SignInButton title="Add Pet" onPress={() => this.props.navigation.navigate('AddPet')} />
-            <SignInButton title="Modify Pet" onPress={() => this.props.navigation.navigate('ModifyPet')} />
+          <SignInButton title="Modify Pet" onPress={() => this.props.navigation.navigate('ModifyPet')} />
+
           </ScrollView>
           <PawIcon />
         </View>

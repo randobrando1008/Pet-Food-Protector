@@ -17,7 +17,7 @@ namespace PFP_API.Controllers
         public IEnumerable<User> GetUsers()
         {
             _connectionService.Connect();
-            string query = "SELECT first_name, last_name, email, phone_number FROM user_information";
+            string query = "SELECT first_name, last_name, email FROM user_information";
             MySqlCommand cmd = new MySqlCommand(query, _connectionService.Connection);
 
             using MySqlDataReader rdr = cmd.ExecuteReader();
@@ -26,7 +26,7 @@ namespace PFP_API.Controllers
 
             while (rdr.Read())
             {
-                user.Add(new User(rdr.GetString(0), rdr.GetString(1), rdr.GetString(2), rdr.GetString(3)));
+                user.Add(new User(rdr.GetString(0), rdr.GetString(1), rdr.GetString(2)));
             }
 
             return user;
@@ -44,19 +44,14 @@ namespace PFP_API.Controllers
 
                 user.ID = Guid.NewGuid().ToString();
 
-                string query = "INSERT INTO user_information VALUES(@id, @name_first, @name_last, @email, @phone_number)";
+                string query = "INSERT INTO user_information VALUES(@id, @name_first, @name_last, @email)";
                 MySqlCommand cmd = new MySqlCommand(query, _connectionService.Connection, myTrans);
                 cmd.Parameters.Add("@id", MySqlDbType.VarChar, 36).Value = user.ID;
                 cmd.Parameters.Add("@name_first", MySqlDbType.VarChar, 20).Value = user.FirstName;
                 cmd.Parameters.Add("@name_last", MySqlDbType.VarChar, 20).Value = user.LastName;
                 cmd.Parameters.Add("@email", MySqlDbType.VarChar, 45).Value = user.Email;
-                cmd.Parameters.Add("@phone_number", MySqlDbType.VarChar, 10).Value = user.PhoneNumber;
 
                 cmd.ExecuteNonQuery();
-
-                //cmd.CommandText = "INSERT INTO login_information VALUES(@email, @uid, @password)";
-                //cmd.Parameters.Add("@password", MySqlDbType.VarChar, 255).Value = PasswordHashing.Hash(user.Password);
-                //cmd.ExecuteNonQuery();
 
                 myTrans.Commit();
             }

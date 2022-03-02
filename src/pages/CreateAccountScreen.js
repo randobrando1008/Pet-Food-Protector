@@ -12,6 +12,7 @@ import {
   Pressable,
   TextInput,
   Image,
+  AsyncStorage,
 } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -39,24 +40,32 @@ class CreateAccountScreen extends React.Component {
       }
   }
 
-  // handleConfirm = e => {
-  //   e.preventDefault();
-
-  //   console.log("It is in the handleConfirm Function");
-
-  //   axios.post('http://localhost:38621/User', {
-  //     FirstName: this.state.firstName,
-  //     LastName: this.state.lastName,
-  //     Email: this.state.email,
-  //     Password: this.state.password
-  //   })
-  //   .then(function (response) {
-  //     console.log(response);
-  //   })
-  //   .catch(function (error) {
-  //     console.log(error);
-  //   });
+  // componentDidMount = () => {
   // }
+
+  handleConfirm = e => {
+    e.preventDefault();
+
+    console.log("It is in the handleConfirm Function");
+    console.log(this.state.fName);
+    console.log(this.state.lName);
+    console.log(this.state.email);
+
+    let UID123_object = {
+      firstname: this.state.fName,
+      lastname: this.state.lName,
+      email: this.state.email
+    };
+
+    AsyncStorage.setItem(
+      'UID123',
+      JSON.stringify(UID123_object),
+    );
+
+    AsyncStorage.getItem('UID123', (err, result) => {
+      console.log(result);
+    });
+  };
 
   render() {
     return (
@@ -66,38 +75,38 @@ class CreateAccountScreen extends React.Component {
             <View style={styles.lineStyle} />
             <Text style={styles.extraText}>First Name:</Text>
             <TextInput
-                value={this.state.fName}
                 style={styles.inputStyle}
                 placeholder="Type in your First Name"
-                onChange={ e => this.setState({fName: e.target.value}) } 
+                onChangeText={ (value) => this.setState({fName: value}) } 
+                value={this.state.fName}
             />
             <Text style={styles.extraText}>Last Name:</Text>
             <TextInput
-                value={this.state.lName}
                 style={styles.inputStyle}
                 placeholder="Type in your Last Name"
-                onChange={ e => this.setState({lName: e.target.value}) }
+                onChangeText={ (value) => this.setState({lName: value}) }
+                value={this.state.lName}
             />
             <Text style={styles.extraText}>Email:</Text>
             <TextInput
-                value={this.state.email}
                 style={styles.inputStyle}
                 placeholder="Type in your Email"
-                onChange={ e => this.setState({email: e.target.value}) }
+                onChangeText={ (value) => this.setState({email: value}) }
+                value={this.state.email}
             />
             <Text style={styles.extraText}>Password:</Text>
             <TextInput
-                value={this.state.password}
                 style={styles.inputStyle}
                 placeholder="Type in your Password"
-                onChange={ e => this.setState({password: e.target.value}) }
+                onChangeText={ (value) => this.setState({password: value}) }
+                value={this.state.password}
             />
             <Text style={styles.extraText}>Confirm Password:</Text>
             <TextInput
-                value={this.state.cPassword}
                 style={styles.inputStyle}
                 placeholder="Retype in your Password"
-                onChange={ e => this.setState({cPassword: e.target.value}) }
+                onChangeText={ (value) => this.setState({cPassword: value}) }
+                value={this.state.cPassword}
             />
             {/* <CreateAccountButton title="Create Account" onPress={this.handleConfirm} /> */}
             <CreateAccountButton title="Create Account" onPress={this.handleConfirm} />

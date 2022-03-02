@@ -14,16 +14,13 @@ import {
   Pressable,
   TextInput,
   Image,
+  PermissionsAndroid,
 } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { format } from "date-fns";
-
-import BleManager from '../Bluetooth/BleManager';
-const BleManagerModule = NativeModules.BleManager;
-const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
 
 const SignInButton = ({ onPress, title}) => (
     <TouchableOpacity onPress={onPress} style={styles.signInButtonContainer}>
@@ -48,15 +45,6 @@ class HomeScreen extends React.Component {
   }
 
   // componentDidMount = () => {
-  //   BleManager.start().then(() => {
-  //     // Success code
-  //     console.log("Module initialized");
-
-  //     BleManager.scan([], 5, true).then(() => {
-  //       // Success code
-  //       console.log("Scan started");
-  //     });
-  //   });
   // }
 
   render() {
@@ -70,18 +58,7 @@ class HomeScreen extends React.Component {
           <Text style={styles.headerText}>Welcome to The Happy Doggo!</Text>
           <Text style={styles.extraText}>If you already have an account click the Sign In button below, if you're a new user go ahead and Create an Account.</Text>
           <View style = {styles.lineStyle} />
-          {/* <Text>Username:</Text>
-          <TextInput
-            style={styles.input}
-            value={this.state.email}
-            placeholder="Email"
-          />
-          <Text>Password:</Text>
-          <TextInput
-            style={styles.input}
-            value={this.state.password}
-            placeholder="Password"
-          /> */}
+
           <SignInButton title="Sign In" onPress={() => this.props.navigation.navigate('SignIn')} />
           <CreateAccountButton title="Create an Account" onPress={() => this.props.navigation.navigate('CreateAccount')} />
       </View>

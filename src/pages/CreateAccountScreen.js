@@ -19,11 +19,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { format } from "date-fns";
-import axios from 'axios';
+import externalStyle from '../styles/externalStyle';
+import PawIcon from '../styles/PawIcon';
 
 const CreateAccountButton = ({ onPress, title}) => (
-    <TouchableOpacity onPress={onPress} style={styles.CreateAccountButtonContainer}>
-      <Text style={styles.CreateAccountButtonText}>{title}</Text>
+    <TouchableOpacity onPress={onPress} style={externalStyle.primaryButtonContainer}>
+      <Text style={externalStyle.primaryButtonText}>{title}</Text>
     </TouchableOpacity>
 );
 
@@ -70,47 +71,47 @@ class CreateAccountScreen extends React.Component {
   render() {
     return (
         <View style={{flex: 1,backgroundColor: '#fff'}}>
-          <ScrollView style={styles.scrollView}>
+          <ScrollView style={externalStyle.scrollView}>
             <Text style={styles.headerStyle}>Create An Account</Text>
-            <View style={styles.lineStyle} />
-            <Text style={styles.extraText}>First Name:</Text>
+            <View style={externalStyle.lineStyle} />
+            <Text style={externalStyle.extraText}>First Name:</Text>
             <TextInput
-                style={styles.inputStyle}
-                placeholder="Type in your First Name"
-                onChangeText={ (value) => this.setState({fName: value}) } 
                 value={this.state.fName}
+                style={externalStyle.inputStyle}
+                placeholder="Type in your First Name"
+                onChangeText={ (value) => this.setState({fName: value}) }
             />
-            <Text style={styles.extraText}>Last Name:</Text>
+            <Text style={externalStyle.extraText}>Last Name:</Text>
             <TextInput
-                style={styles.inputStyle}
+                value={this.state.lName}
+                style={externalStyle.inputStyle}
                 placeholder="Type in your Last Name"
                 onChangeText={ (value) => this.setState({lName: value}) }
-                value={this.state.lName}
             />
-            <Text style={styles.extraText}>Email:</Text>
+            <Text style={externalStyle.extraText}>Email:</Text>
             <TextInput
-                style={styles.inputStyle}
+                value={this.state.email}
+                style={externalStyle.inputStyle}
                 placeholder="Type in your Email"
                 onChangeText={ (value) => this.setState({email: value}) }
-                value={this.state.email}
             />
-            <Text style={styles.extraText}>Password:</Text>
+            <Text style={externalStyle.extraText}>Password:</Text>
             <TextInput
-                style={styles.inputStyle}
+                value={this.state.password}
+                style={externalStyle.inputStyle}
                 placeholder="Type in your Password"
                 onChangeText={ (value) => this.setState({password: value}) }
-                value={this.state.password}
             />
-            <Text style={styles.extraText}>Confirm Password:</Text>
+            <Text style={externalStyle.extraText}>Confirm Password:</Text>
             <TextInput
-                style={styles.inputStyle}
+                value={this.state.cPassword}
+                style={externalStyle.inputStyle}
                 placeholder="Retype in your Password"
                 onChangeText={ (value) => this.setState({cPassword: value}) }
-                value={this.state.cPassword}
             />
-            {/* <CreateAccountButton title="Create Account" onPress={this.handleConfirm} /> */}
             <CreateAccountButton title="Create Account" onPress={this.handleConfirm} />
           </ScrollView>
+          <PawIcon />
         </View>
 
     );
@@ -119,61 +120,14 @@ class CreateAccountScreen extends React.Component {
 
 const styles = StyleSheet.create({
 
-  scrollView: {
-    marginHorizontal: 20,
-  },
   headerStyle:{
     color:"#000",
     fontSize: 62,
     fontWeight: "bold",
     textAlign: "center",
-    textAlignVertical: "center"
-  },
-  extraText: {
-    color: '#C4C4C4',
-    fontSize: 18,
-    width: 265,
-    justifyContent: 'center',
-    alignSelf: "center",
-    padding: 2,
-    margin: 5
-  },
-  inputStyle: {
-    borderColor: '#C4C4C4',
-    borderWidth: 1,
-    borderRadius: 20,
-    fontSize: 14,
-    width: 255,
-    height: 40,
-    justifyContent: 'center',
-    alignSelf: "center",
-    margin: 5
-  },
-  lineStyle:{
-    borderWidth: 2,
-    borderColor: "#00A5FF",
-    borderRadius: 35,
-    margin: 10,
-    marginTop: 30
-  },
-  CreateAccountButtonContainer: {
-    backgroundColor: "#00A5FF",
-    borderRadius: 35,
-    width: 190,
-    height: 50,
-    justifyContent: 'center',
-    alignSelf: "center",
-    margin: 5,
-    marginTop: 50,
-  },
-  CreateAccountButtonText: {
-    fontSize: 18,
-    color: "#fff",
-    fontWeight: "bold",
-    textAlign: "center",
-    textAlignVertical: "center"
+    textAlignVertical: "center",
+    marginTop: 10
   }
-
 });
 
 export default CreateAccountScreen

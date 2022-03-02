@@ -10,18 +10,21 @@ import {
   View,
   TouchableOpacity,
   Pressable,
-  TextInput,
-  Image,
+  TextInput
 } from 'react-native';
+
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { format } from "date-fns";
+import externalStyle from '../styles/externalStyle';
+import PawIcon from '../styles/PawIcon';
 
-const SignInButton = ({ onPress, title}) => (
-    <TouchableOpacity onPress={onPress} style={styles.signInButtonContainer}>
-      <Text style={styles.signInButtonText}>{title}</Text>
+const MakeChangesButton = ({ onPress, title}) => (
+    <TouchableOpacity onPress={onPress} style={externalStyle.primaryButtonContainer}>
+      <Text style={externalStyle.primaryButtonText}>{title}</Text>
     </TouchableOpacity>
 );
 
@@ -38,13 +41,53 @@ class SettingScreen extends React.Component {
   render() {
     return (
       <View style={{flex: 1,backgroundColor: '#fff'}}>
-        <ScrollView style={styles.scrollView}>
-          <View style = {styles.lineStyle} />
-          <Text style={styles.headerText}>Welcome to The Happy Doggo!</Text>
-          <Text style={styles.extraText}>If you already have an account click the Sign In button below, if you're a new user go ahead and Create an Account.</Text>
-          <View style = {styles.lineStyle} />
-          <SignInButton title="Sign In" onPress={() => this.props.navigation.navigate('SignIn')} />
-          <CreateAccountButton title="Create an Account" onPress={() => this.props.navigation.navigate('CreateAccount')} />
+        <View style={externalStyle.header}>
+          <TouchableOpacity
+            style={{ backgroundColor:"#FFFFFF00", flexDirection: "row", flex: 1, padding: 2}}
+            onPress={() => this.props.navigation.goBack()}>
+            <Icon name="arrow-left" size={30} color="#000000CC" backgroundColor="#FFFFFF00"/>
+          </TouchableOpacity>
+          <Text style={styles.headerText}>Settings</Text>
+        </View>
+
+        <ScrollView style={externalStyle.scrollView}>
+          <Text style={externalStyle.extraText}>First Name:</Text>
+            <TextInput
+                value={this.state.fName}
+                style={externalStyle.inputStyle}
+                placeholder="Type in your First Name"
+                onChange={ e => this.setState({fName: e.target.value}) }
+            />
+            <Text style={externalStyle.extraText}>Last Name:</Text>
+            <TextInput
+                value={this.state.lName}
+                style={externalStyle.inputStyle}
+                placeholder="Type in your Last Name"
+                onChange={ e => this.setState({lName: e.target.value}) }
+            />
+            <Text style={externalStyle.extraText}>Email:</Text>
+            <TextInput
+                value={this.state.email}
+                style={externalStyle.inputStyle}
+                placeholder="Type in your Email"
+                onChange={ e => this.setState({email: e.target.value}) }
+            />
+            <Text style={externalStyle.extraText}>Password:</Text>
+            <TextInput
+                value={this.state.password}
+                style={externalStyle.inputStyle}
+                placeholder="Type in your Password"
+                onChange={ e => this.setState({password: e.target.value}) }
+            />
+            <Text style={externalStyle.extraText}>Confirm Password:</Text>
+            <TextInput
+                value={this.state.cPassword}
+                style={externalStyle.inputStyle}
+                placeholder="Retype in your Password"
+                onChange={ e => this.setState({cPassword: e.target.value}) }
+            />
+          <MakeChangesButton title="Submit Changes" />
+          <PawIcon />
         </ScrollView>
       </View>
     );
@@ -53,25 +96,16 @@ class SettingScreen extends React.Component {
 
 const styles = StyleSheet.create({
 
-    scrollView: {
-        marginHorizontal: 20,
-    },
-    lineStyle:{
-        borderWidth: 2,
-        borderColor: "#00A5FF",
-        borderRadius: 35,
-        margin: 10,
-        marginTop: 30
-    },
-    headerText: {
-        color: '#000',
-        fontWeight: 'bold',
-        fontSize: 18,
-        justifyContent: 'center',
-        alignSelf: "center",
-        margin: 5,
-        marginTop: 15
-    }
+  headerText: {
+    padding: 2,
+    color: '#000',
+    fontWeight: 'bold',
+    fontSize: 24,
+    justifyContent: 'center',
+    alignSelf: "center",
+    margin: 5,
+    marginTop: 15
+  }
 
 });
 

@@ -19,7 +19,7 @@ const externalStyle=StyleSheet.create({
         justifyContent: "center",
         alignSelf: "center",
         margin: 5,
-        marginTop: 100,
+        marginTop: 50,
     },
     primaryButtonText: {
         fontSize: 18,

@@ -75,7 +75,7 @@ class HomeScreen extends React.Component {
             onPress={() => this.props.navigation.goBack()}>
             <Icon name="arrow-left" size={30} color="#000000CC" backgroundColor="#FFFFFF00"/>
           </TouchableOpacity>
-          <Text style={externalStyle.headerText}>Modify A Pet</Text>
+          <Text style={externalStyle.headerText}>Modify Schedule</Text>
           <TouchableOpacity
             style={{ backgroundColor:"#FFFFFF00", flexDirection: "row", padding: 2}}
             onPress={() => this.props.navigation.navigate('Setting')}>
@@ -140,7 +140,6 @@ class HomeScreen extends React.Component {
             </View>
             <AddButton title="Submit" onPress={this.showDatePicker} />
         </ScrollView>
-        <PawIcon />
       </View>
     );
   }
@@ -188,14 +187,3 @@ const AddButton = ({ onPress, title}) => (
       <Text style={externalStyle.primaryButtonText}>{title}</Text>
     </TouchableOpacity>
 );
-
-
-
-// const styles = StyleSheet.create({
-//   input: {
-//     height: 40,
-//     margin: 12,
-//     borderWidth: 1,
-//     padding: 10,
-//   }
-// });

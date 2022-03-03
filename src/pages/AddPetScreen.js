@@ -100,7 +100,7 @@ class AddPetScreen extends React.Component {
                 value={this.state.feedWeight}
                 style={externalStyle.inputStyle}
                 placeholder="Name"
-                keyboardType="numeric"
+                keyboardType="default"
                 onChange={ e => this.setState({feedWeight: e.target.value}) }
               />
 
@@ -128,15 +128,14 @@ class AddPetScreen extends React.Component {
                 onCancel={this.hideDatePicker}
               />
               <View style={{width: 265,
-                    height: '15%',
                     justifyContent: 'center',
                     alignSelf: "center",
                     flexWrap:'wrap'}}>
                 <Text style={externalStyle.extraText}>What time to feed?</Text>
                 <TouchableOpacity
-                  style={{ backgroundColor:"#FFFFFF00", padding: 2}}
+                  style={{ backgroundColor:"#FFFFFF00", justifyContent: "center", padding: 2}}
                   onPress={this.showDatePicker}>
-                  <Icon name="calendar" size={18} color="#000000CC" backgroundColor="#FFFFFF00"/>
+                  <Icon name="calendar" size={18} alignSelf= "center" justifyContent= "center" color="#000000CC" backgroundColor="#FFFFFF00"/>
                 </TouchableOpacity>
               </View>
               <AddButton title="Submit" onPress={this.showDatePicker} />

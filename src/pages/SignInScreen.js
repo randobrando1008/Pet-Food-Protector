@@ -10,7 +10,8 @@ import {
   View,
   TouchableOpacity,
   Pressable,
-  TextInput
+  TextInput,
+  AsyncStorage,
 } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -36,26 +37,64 @@ class SignInScreen extends React.Component {
       }
   }
 
+  // componentDidMount = () => {
+  // }
+
+  checkLogIn = e => {
+    e.preventDefault();
+    var logIn = false;
+
+    AsyncStorage.getAllKeys((err, result) => {
+      for(var i = 0; i < result.length; i++)
+      {
+        AsyncStorage.getItem(result[i], (err, result) => {
+          var parsedResults = JSON.parse(result);
+          console.log(parsedResults.email);
+          console.log(this.state.email);
+          if(parsedResults.email == this.state.email)
+          {
+            console.log(this.state.password);
+            if(parsedResults.password == this.state.password)
+            {
+              logIn = true;
+              console.log(logIn);
+            }
+          }
+
+          if(logIn)
+          {
+            console.log("IN HERE");
+            this.props.navigation.navigate('CreateSchedule');
+          }
+          else
+          {
+            console.log("Email/Password is incorrect");
+          }
+        });
+      }
+    });
+  };
+
   render() {
     return (
       <View style={{flex: 1,backgroundColor: '#fff'}}>
           <Text style={styles.headerStyle}>Sign In</Text>
           <View style={externalStyle.lineStyle} />
-          <Text style={styles.extraText}>Username:</Text>
+          <Text style={styles.extraText}>Email:</Text>
           <TextInput
               value={this.state.email}
-              style={styles.inputStyle}
-              placeholder="Email"
-              onChange={ e => this.setState({email: e.target.value}) }
+              style={externalStyle.inputStyle}
+              placeholder="Enter Email"
+              onChangeText={ (value) => this.setState({email: value}) }
           />
           <Text style={styles.extraText}>Password:</Text>
           <TextInput
               value={this.state.password}
-              style={styles.inputStyle}
-              placeholder="Password"
-              onChange={ e => this.setState({password: e.target.value}) }
+              style={externalStyle.inputStyle}
+              placeholder="Enter Password"
+              onChangeText={ (value) => this.setState({password: value}) }
           />
-          <SignInButton title="Sign In" onPress={() => this.props.navigation.navigate('CreateSchedule')} />
+          <SignInButton title="Sign In" onPress={this.checkLogIn} />
           <PawIcon />
       </View>
     );

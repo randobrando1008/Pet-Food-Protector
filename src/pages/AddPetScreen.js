@@ -92,7 +92,7 @@ class AddPetScreen extends React.Component {
                 value={this.state.feedName}
                 style={externalStyle.inputStyle}
                 placeholder="Name"
-                keyboardType="text"
+                keyboardType="default"
                 onChange={ e => this.setState({feedName: e.target.value}) }
               />
               <Text style={externalStyle.extraText}>Pet's Weight:</Text>
@@ -100,7 +100,7 @@ class AddPetScreen extends React.Component {
                 value={this.state.feedWeight}
                 style={externalStyle.inputStyle}
                 placeholder="Name"
-                keyboardType="text"
+                keyboardType="numeric"
                 onChange={ e => this.setState({feedWeight: e.target.value}) }
               />
 

@@ -21,6 +21,8 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { format } from "date-fns";
 import externalStyle from '../styles/externalStyle';
 import PawIcon from '../styles/PawIcon';
+import 'react-native-get-random-values';
+import { v4 as uuidv4 } from 'uuid';
 
 const CreateAccountButton = ({ onPress, title}) => (
     <TouchableOpacity onPress={onPress} style={externalStyle.primaryButtonContainer}>
@@ -41,8 +43,11 @@ class CreateAccountScreen extends React.Component {
       }
   }
 
-  // componentDidMount = () => {
-  // }
+  componentDidMount = () => {
+    AsyncStorage.getAllKeys((err, result) => {
+      console.log(result);
+    });
+  }
 
   handleConfirm = e => {
     e.preventDefault();
@@ -52,20 +57,25 @@ class CreateAccountScreen extends React.Component {
     console.log(this.state.lName);
     console.log(this.state.email);
 
-    let UID123_object = {
+    var id = uuidv4();
+
+    let object = {
       firstname: this.state.fName,
       lastname: this.state.lName,
-      email: this.state.email
+      email: this.state.email,
+      password: this.state.password
     };
 
     AsyncStorage.setItem(
-      'UID123',
-      JSON.stringify(UID123_object),
+      id,
+      JSON.stringify(object),
     );
 
-    AsyncStorage.getItem('UID123', (err, result) => {
-      console.log(result);
-    });
+    this.props.navigation.navigate('SignIn');
+
+    // AsyncStorage.getItem(id, (err, result) => {
+    //   console.log(result);
+    // });
   };
 
   render() {

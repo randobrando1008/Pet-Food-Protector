@@ -15,6 +15,7 @@ import {
   TextInput,
   Image,
   PermissionsAndroid,
+  AsyncStorage,
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -49,6 +50,7 @@ class HomeScreen extends React.Component {
   }
 
   // componentDidMount = () => {
+  //   AsyncStorage.clear();
   // }
 
   render() {

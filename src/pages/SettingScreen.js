@@ -10,7 +10,8 @@ import {
   View,
   TouchableOpacity,
   Pressable,
-  TextInput
+  TextInput,
+  AsyncStorage,
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -21,6 +22,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { format } from "date-fns";
 import externalStyle from '../styles/externalStyle';
 import PawIcon from '../styles/PawIcon';
+import { userID } from './SignInScreen.js';
 
 const MakeChangesButton = ({ onPress, title}) => (
     <TouchableOpacity onPress={onPress} style={externalStyle.primaryButtonContainer}>
@@ -33,9 +35,23 @@ class SettingScreen extends React.Component {
   constructor(props) {
       super(props);
       this.state = {
-          email: '',
-          password: ''
+        fName: '',
+        lName: '',
+        email: '',
+        password: '',
+        cPassword: ''
       }
+  }
+
+  componentDidMount = () => {
+    AsyncStorage.getItem(userID, (err, result) => {
+      var parsedResults = JSON.parse(result);
+      console.log(parsedResults);
+      this.setState({fName: parsedResults.firstname});
+      this.setState({lName: parsedResults.lastname});
+      this.setState({email: parsedResults.email});
+      this.setState({password: parsedResults.password});
+    });
   }
 
   render() {
@@ -51,40 +67,40 @@ class SettingScreen extends React.Component {
         </View>
 
         <ScrollView style={externalStyle.scrollView}>
-          <Text style={externalStyle.extraText}>First Name:</Text>
+        <Text style={externalStyle.extraText}>First Name:</Text>
             <TextInput
                 value={this.state.fName}
                 style={externalStyle.inputStyle}
                 placeholder="Type in your First Name"
-                onChange={ e => this.setState({fName: e.target.value}) }
+                onChangeText={ (value) => this.setState({fName: value}) }
             />
             <Text style={externalStyle.extraText}>Last Name:</Text>
             <TextInput
                 value={this.state.lName}
                 style={externalStyle.inputStyle}
                 placeholder="Type in your Last Name"
-                onChange={ e => this.setState({lName: e.target.value}) }
+                onChangeText={ (value) => this.setState({lName: value}) }
             />
             <Text style={externalStyle.extraText}>Email:</Text>
             <TextInput
                 value={this.state.email}
                 style={externalStyle.inputStyle}
                 placeholder="Type in your Email"
-                onChange={ e => this.setState({email: e.target.value}) }
+                onChangeText={ (value) => this.setState({email: value}) }
             />
             <Text style={externalStyle.extraText}>Password:</Text>
             <TextInput
                 value={this.state.password}
                 style={externalStyle.inputStyle}
                 placeholder="Type in your Password"
-                onChange={ e => this.setState({password: e.target.value}) }
+                onChangeText={ (value) => this.setState({password: value}) }
             />
             <Text style={externalStyle.extraText}>Confirm Password:</Text>
             <TextInput
                 value={this.state.cPassword}
                 style={externalStyle.inputStyle}
                 placeholder="Retype in your Password"
-                onChange={ e => this.setState({cPassword: e.target.value}) }
+                onChangeText={ (value) => this.setState({cPassword: value}) }
             />
           <MakeChangesButton title="Submit Changes" />
           <PawIcon />

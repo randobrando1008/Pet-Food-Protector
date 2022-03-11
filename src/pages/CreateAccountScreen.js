@@ -52,11 +52,6 @@ class CreateAccountScreen extends React.Component {
   handleConfirm = e => {
     e.preventDefault();
 
-    console.log("It is in the handleConfirm Function");
-    console.log(this.state.fName);
-    console.log(this.state.lName);
-    console.log(this.state.email);
-
     var id = uuidv4();
 
     let object = {
@@ -120,6 +115,7 @@ class CreateAccountScreen extends React.Component {
                 onChangeText={ (value) => this.setState({cPassword: value}) }
             />
             <CreateAccountButton title="Create Account" onPress={this.handleConfirm} />
+            {/* <CreateAccountButton title="Create Account" onPress={() => this.props.navigation.navigate('SignIn')} /> */}
           </ScrollView>
           <PawIcon />
         </View>

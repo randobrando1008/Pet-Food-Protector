@@ -27,6 +27,8 @@ import { format } from "date-fns";
 import externalStyle from '../styles/externalStyle';
 import PawIcon from '../styles/PawIcon';
 
+import RNBluetoothClassic, { BluetoothDevice } from 'react-native-bluetooth-classic';
+
 const SignInButton = ({ onPress, title}) => (
     <TouchableOpacity onPress={onPress} style={externalStyle.primaryButtonContainer}>
       <Text style={externalStyle.primaryButtonText}>{title}</Text>
@@ -49,9 +51,112 @@ class HomeScreen extends React.Component {
     }
   }
 
-  // componentDidMount = () => {
-  //   AsyncStorage.clear();
-  // }
+  async requestAccessFineLocationPermission() {
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      {
+        title: 'Access fine location required for discovery',
+        message:
+          'In order to perform discovery, you must enable/allow ' +
+          'fine location access.',
+        buttonNeutral: 'Ask Me Later"',
+        buttonNegative: 'Cancel',
+        buttonPositive: 'OK'
+      }
+    );
+    return granted === PermissionsAndroid.RESULTS.GRANTED;
+  };
+
+  connectToDevice = async (device) => {
+    console.log(device);
+    let connection = true;
+    try {
+      connection = await device.isConnected();
+      console.log(connection)
+      if (!connection) {
+        connection = await device.connectToDevice(
+          device.address,
+          options
+        );
+      }
+  
+    } catch (error) {
+      // Handle error accordingly
+      console.log(error.message);
+    }
+    connection = await device.isConnected();
+    console.log(connection)
+    // let connected = await RNBluetoothClassic.connectToDevice(
+    //   devices[0].address,
+    //   {}
+    // );
+    // console.log(connected);
+  }
+
+  startDiscovery = async () => {
+    try {
+      let granted = await this.requestAccessFineLocationPermission();
+      
+      console.log(granted);
+
+      if (!granted) {
+      throw new Error(`Access fine location was not granted`);
+      }
+  
+      this.setState({ discovering: true });
+  
+      try {
+        let discoveredDevices: BluetoothNativeDevice[] = await RNBluetoothClassic.startDiscovery();
+        
+        let device: BluetoothDevice;
+        for (let discovered of discoveredDevices) {
+          console.log(discovered.name);
+          if(discovered.name == "RN4870-C657")
+          {
+            device = discovered;
+            this.connectToDevice(device);
+            break;
+          }
+        }
+
+      } catch (err) {
+        console.log(err.message);
+      }     
+    } catch (err) {
+      console.log(err.message);
+      // Toast.show({
+      // text: err.message,
+      // duration: 2000
+      // });
+    }
+  }
+
+  componentDidMount = async () => {
+    AsyncStorage.getAllKeys((err, result) => {
+      console.log(result);
+    });
+    try {
+      available = await RNBluetoothClassic.isBluetoothAvailable();
+      console.log(available);
+      if(available)
+      {
+        try {
+          enabled = await RNBluetoothClassic.isBluetoothEnabled();
+          console.log(enabled);
+          if(enabled)
+          {
+            this.startDiscovery();
+          }
+        } catch (err) {
+            // Handle accordingly
+            console.log(err);
+        }
+      }
+    } catch (err) {
+      // Handle accordingly
+      console.log(err)
+    }
+  }
 
   render() {
     return (

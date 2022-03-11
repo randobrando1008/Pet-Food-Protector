@@ -23,6 +23,8 @@ import { format } from "date-fns";
 import externalStyle from '../styles/externalStyle';
 import PawIcon from '../styles/PawIcon';
 
+import { userID } from './SignInScreen.js';
+
 const AddButton = ({ onPress, title}) => (
     <TouchableOpacity onPress={onPress} style={externalStyle.primaryButtonContainer}>
       <Text style={externalStyle.primaryButtonText}>{title}</Text>
@@ -34,9 +36,12 @@ class AddPetScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            feedNumber: '',
-            timesNumber: '',
-            isDatePickerVisible: false
+          name: '',
+          weight: '',
+          amountToFeed: '',
+          timesToFeed: '',
+          timeToFeed: '',
+          isDatePickerVisible: false
         }
     }
 
@@ -65,6 +70,16 @@ class AddPetScreen extends React.Component {
             minutes = "0" + minutes;
         }
         console.log("A time has been picked: " + hours + ":" + minutes + dd);
+        
+        // let object = {
+        //   pet: {name: this.state.name}
+        // };
+
+        // AsyncStorage.mergeItem(
+        //   userID,
+        //   JSON.stringify(object),
+        // );
+
         this.hideDatePicker();
     }
 

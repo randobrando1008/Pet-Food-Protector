@@ -21,6 +21,8 @@ import { format } from "date-fns";
 import externalStyle from '../styles/externalStyle';
 import PawIcon from '../styles/PawIcon';
 
+export var userID;
+
 const SignInButton = ({ onPress, title}) => (
     <TouchableOpacity onPress={onPress} style={externalStyle.primaryButtonContainer}>
       <Text style={externalStyle.primaryButtonText}>{title}</Text>
@@ -43,16 +45,20 @@ class SignInScreen extends React.Component {
   checkLogIn = e => {
     e.preventDefault();
     var logIn = false;
+    var accountFound = false;
 
     AsyncStorage.getAllKeys((err, result) => {
       for(var i = 0; i < result.length; i++)
       {
+        var user_id = result[i];
         AsyncStorage.getItem(result[i], (err, result) => {
           var parsedResults = JSON.parse(result);
+          console.log(parsedResults);
           console.log(parsedResults.email);
           console.log(this.state.email);
           if(parsedResults.email == this.state.email)
           {
+            console.log(parsedResults.password);
             console.log(this.state.password);
             if(parsedResults.password == this.state.password)
             {
@@ -64,13 +70,23 @@ class SignInScreen extends React.Component {
           if(logIn)
           {
             console.log("IN HERE");
+            accountFound = true;
+            userID = user_id;
+            console.log(userID);
             this.props.navigation.navigate('CreateSchedule');
+            return;
           }
           else
           {
             console.log("Email/Password is incorrect");
+            accountFound = false;
           }
         });
+        
+        if(userID != '' && accountFound)
+        {
+          break;
+        }
       }
     });
   };
@@ -95,6 +111,7 @@ class SignInScreen extends React.Component {
               onChangeText={ (value) => this.setState({password: value}) }
           />
           <SignInButton title="Sign In" onPress={this.checkLogIn} />
+          {/* <SignInButton title="Sign In" onPress={() => this.props.navigation.navigate('CreateSchedule')} /> */}
           <PawIcon />
       </View>
     );

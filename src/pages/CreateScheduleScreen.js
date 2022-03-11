@@ -21,6 +21,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { format } from "date-fns";
 import externalStyle from '../styles/externalStyle';
 import PawIcon from '../styles/PawIcon';
+import { userID } from './SignInScreen.js';
 
 const SignInButton = ({ onPress, title}) => (
     <TouchableOpacity onPress={onPress} style={externalStyle.primaryButtonContainer}>
@@ -37,6 +38,10 @@ class CreateScheduleScreen extends React.Component {
           password: ''
       }
   }
+
+  // componentDidMount = () => {
+  //   console.log(userID);
+  // }
 
   render() {
     return (

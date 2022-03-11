@@ -71,21 +71,16 @@ class HomeScreen extends React.Component {
     console.log(device);
     let connection = true;
     try {
-      connection = await device.isConnected();
-      console.log(connection)
-      if (!connection) {
-        connection = await device.connectToDevice(
-          device.address,
-          options
-        );
-      }
-  
+      connection = await RNBluetoothClassic.connectToDevice(
+        device.address,
+        {}
+      );
     } catch (error) {
       // Handle error accordingly
       console.log(error.message);
     }
-    connection = await device.isConnected();
-    console.log(connection)
+    // connection = await device.isConnected();
+    // console.log(connection)
     // let connected = await RNBluetoothClassic.connectToDevice(
     //   devices[0].address,
     //   {}
@@ -110,14 +105,28 @@ class HomeScreen extends React.Component {
         
         let device: BluetoothDevice;
         for (let discovered of discoveredDevices) {
-          console.log(discovered.name);
-          if(discovered.name == "RN4870-C657")
+          console.log(discovered.address);
+          // if(discovered.name == "RN4870-C657")
+          // {
+          //   device = discovered;
+          //   this.connectToDevice(device);
+          //   break;
+          // }
+          if(discovered.address == "40:EC:99:1F:61:BF")
           {
+            console.log("IN HERE");
             device = discovered;
+            try {
+              let cancelled = await RNBluetoothClassic.cancelDiscovery();
+              console.log(cancelled);
+            } catch(error) {
+              console.log(error.message);
+            }
             this.connectToDevice(device);
             break;
           }
         }
+        console.log("Exit Try/Catch");
 
       } catch (err) {
         console.log(err.message);
@@ -132,9 +141,9 @@ class HomeScreen extends React.Component {
   }
 
   componentDidMount = async () => {
-    AsyncStorage.getAllKeys((err, result) => {
-      console.log(result);
-    });
+    // AsyncStorage.getAllKeys((err, result) => {
+    //   console.log(result);
+    // });
     try {
       available = await RNBluetoothClassic.isBluetoothAvailable();
       console.log(available);

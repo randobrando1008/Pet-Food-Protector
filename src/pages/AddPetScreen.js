@@ -24,6 +24,7 @@ import externalStyle from '../styles/externalStyle';
 import PawIcon from '../styles/PawIcon';
 
 import { userID } from './SignInScreen.js';
+import { v4 as uuidv4 } from 'uuid';
 
 const AddButton = ({ onPress, title}) => (
     <TouchableOpacity onPress={onPress} style={externalStyle.primaryButtonContainer}>
@@ -70,17 +71,36 @@ class AddPetScreen extends React.Component {
             minutes = "0" + minutes;
         }
         console.log("A time has been picked: " + hours + ":" + minutes + dd);
-        
-        // let object = {
-        //   pet: {name: this.state.name}
-        // };
-
-        // AsyncStorage.mergeItem(
-        //   userID,
-        //   JSON.stringify(object),
-        // );
 
         this.hideDatePicker();
+    }
+
+    submitInformation = () =>{
+      var petID = uuidv4();
+      var petIDArray = [];
+
+      AsyncStorage.getItem(userID)
+        .then(req => JSON.parse(req))
+        .then(json => {
+          var petIDStore = JSON.parse(json.petID);
+          if(petIDStore.length > 0)
+          {
+            for(var i = 0; i < petIDStore.length; i++)
+            {
+              petIDArrayStore[i] = petIDStore[i];
+            }
+          }
+          petIDArrayStore.push(petID);
+        })
+
+      let object = {
+        petID: JSON.stringify(petIDArrayStore)
+      };
+      
+      AsyncStorage.mergeItem(
+        userID,
+        JSON.stringify(object),
+      );
     }
 
     render() {
@@ -153,7 +173,7 @@ class AddPetScreen extends React.Component {
                   <Icon name="calendar" size={18} alignSelf= "center" justifyContent= "center" color="#000000CC" backgroundColor="#FFFFFF00"/>
                 </TouchableOpacity>
               </View>
-              <AddButton title="Submit" onPress={this.showDatePicker} />
+              <AddButton title="Submit" onPress={this.submitInformation} />
             </ScrollView>
             <PawIcon />
           </View>

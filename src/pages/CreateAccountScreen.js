@@ -58,7 +58,8 @@ class CreateAccountScreen extends React.Component {
       firstname: this.state.fName,
       lastname: this.state.lName,
       email: this.state.email,
-      password: this.state.password
+      password: this.state.password,
+      petID: ""
     };
 
     AsyncStorage.setItem(

@@ -27,6 +27,7 @@ import CreateScheduleScreen from './pages/CreateScheduleScreen';
 import AddPetScreen from './pages/AddPetScreen';
 import ModifyPetScreen from './pages/ModifyPetScreen';
 import SettingScreen from './pages/SettingScreen';
+import Bluetooth from './pages/Bluetooth';
 
 class App extends React.Component {
 
@@ -68,6 +69,11 @@ class App extends React.Component {
             options={{headerShown:false}}
             name="Setting"
             component={SettingScreen}
+          />
+          <Stack.Screen
+            options={{headerShown:false}}
+            name="Bluetooth"
+            component={Bluetooth}
           />
         </Stack.Navigator>
       </NavigationContainer>

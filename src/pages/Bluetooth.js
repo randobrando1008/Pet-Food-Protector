@@ -1,111 +1,94 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
-  Root,
-  StyleProvider,
-} from 'native-base';
-import RNBluetoothClassic from 'react-native-bluetooth-classic';
-import getTheme from '../native-base-theme/components';
-import platform from '../native-base-theme/variables/platform';
-import ConnectionScreen from './ConnectionScreen';
-import DeviceListScreen from './DeviceListScreen';
+  AppRegistry,
+  Text,
+  View,
+  TouchableHighlight,
+  NativeAppEventEmitter,
+  Platform,
+  PermissionsAndroid
+} from 'react-native';
+import BleManager from '../BleManager';
 
-export default class Bluetooth extends React.Component {
-  constructor(props) {
-    super(props);
+class Bluetooth extends Component {
 
-    this.state = {
-      device: undefined,
-      bluetoothEnabled: true,
-    };
-  }
+    constructor(){
+        super()
 
-  /**
-   * Sets the current device to the application state.  This is super basic 
-   * and should be updated to allow for things like:
-   * - multiple devices
-   * - more advanced state management (redux)
-   * - etc
-   *
-   * @param device the BluetoothDevice selected or connected
-   */
-  selectDevice = (device) => {
-    console.log('App::selectDevice() called with: ', device);
-    this.setState({ device });
-  }
-
-  /**
-   * On mount:
-   *
-   * - setup the connect and disconnect listeners
-   * - determine if bluetooth is enabled (may be redundant with listener)
-   */
-  async componentDidMount() {
-    console.log('App::componentDidMount adding listeners: onBluetoothEnabled and onBluetoothDistabled');
-    console.log('App::componentDidMount alternatively could use onStateChanged');
-    this.enabledSubscription = RNBluetoothClassic
-      .onBluetoothEnabled((event) => this.onStateChanged(event));
-    this.disabledSubscription = RNBluetoothClassic
-      .onBluetoothDisabled((event) => this.onStateChanged(event));
-
-    this.checkBluetootEnabled();
-  }
-
-  /**
-   * Performs check on bluetooth being enabled.  This removes the `setState()`
-   * from `componentDidMount()` and clears up lint issues.
-   */
-  async checkBluetootEnabled() {
-    try {
-      console.log('App::componentDidMount Checking bluetooth status');
-      let enabled = await RNBluetoothClassic.isBluetoothEnabled();
-
-      console.log(`App::componentDidMount Status: ${enabled}`);
-      this.setState({ bluetoothEnabled: enabled });
-    } catch (error) {
-      console.log('App::componentDidMount Status Error: ', error);
-      this.setState({ bluetoothEnabled: false });
+        this.state = {
+            ble:null,
+            scanning:false,
+        }
     }
-  }
 
-  /**
-   * Clear subscriptions
-   */
-  componentWillUnmount() {
-    console.log('App:componentWillUnmount removing subscriptions: enabled and distabled');
-    console.log('App:componentWillUnmount alternatively could have used stateChanged');
-    this.enabledSubscription.remove();
-    this.disabledSubscription.remove();
-  }
+    componentDidMount() {
+        BleManager.start({showAlert: false});
+        this.handleDiscoverPeripheral = this.handleDiscoverPeripheral.bind(this);
 
-  /**
-   * Handle state change events.
-   *
-   * @param stateChangedEvent event sent from Native side during state change
-   */
-  onStateChanged(stateChangedEvent) {
-    console.log('App::onStateChanged event used for onBluetoothEnabled and onBluetoothDisabled');
+        NativeAppEventEmitter
+            .addListener('BleManagerDiscoverPeripheral', this.handleDiscoverPeripheral );
+            
+        if (Platform.OS === 'android' && Platform.Version >= 23) {
+            PermissionsAndroid.checkPermission(PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION).then((result) => {
+                if (result) {
+                  console.log("Permission is OK");
+                } else {
+                  PermissionsAndroid.requestPermission(PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION).then((result) => {
+                    if (result) {
+                      console.log("User accept");
+                    } else {
+                      console.log("User refuse");
+                    }
+                  });
+                }
+          });
+        }
+    }
 
-    this.setState({
-      bluetoothEnabled: stateChangedEvent.enabled,
-      device: stateChangedEvent.enabled ? this.state.device : undefined,
-    });
-  }
+    handleScan() {
+        BleManager.scan([], 30, true)
+            .then((results) => {console.log('Scanning...'); });
+    }
 
-  render() {
-    return (
-      <StyleProvider style={getTheme(platform)}>
-        <Root>
-          {!this.state.device ? (
-            <DeviceListScreen
-              bluetoothEnabled={this.state.bluetoothEnabled}
-              selectDevice={this.selectDevice} />
-          ) : (
-              <ConnectionScreen
-                device={this.state.device}
-                onBack={() => this.setState({ device: undefined })} />
-            )}
-        </Root>
-      </StyleProvider>
-    );
-  }
+    toggleScanning(bool){
+        if (bool) {
+            this.setState({scanning:true})
+            this.scanning = setInterval( ()=> this.handleScan(), 3000);
+        } else{
+            this.setState({scanning:false, ble: null})
+            clearInterval(this.scanning);
+        }
+    }
+
+    handleDiscoverPeripheral(data){
+      console.log(data.name);
+        //console.log('Got ble data', data);
+        this.setState({ ble: data })
+    }
+
+    render() {
+
+        const container = {
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: '#F5FCFF',
+        }
+
+        const bleList = this.state.ble
+            ? <Text> Device found: {this.state.ble.name} </Text>
+            : <Text>no devices nearby</Text>
+
+        return (
+            <View style={container}>
+                <TouchableHighlight style={{padding:20, backgroundColor:'#ccc'}} onPress={() => this.toggleScanning(!this.state.scanning) }>
+                    <Text>Scan Bluetooth ({this.state.scanning ? 'on' : 'off'})</Text>
+                </TouchableHighlight>
+
+                {bleList}
+            </View>
+        );
+    }
 }
+
+export default Bluetooth

@@ -69,6 +69,7 @@ class CreateAccountScreen extends React.Component {
                 value={this.state.fName}
                 style={externalStyle.inputStyle}
                 placeholder="Type in your First Name"
+                keyboardType="default"
                 onChange={ e => this.setState({fName: e.target.value}) } 
             />
             <Text style={externalStyle.extraText}>Last Name:</Text>
@@ -76,6 +77,7 @@ class CreateAccountScreen extends React.Component {
                 value={this.state.lName}
                 style={externalStyle.inputStyle}
                 placeholder="Type in your Last Name"
+                keyboardType="default"
                 onChange={ e => this.setState({lName: e.target.value}) }
             />
             <Text style={externalStyle.extraText}>Email:</Text>
@@ -83,6 +85,7 @@ class CreateAccountScreen extends React.Component {
                 value={this.state.email}
                 style={externalStyle.inputStyle}
                 placeholder="Type in your Email"
+                keyboardType="email-address"
                 onChange={ e => this.setState({email: e.target.value}) }
             />
             <Text style={externalStyle.extraText}>Password:</Text>
@@ -90,6 +93,7 @@ class CreateAccountScreen extends React.Component {
                 value={this.state.password}
                 style={externalStyle.inputStyle}
                 placeholder="Type in your Password"
+                keyboardType="default"
                 onChange={ e => this.setState({password: e.target.value}) }
             />
             <Text style={externalStyle.extraText}>Confirm Password:</Text>
@@ -97,6 +101,7 @@ class CreateAccountScreen extends React.Component {
                 value={this.state.cPassword}
                 style={externalStyle.inputStyle}
                 placeholder="Retype in your Password"
+                keyboardType="default"
                 onChange={ e => this.setState({cPassword: e.target.value}) }
             />
             <CreateAccountButton title="Create Account" onPress={this.handleConfirm} />

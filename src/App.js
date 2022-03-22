@@ -27,6 +27,8 @@ import CreateScheduleScreen from './pages/CreateScheduleScreen';
 import AddPetScreen from './pages/AddPetScreen';
 import ModifyPetScreen from './pages/ModifyPetScreen';
 import SettingScreen from './pages/SettingScreen';
+import QuantityScreen from './pages/QuantityScreen';
+import DatePickerScreen from './pages/DatePickerScreen';
 
 class App extends React.Component {
 
@@ -68,6 +70,16 @@ class App extends React.Component {
             options={{headerShown:false}}
             name="Setting"
             component={SettingScreen}
+          />
+          <Stack.Screen
+            options={{headerShown:false}}
+            name="Quantity"
+            component={QuantityScreen}
+          />
+          <Stack.Screen
+            options={{headerShown:false}}
+            name="DatePicker"
+            component={DatePickerScreen}
           />
         </Stack.Navigator>
       </NavigationContainer>

@@ -18,7 +18,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+// import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { format } from "date-fns";
 
 import externalStyle from '../styles/externalStyle';
@@ -44,7 +44,7 @@ class HomeScreen extends React.Component {
 
   hideDatePicker = () => {
       this.setState({isDatePickerVisible: false})
-  }
+  };
 
   handleConfirm = (date) => {
       console.log(date);
@@ -111,30 +111,15 @@ class HomeScreen extends React.Component {
               onChange={ e => this.setState({feedNumber: e.target.value}) }
             />
 
-            <Text style={externalStyle.extraText}>How many times a day:</Text>
-            <TextInput
-              value={this.state.timesNumber}
-              style={externalStyle.inputStyle}
-              placeholder="Quantity"
-              keyboardType="numeric"
-              onChange={ e => this.setState({timesNumber: e.target.value}) }
-            />
-
-            <DateTimePickerModal
-              isVisible={this.state.isDatePickerVisible}
-              mode="time"
-              onConfirm={this.handleConfirm}
-              onCancel={this.hideDatePicker}
-            />
             <View style={{width: 265,
                   height: '15%',
                   justifyContent: 'center',
                   alignSelf: "center",
                   flexWrap:'wrap'}}>
-              <Text style={externalStyle.extraText}>What time to feed?</Text>
+              <Text style={externalStyle.extraText}>Chanage Schedule</Text>
               <TouchableOpacity
                 style={{ backgroundColor:"#FFFFFF00", padding: 2}}
-                onPress={this.showDatePicker}>
+                onPress={() => this.props.navigation.navigate('Quantity')}>
                 <Icon name="calendar" size={18} color="#000000CC" backgroundColor="#FFFFFF00"/>
               </TouchableOpacity>
             </View>
@@ -144,6 +129,48 @@ class HomeScreen extends React.Component {
     );
   }
 }
+
+// function ModalTester() {
+//   const [isModalVisible, setModalVisible] = useState(false);
+
+//   const toggleModal = () => {
+//     setModalVisible(!isModalVisible);
+//   };
+
+//   return (
+//     <View style={{ flex: 1 }}>
+//       <Button title="Show modal" onPress={toggleModal} />
+
+//       <Modal isVisible={isModalVisible}>
+//         <View style={{ flex: 1 }}>
+//           <Text>Hello!</Text>
+
+//           <Button title="Hide modal" onPress={toggleModal} />
+//         </View>
+//       </Modal>
+//     </View>
+//   );
+// }
+
+// function quantityPicker() {
+//   return(
+//     <View>
+//       <Modal>
+//       <Text style={externalStyle.extraText}>How many times a day:</Text>
+//       <TextInput
+//         value={this.state.timesNumber}
+//         style={externalStyle.inputStyle}
+//         placeholder="Quantity"
+//         keyboardType="numeric"
+//         onChange={ e => this.setState({timesNumber: e.target.value}) }
+//       />
+//       <TouchableOpacity
+//       >
+//       </TouchableOpacity>
+//       </Modal>
+//     </View>
+//   );
+// }
 
 function SettingsScreen() {
   return (

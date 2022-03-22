@@ -86,6 +86,7 @@ class CreateAccountScreen extends React.Component {
                 style={externalStyle.inputStyle}
                 placeholder="Type in your First Name"
                 onChangeText={ (value) => this.setState({fName: value}) }
+                keyboardType="default"
             />
             <Text style={externalStyle.extraText}>Last Name:</Text>
             <TextInput
@@ -93,6 +94,7 @@ class CreateAccountScreen extends React.Component {
                 style={externalStyle.inputStyle}
                 placeholder="Type in your Last Name"
                 onChangeText={ (value) => this.setState({lName: value}) }
+                keyboardType="default"
             />
             <Text style={externalStyle.extraText}>Email:</Text>
             <TextInput
@@ -100,6 +102,7 @@ class CreateAccountScreen extends React.Component {
                 style={externalStyle.inputStyle}
                 placeholder="Type in your Email"
                 onChangeText={ (value) => this.setState({email: value}) }
+                keyboardType="email-address"
             />
             <Text style={externalStyle.extraText}>Password:</Text>
             <TextInput
@@ -107,6 +110,7 @@ class CreateAccountScreen extends React.Component {
                 style={externalStyle.inputStyle}
                 placeholder="Type in your Password"
                 onChangeText={ (value) => this.setState({password: value}) }
+                keyboardType="default"
             />
             <Text style={externalStyle.extraText}>Confirm Password:</Text>
             <TextInput
@@ -114,6 +118,7 @@ class CreateAccountScreen extends React.Component {
                 style={externalStyle.inputStyle}
                 placeholder="Retype in your Password"
                 onChangeText={ (value) => this.setState({cPassword: value}) }
+                keyboardType="default"
             />
             <CreateAccountButton title="Create Account" onPress={this.handleConfirm} />
             {/* <CreateAccountButton title="Create Account" onPress={() => this.props.navigation.navigate('SignIn')} /> */}

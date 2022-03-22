@@ -28,6 +28,8 @@ import AddPetScreen from './pages/AddPetScreen';
 import ModifyPetScreen from './pages/ModifyPetScreen';
 import SettingScreen from './pages/SettingScreen';
 import Bluetooth from './pages/Bluetooth';
+import QuantityScreen from './pages/QuantityScreen';
+import DatePickerScreen from './pages/DatePickerScreen';
 
 class App extends React.Component {
 
@@ -74,6 +76,15 @@ class App extends React.Component {
             options={{headerShown:false}}
             name="Bluetooth"
             component={Bluetooth}
+          <Stack.Screen
+            options={{headerShown:false}}
+            name="Quantity"
+            component={QuantityScreen}
+          />
+          <Stack.Screen
+            options={{headerShown:false}}
+            name="DatePicker"
+            component={DatePickerScreen}
           />
         </Stack.Navigator>
       </NavigationContainer>

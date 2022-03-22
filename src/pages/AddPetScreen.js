@@ -17,7 +17,6 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { format } from "date-fns";
 
 import externalStyle from '../styles/externalStyle';
@@ -34,38 +33,10 @@ class AddPetScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            feedNumber: '',
-            timesNumber: '',
-            isDatePickerVisible: false
+          feedName: '',
+          feedWeight: '',
+          feedNumber: ''
         }
-    }
-
-    showDatePicker = () => {
-        this.setState({isDatePickerVisible: true})
-    };
-
-    hideDatePicker = () => {
-        this.setState({isDatePickerVisible: false})
-    }
-
-    handleConfirm = (date) => {
-        console.log(date);
-        var hours = ((date.getHours() + 11) % 12 + 1);
-        var minutes = date.getMinutes();
-        if(date.getHours() > 12)
-        {
-            var dd = "PM"
-        }
-        else
-        {
-            var dd = "AM"
-        }
-        if(minutes < 10)
-        {
-            minutes = "0" + minutes;
-        }
-        console.log("A time has been picked: " + hours + ":" + minutes + dd);
-        this.hideDatePicker();
     }
 
     render() {
@@ -113,29 +84,15 @@ class AddPetScreen extends React.Component {
                 onChange={ e => this.setState({feedNumber: e.target.value}) }
               />
 
-              <Text style={externalStyle.extraText}>How many times a day:</Text>
-              <TextInput
-                value={this.state.timesNumber}
-                style={externalStyle.inputStyle}
-                placeholder="Quantity"
-                keyboardType="numeric"
-                onChange={ e => this.setState({timesNumber: e.target.value}) }
-              />
-              <DateTimePickerModal
-                isVisible={this.state.isDatePickerVisible}
-                mode="time"
-                onConfirm={this.handleConfirm}
-                onCancel={this.hideDatePicker}
-              />
               <View style={{width: 265,
                     justifyContent: 'center',
                     alignSelf: "center",
                     flexWrap:'wrap'}}>
                 <Text style={externalStyle.extraText}>What time to feed?</Text>
                 <TouchableOpacity
-                  style={{ backgroundColor:"#FFFFFF00", justifyContent: "center", padding: 2}}
-                  onPress={this.showDatePicker}>
-                  <Icon name="calendar" size={18} alignSelf= "center" justifyContent= "center" color="#000000CC" backgroundColor="#FFFFFF00"/>
+                  style={{ backgroundColor:"#FFFFFF00", padding: 2}}
+                  onPress={() => this.props.navigation.navigate('Quantity')}>
+                  <Icon name="calendar" size={18} color="#000000CC" backgroundColor="#FFFFFF00"/>
                 </TouchableOpacity>
               </View>
               <AddButton title="Submit" onPress={this.showDatePicker} />
@@ -145,14 +102,5 @@ class AddPetScreen extends React.Component {
         );
     }
 }
-
-// const styles = StyleSheet.create({
-//   input: {
-//     height: 40,
-//     margin: 12,
-//     borderWidth: 1,
-//     padding: 10,
-//   },
-// });
 
 export default AddPetScreen

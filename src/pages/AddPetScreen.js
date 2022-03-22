@@ -10,6 +10,7 @@ import {
   View,
   TouchableOpacity,
   Button,
+  AsyncStorage,
   TextInput
 } from 'react-native';
 
@@ -55,7 +56,7 @@ class AddPetScreen extends React.Component {
     }
 
     handleConfirm = (date) => {
-        console.log(date);
+        //console.log(date);
         var hours = ((date.getHours() + 11) % 12 + 1);
         var minutes = date.getMinutes();
         if(date.getHours() > 12)
@@ -70,28 +71,43 @@ class AddPetScreen extends React.Component {
         {
             minutes = "0" + minutes;
         }
-        console.log("A time has been picked: " + hours + ":" + minutes + dd);
+        //console.log("A time has been picked: " + hours + ":" + minutes + dd);
 
         this.hideDatePicker();
     }
 
-    submitInformation = () =>{
+    sleep = (time) => {
+        return new Promise((resolve)=>setTimeout(resolve,time)
+      )
+    }
+
+    submitInformation = () => {
       var petID = uuidv4();
-      var petIDArray = [];
+      var petIDArrayStore = [];
 
       AsyncStorage.getItem(userID)
-        .then(req => JSON.parse(req))
+        .then(req => {
+          console.log(req);
+          // if(req != undefined)
+          // {
+          //   JSON.parse(req);
+          // }
+        })
         .then(json => {
           var petIDStore = JSON.parse(json.petID);
-          if(petIDStore.length > 0)
+          for(var i = 0; i < petIDStore.length; i++)
           {
-            for(var i = 0; i < petIDStore.length; i++)
-            {
-              petIDArrayStore[i] = petIDStore[i];
-            }
+            petIDArrayStore[i] = petIDStore[i];
           }
+
+          console.log(petID);
           petIDArrayStore.push(petID);
-        })
+          console.log(petIDArrayStore);
+        });
+      
+      this.sleep(2000);
+
+      console.log(petIDArrayStore);
 
       let object = {
         petID: JSON.stringify(petIDArrayStore)
@@ -101,6 +117,19 @@ class AddPetScreen extends React.Component {
         userID,
         JSON.stringify(object),
       );
+
+      let petObject = {
+        name: this.state.name,
+        weight: this.state.weight,
+        amountToFeed: this.state.amountToFeed
+      };
+
+      AsyncStorage.setItem(
+        petID,
+        JSON.stringify(petObject),
+      );
+
+      //this.props.navigation.navigate('CreateSchedule');
     }
 
     render() {

@@ -44,44 +44,44 @@ class HomeScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-        email: '',
-        password: ''
-    }
   }
 
   // componentDidMount = async () => {
-    // var id = "123";
-    // var petIDArray = ["123","234"];
-    // var petIDArrayStore = [];
+  //   AsyncStorage.clear();
+  //   // var id = "123";
+  //   // var petIDArray = ["123-123","234-123"];
+  //   // var petIDArrayStore = [];
 
-    // let object = {
-    //   firstname: "TEST",
-    //   lastname: "TESTASWELL",
-    //   email: "TEST@EMAIL.COM",
-    //   password: "PASSWORD",
-    //   petID: JSON.stringify(petIDArray)
-    // };
+  //   // let object = {
+  //   //   firstname: "TEST",
+  //   //   lastname: "TESTASWELL",
+  //   //   email: "TEST@EMAIL.COM",
+  //   //   password: "PASSWORD",
+  //   //   petID: JSON.stringify(petIDArray)
+  //   // };
 
-    // AsyncStorage.setItem(
-    //   id,
-    //   JSON.stringify(object),
-    // );
+  //   // AsyncStorage.setItem(
+  //   //   id,
+  //   //   JSON.stringify(object),
+  //   // );
     
-    // AsyncStorage.getItem(id)
-    //   .then(req => JSON.parse(req))
-    //   .then(json => {
-    //     var petIDStore = JSON.parse(json.petID);
-    //     for(var i = 0; i < petIDStore.length; i++)
-    //     {
-    //       petIDArrayStore[i] = petIDStore[i];
-    //     }
-    //     petIDArrayStore.push("345");
-    //   })
+  //   // AsyncStorage.getItem(id)
+  //   //   .then(req => JSON.parse(req))
+  //   //   .then(json => {
+  //   //     var petIDStore = JSON.parse(json.petID);
+  //   //     for(var i = 0; i < petIDStore.length; i++)
+  //   //     {
+  //   //       petIDArrayStore[i] = petIDStore[i];
+  //   //     }
+  //   //     console.log(petIDArrayStore);
+  //   //     petIDArrayStore.push("345-1-2");
+  //   //     console.log(petIDArrayStore);
+  //   //   })
 
-    // AsyncStorage.getAllKeys((err, result) => {
-    //   console.log(result);
-    // });
+  //   // AsyncStorage.getAllKeys((err, result) => {
+  //   //   console.log(result);
+  //   // });
+  // }
 
   render() {
     return (
@@ -96,7 +96,7 @@ class HomeScreen extends React.Component {
         <View style = {externalStyle.lineStyle} />
         <SignInButton title="Sign In" onPress={() => this.props.navigation.navigate('SignIn')} />
         <CreateAccountButton title="Create an Account" onPress={() => this.props.navigation.navigate('CreateAccount')} />
-        <Button title="Bluetooth" onPress={() => this.props.navigation.navigate('Bluetooth')} />
+        {/* <Button title="Bluetooth" onPress={() => this.props.navigation.navigate('Bluetooth')} /> */}
         <PawIcon />
       </View>
     );

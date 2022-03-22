@@ -10,6 +10,7 @@ import {
   View,
   TouchableOpacity,
   Pressable,
+  AsyncStorage,
   TextInput
 } from 'react-native';
 
@@ -39,9 +40,14 @@ class CreateScheduleScreen extends React.Component {
       }
   }
 
-  // componentDidMount = () => {
-  //   console.log(userID);
-  // }
+  componentDidMount = () => {
+    AsyncStorage.getAllKeys((err, result) => {
+      console.log(result);
+      // AsyncStorage.getItem(result[1], (err, result) => {
+      //   console.log(result.petID);
+      // });
+    });
+  }
 
   render() {
     return (

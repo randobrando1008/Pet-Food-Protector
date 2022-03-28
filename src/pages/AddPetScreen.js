@@ -39,74 +39,60 @@ class AddPetScreen extends React.Component {
         super(props);
         this.state = {
           name: '',
-          weight: '',
-          amountToFeed: '',
-          timesToFeed: '',
-          timeToFeed: '',
-          isDatePickerVisible: false
+          weight: ''
         }
     }
 
-    showDatePicker = () => {
-        this.setState({isDatePickerVisible: true})
-    };
+    // showDatePicker = () => {
+    //     this.setState({isDatePickerVisible: true})
+    // };
 
-    hideDatePicker = () => {
-        this.setState({isDatePickerVisible: false})
-    }
+    // hideDatePicker = () => {
+    //     this.setState({isDatePickerVisible: false})
+    // }
 
-    handleConfirm = (date) => {
-        //console.log(date);
-        var hours = ((date.getHours() + 11) % 12 + 1);
-        var minutes = date.getMinutes();
-        if(date.getHours() > 12)
-        {
-            var dd = "PM"
-        }
-        else
-        {
-            var dd = "AM"
-        }
-        if(minutes < 10)
-        {
-            minutes = "0" + minutes;
-        }
-        //console.log("A time has been picked: " + hours + ":" + minutes + dd);
+    // handleConfirm = (date) => {
+    //     //console.log(date);
+    //     var hours = ((date.getHours() + 11) % 12 + 1);
+    //     var minutes = date.getMinutes();
+    //     if(date.getHours() > 12)
+    //     {
+    //         var dd = "PM"
+    //     }
+    //     else
+    //     {
+    //         var dd = "AM"
+    //     }
+    //     if(minutes < 10)
+    //     {
+    //         minutes = "0" + minutes;
+    //     }
+    //     //console.log("A time has been picked: " + hours + ":" + minutes + dd);
 
-        this.hideDatePicker();
-    }
+    //     this.hideDatePicker();
+    // }
 
-    sleep = (time) => {
-        return new Promise((resolve)=>setTimeout(resolve,time)
-      )
-    }
-
-    submitInformation = () => {
+    submitInformation = async () => {
       var petID = uuidv4();
       var petIDArrayStore = [];
 
-      AsyncStorage.getItem(userID)
-        .then(req => {
-          console.log(req);
-          // if(req != undefined)
-          // {
-          //   JSON.parse(req);
-          // }
-        })
+      await AsyncStorage.getItem(userID)
+        .then(req => JSON.parse(req))
         .then(json => {
-          var petIDStore = JSON.parse(json.petID);
-          for(var i = 0; i < petIDStore.length; i++)
+          console.log(json.petID);
+          if(json.petID != '')
           {
-            petIDArrayStore[i] = petIDStore[i];
+            var petIDStore = JSON.parse(json.petID);
+            for(var i = 0; i < petIDStore.length; i++)
+            {
+              petIDArrayStore[i] = petIDStore[i];
+            }
           }
-
           console.log(petID);
           petIDArrayStore.push(petID);
           console.log(petIDArrayStore);
         });
       
-      this.sleep(2000);
-
       console.log(petIDArrayStore);
 
       let object = {
@@ -120,8 +106,7 @@ class AddPetScreen extends React.Component {
 
       let petObject = {
         name: this.state.name,
-        weight: this.state.weight,
-        amountToFeed: this.state.amountToFeed
+        weight: this.state.weight
       };
 
       AsyncStorage.setItem(
@@ -153,22 +138,23 @@ class AddPetScreen extends React.Component {
             <ScrollView style={externalStyle.scrollView}>
               <Text style={externalStyle.extraText}>Name Of Pet:</Text>
               <TextInput
-                value={this.state.feedName}
+                value={this.state.name}
                 style={externalStyle.inputStyle}
                 placeholder="Name"
                 keyboardType="default"
-                onChange={ e => this.setState({feedName: e.target.value}) }
+                onChangeText={ (value) => this.setState({name: value}) }
               />
               <Text style={externalStyle.extraText}>Pet's Weight:</Text>
               <TextInput
-                value={this.state.feedWeight}
+                value={String(this.state.weight)}
+                numericvalue
+                keyboardType={'numeric'}
+                onChangeText={weight => this.setState({ weight })}
+                placeholder={'Weight'}
                 style={externalStyle.inputStyle}
-                placeholder="Name"
-                keyboardType="default"
-                onChange={ e => this.setState({feedWeight: e.target.value}) }
               />
 
-              <Text style={externalStyle.extraText}>How Much To Feed:</Text>
+              {/* <Text style={externalStyle.extraText}>How Much To Feed:</Text>
               <TextInput
                 value={this.state.feedNumber}
                 style={externalStyle.inputStyle}
@@ -190,8 +176,8 @@ class AddPetScreen extends React.Component {
                 mode="time"
                 onConfirm={this.handleConfirm}
                 onCancel={this.hideDatePicker}
-              />
-              <View style={{width: 265,
+              /> */}
+              {/* <View style={{width: 265,
                     justifyContent: 'center',
                     alignSelf: "center",
                     flexWrap:'wrap'}}>
@@ -201,7 +187,7 @@ class AddPetScreen extends React.Component {
                   onPress={this.showDatePicker}>
                   <Icon name="calendar" size={18} alignSelf= "center" justifyContent= "center" color="#000000CC" backgroundColor="#FFFFFF00"/>
                 </TouchableOpacity>
-              </View>
+              </View> */}
               <AddButton title="Submit" onPress={this.submitInformation} />
             </ScrollView>
             <PawIcon />

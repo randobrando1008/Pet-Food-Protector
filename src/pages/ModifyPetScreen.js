@@ -33,7 +33,7 @@ class HomeScreen extends React.Component {
           feedName: '',
           feedWeight: '',
           feedNumber: '',
-          timesNumber: '',
+          timesNumber: 0,
           isDatePickerVisible: false
       }
   }

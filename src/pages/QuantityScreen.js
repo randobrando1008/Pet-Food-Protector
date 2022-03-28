@@ -40,8 +40,8 @@ class QuantityScreen extends React.Component {
         }
     }
     callDatePicker = () => {
-        console.log(this.state.timesNumber.value);
-        quantitySent = this.state.timesNumber.value;
+        console.log(this.state.timesNumber);
+        quantitySent = this.state.timesNumber;
 
         this.props.navigation.navigate('DatePicker');
     }
@@ -64,11 +64,12 @@ class QuantityScreen extends React.Component {
 
             <Text style={externalStyle.extraText}>How many times a day:</Text>
             <TextInput
-                value={this.state.timesNumber}
+                value={String(this.state.timesNumber)}
+                numericvalue
+                keyboardType={'numeric'}
+                onChangeText={timesNumber => this.setState({ timesNumber })}
+                placeholder={'Quantity'}
                 style={externalStyle.inputStyle}
-                placeholder="Quantity"
-                keyboardType="numeric"
-                onChange={ (value) => this.setState({timesNumber: value}) }
             />
             <AddButton title="Submit" onPress={this.callDatePicker} />
         </View>

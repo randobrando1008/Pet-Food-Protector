@@ -76,6 +76,7 @@ class App extends React.Component {
             options={{headerShown:false}}
             name="Bluetooth"
             component={Bluetooth}
+          />
           <Stack.Screen
             options={{headerShown:false}}
             name="Quantity"

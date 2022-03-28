@@ -1,94 +1,118 @@
-import React, { Component } from 'react';
+import React from 'react';
+
 import {
-  AppRegistry,
-  Text,
-  View,
-  TouchableHighlight,
-  NativeAppEventEmitter,
-  Platform,
-  PermissionsAndroid
-} from 'react-native';
-import BleManager from '../BleManager';
+    SafeAreaView,
+    ScrollView,
+    StatusBar,
+    StyleSheet,
+    Text,
+    useColorScheme,
+    NativeModules,
+    NativeEventEmitter,
+    View,
+    TouchableOpacity,
+    Pressable,
+    TextInput,
+    Image,
+    PermissionsAndroid,
+    AsyncStorage,
+    Button,
+    Platform,
+  } from 'react-native';
 
-class Bluetooth extends Component {
+import { BleManager } from 'react-native-ble-plx';
 
-    constructor(){
-        super()
+class Bluetooth extends React.Component {
 
-        this.state = {
-            ble:null,
-            scanning:false,
-        }
+    constructor(props) {
+        super(props);
+        this.manager = new BleManager();
     }
 
-    componentDidMount() {
-        BleManager.start({showAlert: false});
-        this.handleDiscoverPeripheral = this.handleDiscoverPeripheral.bind(this);
+    async requestAccessFineLocationPermission() {
+        // const granted = await PermissionsAndroid.request(
+        //     PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        //     {
+        //         title: 'Access fine location required for discovery',
+        //         message:
+        //           'In order to perform discovery, you must enable/allow ' +
+        //           'fine location access.',
+        //         buttonNeutral: 'Ask Me Later"',
+        //         buttonNegative: 'Cancel',
+        //         buttonPositive: 'OK'
+        //     }
+        // );
+        // return granted === PermissionsAndroid.RESULTS.GRANTED;
 
-        NativeAppEventEmitter
-            .addListener('BleManagerDiscoverPeripheral', this.handleDiscoverPeripheral );
-            
-        if (Platform.OS === 'android' && Platform.Version >= 23) {
-            PermissionsAndroid.checkPermission(PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION).then((result) => {
-                if (result) {
-                  console.log("Permission is OK");
-                } else {
-                  PermissionsAndroid.requestPermission(PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION).then((result) => {
-                    if (result) {
-                      console.log("User accept");
-                    } else {
-                      console.log("User refuse");
-                    }
-                  });
+        try {
+            const granted = await PermissionsAndroid.request(
+              PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION, {
+                title: 'Location permission for bluetooth scanning',
+                message: 'wahtever',
+                buttonNeutral: 'Ask Me Later',
+                buttonNegative: 'Cancel',
+                buttonPositive: 'OK',
+              },
+            ); 
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+              console.log('Location permission for bluetooth scanning granted');
+              return true;
+            } else {
+              console.log('Location permission for bluetooth scanning revoked');
+              return false;
+            }
+          } catch (err) {
+            console.warn(err);
+            return false;
+          }
+    };
+
+    scanAndConnect = async () => {
+        let granted = await this.requestAccessFineLocationPermission();
+        if(granted)
+        {
+            console.log(granted);
+            this.manager.startDeviceScan(null, null, (error, device) => {
+                console.log("StartDeviceScan");
+                if (error) {
+                    // Handle error (scanning will be stopped automatically)
+                    console.log(error);
+                    return;
                 }
-          });
+    
+                console.log(device);
+        
+                // Check if it is a device you are looking for based on advertisement data
+                // or other criteria.
+                if (device.name === 'TI BLE Sensor Tag' || 
+                    device.name === 'SensorTag') {
+                    
+                    // Stop scanning as it's not necessary if you are scanning for one device.
+                    this.manager.stopDeviceScan();
+        
+                    // Proceed with connection.
+                }
+            });
         }
-    }
-
-    handleScan() {
-        BleManager.scan([], 30, true)
-            .then((results) => {console.log('Scanning...'); });
-    }
-
-    toggleScanning(bool){
-        if (bool) {
-            this.setState({scanning:true})
-            this.scanning = setInterval( ()=> this.handleScan(), 3000);
-        } else{
-            this.setState({scanning:false, ble: null})
-            clearInterval(this.scanning);
-        }
-    }
-
-    handleDiscoverPeripheral(data){
-      console.log(data.name);
-        //console.log('Got ble data', data);
-        this.setState({ ble: data })
-    }
+    };
+    
+    componentDidMount() {
+        this.scanAndConnect();
+        // const subscription = this.manager.onStateChange((state) => {
+        //     if (state === 'PoweredOn') {
+        //         this.scanAndConnect();
+        //         subscription.remove();
+        //     }
+        // }, true);
+    };
 
     render() {
-
-        const container = {
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: '#F5FCFF',
-        }
-
-        const bleList = this.state.ble
-            ? <Text> Device found: {this.state.ble.name} </Text>
-            : <Text>no devices nearby</Text>
-
         return (
-            <View style={container}>
-                <TouchableHighlight style={{padding:20, backgroundColor:'#ccc'}} onPress={() => this.toggleScanning(!this.state.scanning) }>
-                    <Text>Scan Bluetooth ({this.state.scanning ? 'on' : 'off'})</Text>
-                </TouchableHighlight>
-
-                {bleList}
-            </View>
+          <View style={{flex: 1,backgroundColor: '#fff'}}>
+          </View>
         );
-    }
+      }
+
 }
 
 export default Bluetooth

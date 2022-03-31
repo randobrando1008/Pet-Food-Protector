@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, Component} from 'react';
 import type {Node} from 'react';
 import {
   SafeAreaView,
@@ -14,6 +14,7 @@ import {
   Pressable,
   TextInput,
   Image,
+  AppRegistry
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';

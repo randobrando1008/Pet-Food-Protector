@@ -52,6 +52,12 @@ import { quantitySent } from './QuantityScreen';
 //     }
 // }
 
+const AddButton = ({ onPress, title}) => (
+    <TouchableOpacity onPress={onPress} style={externalStyle.primaryButtonContainer}>
+      <Text style={externalStyle.primaryButtonText}>{title}</Text>
+    </TouchableOpacity>
+);
+
 class DatePickerScreen extends React.Component {
 
     constructor(props) {
@@ -113,7 +119,7 @@ class DatePickerScreen extends React.Component {
                         /*flexWrap:'wrap'*/}}>
                         <Text style={externalStyle.extraText}>Chanage Schedule</Text>
                         <TouchableOpacity
-                            style={{ backgroundColor:"#FFFFFF00", padding: 2}}
+                            style={{ backgroundColor:"#FFFFFF00", padding: 1}}
                             onPress={this.showDatePicker} >
                             <Icon name="calendar" size={18} color="#000000CC" backgroundColor="#FFFFFF00"/>
                         </TouchableOpacity>
@@ -124,19 +130,23 @@ class DatePickerScreen extends React.Component {
     return (
         <View style={{flex: 1,backgroundColor: '#fff'}}>
             <View style={externalStyle.header}>
-            <TouchableOpacity
-                style={{ backgroundColor:"#FFFFFF00", flexDirection: "row", flex: 1, padding: 2}}
-                onPress={() => this.props.navigation.goBack()}>
-                <Icon name="arrow-left" size={30} color="#000000CC" backgroundColor="#FFFFFF00"/>
-            </TouchableOpacity>
-            <Text style={externalStyle.headerText}>Number of Feeding Times</Text>
-            <TouchableOpacity
-                style={{ backgroundColor:"#FFFFFF00", flexDirection: "row", padding: 2}}
-                onPress={() => this.props.navigation.navigate('Setting')}>
-                <Icon name="gear" size={30} color="#000000CC" backgroundColor="#FFFFFF00"/>
-            </TouchableOpacity>
+                <TouchableOpacity
+                    style={{ backgroundColor:"#FFFFFF00", flexDirection: "row", flex: 1, padding: 2}}
+                    onPress={() => this.props.navigation.goBack()}>
+                    <Icon name="arrow-left" size={30} color="#000000CC" backgroundColor="#FFFFFF00"/>
+                </TouchableOpacity>
+                <Text style={externalStyle.headerText}>Number of Feeding Times</Text>
+                <TouchableOpacity
+                    style={{ backgroundColor:"#FFFFFF00", flexDirection: "row", padding: 2}}
+                    onPress={() => this.props.navigation.navigate('Setting')}>
+                    <Icon name="gear" size={30} color="#000000CC" backgroundColor="#FFFFFF00"/>
+                </TouchableOpacity>
             </View>
-            {myLoop}
+            <ScrollView style={externalStyle.scrollView}>
+                {myLoop}
+                <AddButton title="Submit" onPress={() => this.props.navigation.navigate('ModifyPet')} />
+            </ScrollView>
+            <PawIcon />
             {/* <Button
                 onPress={input.showDatepicker}
                 title={input.date.toLocaleDateString()} />

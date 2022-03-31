@@ -10,7 +10,8 @@ import {
   View,
   TouchableOpacity,
   Pressable,
-  TextInput
+  TextInput,
+  Animated
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -36,6 +37,26 @@ class CreateScheduleScreen extends React.Component {
           email: '',
           password: ''
       }
+      this.index = 0;
+      this.animatedValue = new Animated.Value(0);
+  }
+
+  addMore = () => {
+    this.animatedValue.setValue(0);
+    let newlyAddedValue = { index: this.index }
+    this.setState({ disabled: true, valueArray: [...this.state.valueArray, newlyAddedValue] }, () => {
+      Animated.timing(
+        this.animatedValue,
+        {
+          toValue: 1,
+          duration: 500,
+          useNativeDriver: true
+        }
+      ).start(() => {
+        this.index = this.index + 1;
+        this.setState({ disabled: false });
+      });
+    });
   }
 
   render() {

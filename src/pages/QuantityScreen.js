@@ -72,6 +72,7 @@ class QuantityScreen extends React.Component {
                 style={externalStyle.inputStyle}
             />
             <AddButton title="Submit" onPress={this.callDatePicker} />
+            <PawIcon />
         </View>
 
       );

@@ -21,6 +21,7 @@ import { format } from "date-fns";
 
 import externalStyle from '../styles/externalStyle';
 import PawIcon from '../styles/PawIcon';
+import CreateScheduleScreen from './CreateScheduleScreen'
 
 const AddButton = ({ onPress, title}) => (
     <TouchableOpacity onPress={onPress} style={externalStyle.primaryButtonContainer}>
@@ -95,7 +96,7 @@ class AddPetScreen extends React.Component {
                   <Icon name="calendar" size={18} color="#000000CC" backgroundColor="#FFFFFF00"/>
                 </TouchableOpacity>
               </View>
-              <AddButton title="Submit" onPress={this.showDatePicker} />
+              <AddButton title="Submit" /*onPress={CreateScheduleScreen.addMore()}*/ />
             </ScrollView>
             <PawIcon />
           </View>

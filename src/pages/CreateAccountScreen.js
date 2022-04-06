@@ -35,7 +35,9 @@ class CreateAccountScreen extends React.Component {
       super(props);
       this.state = {
         fName: '',
+        fNameError: '',
         lName: '',
+        lNameError: '',
         email: '',
         emailError: '',
         password: '',
@@ -47,54 +49,70 @@ class CreateAccountScreen extends React.Component {
 
   submit()
   {
-    let rjx=/^[a-zA-Z][a-zA-Z0-9]{3,31}$/;
-    let isValidEmail = rjx.test(this.state.email)
-    let isValidPassword = rjx.test(this.state.password)
-    let isValidcPassword = rjx.test(this.state.cPassword)
-    var emailCorrect = false
-    var passwordCorrect = false
-    var cPasswordCorrect = false
+    let isValidEmail = false;
+    let isValidPassword = false;
+    var cPasswordMatch = false;
+
+    if(this.state.email.includes("@") && this.state.email.includes("."))
+    {
+      isValidEmail = true;
+    }
+
+    if(this.state.password != "")
+    {
+      isValidPassword = true;
+    }
 
     if(!isValidEmail || this.state.email == "")
     {
-      this.setState({emailError: "Email is not valid"})
+      this.setState({emailError: "Email is not valid"});
     }
     else
     {
-      this.setState({emailError: ""})
-      emailCorrect = true
+      this.setState({emailError: ""});
     }
 
     if(!isValidPassword || this.state.password == "")
     {
-      this.setState({passwordError: "Password is not valid"})
+      this.setState({passwordError: "Password is not valid"});
     }
     else
     {
-      this.setState({passwordError: ""})
-      passwordCorrect = true
+      this.setState({passwordError: ""});
     }
 
-    if((!isValidcPassword || this.state.cPassword == "") || (this.state.cPassword == this.state.password))
+    if(this.state.cPassword == "")
     {
-      if(this.state.cPassword == this.state.password)
-      {
-        this.setState({cPasswordError: "Password is not the same"})
-      }
-      else
-      {
-        this.setState({cPasswordError: "Confirm Password is not valid"})
-      }
+      this.setState({cPasswordError: "Confirm Password cannot be empty"});
+    }
+    else if(this.state.cPassword != this.state.password)
+    {
+      this.setState({cPasswordError: "Passwords Do Not Match"});
     }
     else
     {
-      this.setState({cPasswordError: ""})
-      cPasswordCorrect = true
+      this.setState({cPasswordError: ""});
+      cPasswordMatch = true;
     }
 
-    if(emailCorrect && passwordCorrect && cPasswordCorrect)
+    if(isValidEmail && isValidPassword && cPasswordMatch)
     {
-      this.props.navigation.navigate('CreateSchedule')
+      var id = uuidv4();
+
+      let object = {
+        firstname: this.state.fName,
+        lastname: this.state.lName,
+        email: this.state.email,
+        password: this.state.password,
+        petID: ""
+      };
+
+      AsyncStorage.setItem(
+        id,
+        JSON.stringify(object),
+      );
+
+      this.props.navigation.navigate('SignIn');
     }
   }
 
@@ -102,11 +120,11 @@ class CreateAccountScreen extends React.Component {
   {
     if(this.state.email=="")
     {
-      this.setState({emailError: "Email cannot be empty"})
+      this.setState({emailError: "Email cannot be empty"});
     }
     else
     {
-      this.setState({emailError: ""})
+      this.setState({emailError: ""});
     }
   }
 
@@ -114,11 +132,11 @@ class CreateAccountScreen extends React.Component {
   {
     if(this.state.password=="")
     {
-      this.setState({passwordError: "Password cannot be empty"})
+      this.setState({passwordError: "Password cannot be empty"});
     }
     else
     {
-      this.setState({passwordError: ""})
+      this.setState({passwordError: ""});
     }
   }
 
@@ -126,44 +144,19 @@ class CreateAccountScreen extends React.Component {
   {
     if(this.state.cPassword=="")
     {
-      this.setState({cPasswordError: "Confirm Password cannot be empty"})
+      this.setState({cPasswordError: "Confirm Password cannot be empty"});
     }
     else
     {
-      this.setState({cPasswordError: ""})
+      this.setState({cPasswordError: ""});
     }
   }
 
   componentDidMount = () => {
-    AsyncStorage.getAllKeys((err, result) => {
-      console.log(result);
-    });
-  }
-
-  handleConfirm = e => {
-    e.preventDefault();
-
-    var id = uuidv4();
-
-    let object = {
-      firstname: this.state.fName,
-      lastname: this.state.lName,
-      email: this.state.email,
-      password: this.state.password,
-      petID: ""
-    };
-
-    AsyncStorage.setItem(
-      id,
-      JSON.stringify(object),
-    );
-
-    this.props.navigation.navigate('SignIn');
-
-    // AsyncStorage.getItem(id, (err, result) => {
+    // AsyncStorage.getAllKeys((err, result) => {
     //   console.log(result);
     // });
-  };
+  }
 
   render() {
     return (

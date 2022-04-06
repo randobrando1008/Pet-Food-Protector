@@ -136,55 +136,6 @@ class SignInScreen extends React.Component {
     }
   }
 
-  checkLogIn = e => {
-    e.preventDefault();
-    var logIn = false;
-    var accountFound = false;
-
-    AsyncStorage.getAllKeys((err, result) => {
-      for(var i = 0; i < result.length; i++)
-      {
-        var user_id = result[i];
-        AsyncStorage.getItem(result[i], (err, result) => {
-          var parsedResults = JSON.parse(result);
-          console.log(parsedResults);
-          console.log(parsedResults.email);
-          console.log(this.state.email);
-          if(parsedResults.email == this.state.email)
-          {
-            console.log(parsedResults.password);
-            console.log(this.state.password);
-            if(parsedResults.password == this.state.password)
-            {
-              logIn = true;
-              console.log(logIn);
-            }
-          }
-
-          if(logIn)
-          {
-            console.log("IN HERE");
-            accountFound = true;
-            userID = user_id;
-            console.log(userID);
-            this.props.navigation.navigate('CreateSchedule');
-            return;
-          }
-          else
-          {
-            console.log("Email/Password is incorrect");
-            accountFound = false;
-          }
-        });
-        
-        if(userID != '' && accountFound)
-        {
-          break;
-        }
-      }
-    });
-  };
-
   render() {
     return (
       <View style={{flex: 1,backgroundColor: '#fff'}}>
@@ -210,7 +161,7 @@ class SignInScreen extends React.Component {
               onChangeText={ (value) => this.setState({password: value}) }
           />
           <Text style={{alignSelf: 'center', color: 'red'}}>{this.state.passwordError}</Text>
-          <SignInButton title="Sign In" onPress={() => this.submit()/*() => this.props.navigation.navigate('CreateSchedule')*/} />
+          <SignInButton title="Sign In" onPress={() => this.submit()} />
           <PawIcon />
       </View>
     );

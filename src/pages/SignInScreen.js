@@ -10,7 +10,8 @@ import {
   View,
   TouchableOpacity,
   Pressable,
-  TextInput
+  TextInput,
+  AsyncStorage
 } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -19,6 +20,8 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { format } from "date-fns";
 import externalStyle from '../styles/externalStyle';
 import PawIcon from '../styles/PawIcon';
+
+export var userID;
 
 const SignInButton = ({ onPress, title}) => (
     <TouchableOpacity onPress={onPress} style={externalStyle.primaryButtonContainer}>
@@ -33,61 +36,103 @@ class SignInScreen extends React.Component {
       this.state = {
           email: '',
           emailError: '',
-          password: ''
+          password: '',
+          passwordError: ''
       }
   }
   submit()
   {
-    let rjx=/^[a-zA-Z][a-zA-Z0-9]{3,31}$/;
-    let isValidEmail = rjx.test(this.state.email)
-    let isValidPassword = rjx.test(this.state.password)
-    var emailCorrect = false
-    var passwordCorrect = false
+    let isValidEmail = false;
+    let isValidPassword = false;
+
+    if(this.state.email.includes("@") && this.state.email.includes("."))
+    {
+      isValidEmail = true;
+    }
+
+    if(this.state.password != "")
+    {
+      isValidPassword = true;
+    }
+    var emailCorrect = false;
+    var passwordCorrect = false;
+
     if(!isValidEmail || this.state.email == "")
     {
-      this.setState({emailError: "Email is not valid"})
+      this.setState({emailError: "Email is not valid"});
     }
     else
     {
-      this.setState({emailError: ""})
-      emailCorrect = true
+      this.setState({emailError: ""});
     }
 
     if(!isValidPassword || this.state.password == "")
     {
-      this.setState({passwordError: "Password is not valid"})
+      this.setState({passwordError: "Password is not valid"});
     }
     else
     {
-      this.setState({passwordError: ""})
-      passwordCorrect = true
+      this.setState({passwordError: ""});
     }
 
-    if(emailCorrect && passwordCorrect)
-    {
-      this.props.navigation.navigate('CreateSchedule')
-    }
+    AsyncStorage.getAllKeys((err, result) => {
+      for(var i = 0; i < result.length; i++)
+      {
+        var user_id = result[i];
+        AsyncStorage.getItem(result[i], (err, result) => {
+          var parsedResults = JSON.parse(result);
+          if(parsedResults.email == this.state.email)
+          {
+            emailCorrect = true;
+            if(parsedResults.password == this.state.password)
+            {
+              passwordCorrect = true;
+              userID = user_id;
+            }
+          }
+
+          if(emailCorrect && passwordCorrect)
+          {
+            this.props.navigation.navigate('CreateSchedule');
+          }
+          else if(!emailCorrect)
+          {
+            this.setState({emailError: "Email is incorrect"});
+          }
+          else if(!passwordCorrect)
+          {
+            this.setState({passwordError: "Password is incorrect"});
+          }
+        });
+        
+        if(userID != '' && emailCorrect && passwordCorrect)
+        {
+          break;
+        }
+      }     
+    });  
   }
+
   emailValidator()
   {
     if(this.state.email=="")
     {
-      this.setState({emailError: "Email cannot be empty"})
+      this.setState({emailError: "Email cannot be empty"});
     }
     else
     {
-      this.setState({emailError: ""})
+      this.setState({emailError: ""});
     }
   }
   passwordValidator()
   {
     if(this.state.password=="")
     {
-      this.setState({passwordError: "Password cannot be empty"})
+      this.setState({passwordError: "Password cannot be empty"});
     }
     else
     {
-      this.setState({passwordError: ""})
+      this.setState({passwordError: ""});
     }
   }
 
@@ -152,7 +197,7 @@ class SignInScreen extends React.Component {
               style={externalStyle.inputStyle}
               placeholder="Email"
               onBlur={()=>this.emailValidator()}
-              onChange={ e => this.setState({email: e.target.value}) }
+              onChangeText={ (value) => this.setState({email: value}) }
           />
           <Text style={{alignSelf: 'center', color: 'red'}}>{this.state.emailError}</Text>
           <Text style={externalStyle.extraText}>Password:</Text>
@@ -162,7 +207,7 @@ class SignInScreen extends React.Component {
               style={externalStyle.inputStyle}
               placeholder="Password"
               onBlur={()=>this.passwordValidator()}
-              onChange={ e => this.setState({password: e.target.value}) }
+              onChangeText={ (value) => this.setState({password: value}) }
           />
           <Text style={{alignSelf: 'center', color: 'red'}}>{this.state.passwordError}</Text>
           <SignInButton title="Sign In" onPress={() => this.submit()/*() => this.props.navigation.navigate('CreateSchedule')*/} />

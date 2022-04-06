@@ -9,7 +9,11 @@ const externalStyle=StyleSheet.create({
         marginTop: 15
     },
     scrollView: {
-        marginHorizontal: 20,
+        height: '20%',
+        width: '90%',
+        margin: 20,
+        alignSelf: 'center',
+        padding: 20,
     },
     primaryButtonContainer: {
         backgroundColor: "#00A5FF",

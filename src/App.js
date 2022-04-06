@@ -59,6 +59,7 @@ class App extends React.Component {
           />
           <Stack.Screen
             options={{headerShown:false}}
+            initialParams={{text: 'AddPet'}}
             name="AddPet"
             component={AddPetScreen}
           />

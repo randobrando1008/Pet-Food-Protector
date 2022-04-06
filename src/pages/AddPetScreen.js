@@ -18,11 +18,13 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { format } from "date-fns";
 
 import externalStyle from '../styles/externalStyle';
 import PawIcon from '../styles/PawIcon';
+import CreateScheduleScreen from './CreateScheduleScreen'
+
+export var pagePass;
 
 import { userID } from './SignInScreen.js';
 import { v4 as uuidv4 } from 'uuid';
@@ -38,39 +40,17 @@ class AddPetScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          name: '',
-          weight: ''
+          feedName: '',
+          feedWeight: '',
+          feedNumber: ''
         }
     }
 
-    // showDatePicker = () => {
-    //     this.setState({isDatePickerVisible: true})
-    // };
+	sendData = () => {
+      pagePass = 'AddPet';
 
-    // hideDatePicker = () => {
-    //     this.setState({isDatePickerVisible: false})
-    // }
-
-    // handleConfirm = (date) => {
-    //     //console.log(date);
-    //     var hours = ((date.getHours() + 11) % 12 + 1);
-    //     var minutes = date.getMinutes();
-    //     if(date.getHours() > 12)
-    //     {
-    //         var dd = "PM"
-    //     }
-    //     else
-    //     {
-    //         var dd = "AM"
-    //     }
-    //     if(minutes < 10)
-    //     {
-    //         minutes = "0" + minutes;
-    //     }
-    //     //console.log("A time has been picked: " + hours + ":" + minutes + dd);
-
-    //     this.hideDatePicker();
-    // }
+      return;
+    }
 
     submitInformation = async () => {
       var petID = uuidv4();
@@ -118,6 +98,7 @@ class AddPetScreen extends React.Component {
     }
 
     render() {
+
         return (
           <View style={{flex: 1,backgroundColor: '#fff'}}>
             {/* <HeaderPrototype text="Add A Pet" /> */}
@@ -138,15 +119,15 @@ class AddPetScreen extends React.Component {
             <ScrollView style={externalStyle.scrollView}>
               <Text style={externalStyle.extraText}>Name Of Pet:</Text>
               <TextInput
-                value={this.state.name}
+                value={this.state.feedName}
                 style={externalStyle.inputStyle}
                 placeholder="Name"
                 keyboardType="default"
-                onChangeText={ (value) => this.setState({name: value}) }
+                onChangeText={ (value) => this.setState({feedName: value}) }
               />
               <Text style={externalStyle.extraText}>Pet's Weight:</Text>
               <TextInput
-                value={String(this.state.weight)}
+                value={String(this.state.feedWeight)}
                 numericvalue
                 keyboardType={'numeric'}
                 onChangeText={weight => this.setState({ weight })}
@@ -154,7 +135,7 @@ class AddPetScreen extends React.Component {
                 style={externalStyle.inputStyle}
               />
 
-              {/* <Text style={externalStyle.extraText}>How Much To Feed:</Text>
+              <Text style={externalStyle.extraText}>How Much To Feed:</Text>
               <TextInput
                 value={this.state.feedNumber}
                 style={externalStyle.inputStyle}
@@ -163,46 +144,23 @@ class AddPetScreen extends React.Component {
                 onChange={ e => this.setState({feedNumber: e.target.value}) }
               />
 
-              <Text style={externalStyle.extraText}>How many times a day:</Text>
-              <TextInput
-                value={this.state.timesNumber}
-                style={externalStyle.inputStyle}
-                placeholder="Quantity"
-                keyboardType="numeric"
-                onChange={ e => this.setState({timesNumber: e.target.value}) }
-              />
-              <DateTimePickerModal
-                isVisible={this.state.isDatePickerVisible}
-                mode="time"
-                onConfirm={this.handleConfirm}
-                onCancel={this.hideDatePicker}
-              /> */}
-              {/* <View style={{width: 265,
+              <View style={{width: 265,
                     justifyContent: 'center',
                     alignSelf: "center",
                     flexWrap:'wrap'}}>
                 <Text style={externalStyle.extraText}>What time to feed?</Text>
                 <TouchableOpacity
-                  style={{ backgroundColor:"#FFFFFF00", justifyContent: "center", padding: 2}}
-                  onPress={this.showDatePicker}>
-                  <Icon name="calendar" size={18} alignSelf= "center" justifyContent= "center" color="#000000CC" backgroundColor="#FFFFFF00"/>
+                  style={{ backgroundColor:"#FFFFFF00", padding: 2}}
+                  onPress={() => {this.sendData(); this.props.navigation.navigate('Quantity');}}>
+                  <Icon name="calendar" size={18} color="#000000CC" backgroundColor="#FFFFFF00"/>
                 </TouchableOpacity>
-              </View> */}
-              <AddButton title="Submit" onPress={this.submitInformation} />
+              </View>
+              <AddButton title="Submit" /*onPress={CreateScheduleScreen.addMore()}*/ />
             </ScrollView>
             <PawIcon />
           </View>
         );
     }
 }
-
-// const styles = StyleSheet.create({
-//   input: {
-//     height: 40,
-//     margin: 12,
-//     borderWidth: 1,
-//     padding: 10,
-//   },
-// });
 
 export default AddPetScreen

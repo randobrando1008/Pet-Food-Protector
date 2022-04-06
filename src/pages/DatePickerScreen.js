@@ -23,7 +23,8 @@ import { format } from "date-fns";
 
 import externalStyle from '../styles/externalStyle';
 import PawIcon from '../styles/PawIcon';
-import { quantitySent } from './QuantityScreen';
+import { quantitySent, pagePassDate } from './QuantityScreen';
+
 
 // function useInput() {
 //     const [date, setDate] = useState(new Date());
@@ -51,6 +52,12 @@ import { quantitySent } from './QuantityScreen';
 //         onChange
 //     }
 // }
+
+const AddButton = ({ onPress, title}) => (
+    <TouchableOpacity onPress={onPress} style={externalStyle.primaryButtonContainer}>
+      <Text style={externalStyle.primaryButtonText}>{title}</Text>
+    </TouchableOpacity>
+);
 
 class DatePickerScreen extends React.Component {
 
@@ -93,6 +100,17 @@ class DatePickerScreen extends React.Component {
         this.hideDatePicker();
     }
 
+    returnPage = (pagePassDate) => {
+        if (pagePassDate == 'AddPet')
+        {
+            return <AddButton title="Submit" onPress={() => this.props.navigation.navigate('AddPet')} />
+        }
+        else
+        {
+            return <AddButton title="Submit" onPress={() => this.props.navigation.navigate('ModifyPet')} />
+        }
+    }
+
     // const input = useInput(new Date())
     // const input2 = useInput(new Date())
     render() {
@@ -107,13 +125,13 @@ class DatePickerScreen extends React.Component {
                     onCancel={this.hideDatePicker}
                     />
                     <View style={{//width: 265,
-                        height: '25%',
+                        // height: '25%',
                         justifyContent: 'center',
                         alignSelf: "center",
                         /*flexWrap:'wrap'*/}}>
                         <Text style={externalStyle.extraText}>Chanage Schedule</Text>
                         <TouchableOpacity
-                            style={{ backgroundColor:"#FFFFFF00", padding: 2}}
+                            style={{ backgroundColor:"#FFFFFF00", padding: 1}}
                             onPress={this.showDatePicker} >
                             <Icon name="calendar" size={18} color="#000000CC" backgroundColor="#FFFFFF00"/>
                         </TouchableOpacity>
@@ -124,19 +142,24 @@ class DatePickerScreen extends React.Component {
     return (
         <View style={{flex: 1,backgroundColor: '#fff'}}>
             <View style={externalStyle.header}>
-            <TouchableOpacity
-                style={{ backgroundColor:"#FFFFFF00", flexDirection: "row", flex: 1, padding: 2}}
-                onPress={() => this.props.navigation.goBack()}>
-                <Icon name="arrow-left" size={30} color="#000000CC" backgroundColor="#FFFFFF00"/>
-            </TouchableOpacity>
-            <Text style={externalStyle.headerText}>Number of Feeding Times</Text>
-            <TouchableOpacity
-                style={{ backgroundColor:"#FFFFFF00", flexDirection: "row", padding: 2}}
-                onPress={() => this.props.navigation.navigate('Setting')}>
-                <Icon name="gear" size={30} color="#000000CC" backgroundColor="#FFFFFF00"/>
-            </TouchableOpacity>
+                <TouchableOpacity
+                    style={{ backgroundColor:"#FFFFFF00", flexDirection: "row", flex: 1, padding: 2}}
+                    onPress={() => this.props.navigation.goBack()}>
+                    <Icon name="arrow-left" size={30} color="#000000CC" backgroundColor="#FFFFFF00"/>
+                </TouchableOpacity>
+                <Text style={externalStyle.headerText}>Number of Feeding Times</Text>
+                <TouchableOpacity
+                    style={{ backgroundColor:"#FFFFFF00", flexDirection: "row", padding: 2}}
+                    onPress={() => this.props.navigation.navigate('Setting')}>
+                    <Icon name="gear" size={30} color="#000000CC" backgroundColor="#FFFFFF00"/>
+                </TouchableOpacity>
             </View>
-            {myLoop}
+            <ScrollView style={externalStyle.scrollView}>
+                {myLoop}
+
+                {this.returnPage(pagePassDate)}
+            </ScrollView>
+            <PawIcon />
             {/* <Button
                 onPress={input.showDatepicker}
                 title={input.date.toLocaleDateString()} />

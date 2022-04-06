@@ -22,7 +22,9 @@ import { format } from "date-fns";
 
 import externalStyle from '../styles/externalStyle';
 import PawIcon from '../styles/PawIcon';
+import { pagePass } from './AddPetScreen';
 
+export var pagePassDate;
 export var quantitySent;
 
 const AddButton = ({ onPress, title}) => (
@@ -40,28 +42,34 @@ class QuantityScreen extends React.Component {
         }
     }
     callDatePicker = () => {
-        console.log(this.state.timesNumber);
-        quantitySent = this.state.timesNumber;
 
-        this.props.navigation.navigate('DatePicker');
+        quantitySent = this.state.timesNumber;
+        pagePassDate = '';
+        if (pagePass == 'AddPet')
+        {
+            pagePassDate = pagePass;
+
+        }
+        else
+            pagePassDate = '';
+        console.log(pagePassDate)
     }
     render() {
       return (
         <View style={{flex: 1,backgroundColor: '#fff'}}>
             <View style={externalStyle.header}>
-            <TouchableOpacity
-                style={{ backgroundColor:"#FFFFFF00", flexDirection: "row", flex: 1, padding: 2}}
-                onPress={() => this.props.navigation.goBack()}>
-                <Icon name="arrow-left" size={30} color="#000000CC" backgroundColor="#FFFFFF00"/>
-            </TouchableOpacity>
-            <Text style={externalStyle.headerText}>Feeding Times</Text>
-            <TouchableOpacity
-                style={{ backgroundColor:"#FFFFFF00", flexDirection: "row", padding: 2}}
-                onPress={() => this.props.navigation.navigate('Setting')}>
-                <Icon name="gear" size={30} color="#000000CC" backgroundColor="#FFFFFF00"/>
-            </TouchableOpacity>
+                <TouchableOpacity
+                    style={{ backgroundColor:"#FFFFFF00", flexDirection: "row", flex: 1, padding: 2}}
+                    onPress={() => this.props.navigation.goBack()}>
+                    <Icon name="arrow-left" size={30} color="#000000CC" backgroundColor="#FFFFFF00"/>
+                </TouchableOpacity>
+                <Text style={externalStyle.headerText}>Feeding Times</Text>
+                <TouchableOpacity
+                    style={{ backgroundColor:"#FFFFFF00", flexDirection: "row", padding: 2}}
+                    onPress={() => this.props.navigation.navigate('Setting')}>
+                    <Icon name="gear" size={30} color="#000000CC" backgroundColor="#FFFFFF00"/>
+                </TouchableOpacity>
             </View>
-
             <Text style={externalStyle.extraText}>How many times a day:</Text>
             <TextInput
                 value={String(this.state.timesNumber)}
@@ -71,7 +79,8 @@ class QuantityScreen extends React.Component {
                 placeholder={'Quantity'}
                 style={externalStyle.inputStyle}
             />
-            <AddButton title="Submit" onPress={this.callDatePicker} />
+            <AddButton title="Submit" onPress={() => {this.callDatePicker(); this.props.navigation.navigate('DatePicker');}} />
+            <PawIcon />
         </View>
 
       );

@@ -10,8 +10,7 @@ import {
   View,
   TouchableOpacity,
   Pressable,
-  TextInput,
-  AsyncStorage,
+  TextInput
 } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -20,8 +19,6 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { format } from "date-fns";
 import externalStyle from '../styles/externalStyle';
 import PawIcon from '../styles/PawIcon';
-
-export var userID;
 
 const SignInButton = ({ onPress, title}) => (
     <TouchableOpacity onPress={onPress} style={externalStyle.primaryButtonContainer}>
@@ -35,12 +32,64 @@ class SignInScreen extends React.Component {
       super(props);
       this.state = {
           email: '',
+          emailError: '',
           password: ''
       }
   }
+  submit()
+  {
+    let rjx=/^[a-zA-Z][a-zA-Z0-9]{3,31}$/;
+    let isValidEmail = rjx.test(this.state.email)
+    let isValidPassword = rjx.test(this.state.password)
+    var emailCorrect = false
+    var passwordCorrect = false
+    if(!isValidEmail || this.state.email == "")
+    {
+      this.setState({emailError: "Email is not valid"})
+    }
+    else
+    {
+      this.setState({emailError: ""})
+      emailCorrect = true
+    }
 
-  // componentDidMount = () => {
-  // }
+    if(!isValidPassword || this.state.password == "")
+    {
+      this.setState({passwordError: "Password is not valid"})
+    }
+    else
+    {
+      this.setState({passwordError: ""})
+      passwordCorrect = true
+    }
+
+    if(emailCorrect && passwordCorrect)
+    {
+      this.props.navigation.navigate('CreateSchedule')
+    }
+  }
+  emailValidator()
+  {
+    if(this.state.email=="")
+    {
+      this.setState({emailError: "Email cannot be empty"})
+    }
+    else
+    {
+      this.setState({emailError: ""})
+    }
+  }
+  passwordValidator()
+  {
+    if(this.state.password=="")
+    {
+      this.setState({passwordError: "Password cannot be empty"})
+    }
+    else
+    {
+      this.setState({passwordError: ""})
+    }
+  }
 
   checkLogIn = e => {
     e.preventDefault();
@@ -96,22 +145,27 @@ class SignInScreen extends React.Component {
       <View style={{flex: 1,backgroundColor: '#fff'}}>
           <Text style={styles.headerStyle}>Sign In</Text>
           <View style={externalStyle.lineStyle} />
-          <Text style={styles.extraText}>Email:</Text>
+          <Text style={externalStyle.extraText}>Username:</Text>
           <TextInput
               value={this.state.email}
+              keyboardType={'email-address'}
               style={externalStyle.inputStyle}
-              placeholder="Enter Email"
-              onChangeText={ (value) => this.setState({email: value}) }
+              placeholder="Email"
+              onBlur={()=>this.emailValidator()}
+              onChange={ e => this.setState({email: e.target.value}) }
           />
-          <Text style={styles.extraText}>Password:</Text>
+          <Text style={{alignSelf: 'center', color: 'red'}}>{this.state.emailError}</Text>
+          <Text style={externalStyle.extraText}>Password:</Text>
           <TextInput
               value={this.state.password}
+              keyboardType={'default'}
               style={externalStyle.inputStyle}
-              placeholder="Enter Password"
-              onChangeText={ (value) => this.setState({password: value}) }
+              placeholder="Password"
+              onBlur={()=>this.passwordValidator()}
+              onChange={ e => this.setState({password: e.target.value}) }
           />
-          <SignInButton title="Sign In" onPress={this.checkLogIn} />
-          {/* <SignInButton title="Sign In" onPress={() => this.props.navigation.navigate('CreateSchedule')} /> */}
+          <Text style={{alignSelf: 'center', color: 'red'}}>{this.state.passwordError}</Text>
+          <SignInButton title="Sign In" onPress={() => this.submit()/*() => this.props.navigation.navigate('CreateSchedule')*/} />
           <PawIcon />
       </View>
     );
@@ -126,26 +180,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     textAlignVertical: "center"
-  },
-  extraText: {
-    color: '#C4C4C4',
-    fontSize: 18,
-    width: 265,
-    justifyContent: 'center',
-    alignSelf: "center",
-    padding: 2,
-    margin: 5
-  },
-  inputStyle: {
-    borderColor: '#C4C4C4',
-    borderWidth: 1,
-    borderRadius: 20,
-    fontSize: 14,
-    width: 255,
-    height: 40,
-    justifyContent: 'center',
-    alignSelf: "center",
-    margin: 5
   }
 });
 

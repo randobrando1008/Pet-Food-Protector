@@ -18,12 +18,10 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-// import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { format } from "date-fns";
 
 import externalStyle from '../styles/externalStyle';
 import PawIcon from '../styles/PawIcon';
-
 
 class HomeScreen extends React.Component {
 
@@ -32,38 +30,8 @@ class HomeScreen extends React.Component {
       this.state = {
           feedName: '',
           feedWeight: '',
-          feedNumber: '',
-          timesNumber: 0,
-          isDatePickerVisible: false
+          feedNumber: ''
       }
-  }
-
-  showDatePicker = () => {
-      this.setState({isDatePickerVisible: true})
-  };
-
-  hideDatePicker = () => {
-      this.setState({isDatePickerVisible: false})
-  };
-
-  handleConfirm = (date) => {
-      console.log(date);
-      var hours = ((date.getHours() + 11) % 12 + 1);
-      var minutes = date.getMinutes();
-      if(date.getHours() > 12)
-      {
-          var dd = "PM"
-      }
-      else
-      {
-          var dd = "AM"
-      }
-      if(minutes < 10)
-      {
-          minutes = "0" + minutes;
-      }
-      console.log("A time has been picked: " + hours + ":" + minutes + dd);
-      this.hideDatePicker();
   }
 
   render() {
@@ -129,48 +97,6 @@ class HomeScreen extends React.Component {
     );
   }
 }
-
-// function ModalTester() {
-//   const [isModalVisible, setModalVisible] = useState(false);
-
-//   const toggleModal = () => {
-//     setModalVisible(!isModalVisible);
-//   };
-
-//   return (
-//     <View style={{ flex: 1 }}>
-//       <Button title="Show modal" onPress={toggleModal} />
-
-//       <Modal isVisible={isModalVisible}>
-//         <View style={{ flex: 1 }}>
-//           <Text>Hello!</Text>
-
-//           <Button title="Hide modal" onPress={toggleModal} />
-//         </View>
-//       </Modal>
-//     </View>
-//   );
-// }
-
-// function quantityPicker() {
-//   return(
-//     <View>
-//       <Modal>
-//       <Text style={externalStyle.extraText}>How many times a day:</Text>
-//       <TextInput
-//         value={this.state.timesNumber}
-//         style={externalStyle.inputStyle}
-//         placeholder="Quantity"
-//         keyboardType="numeric"
-//         onChange={ e => this.setState({timesNumber: e.target.value}) }
-//       />
-//       <TouchableOpacity
-//       >
-//       </TouchableOpacity>
-//       </Modal>
-//     </View>
-//   );
-// }
 
 function SettingsScreen() {
   return (

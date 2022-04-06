@@ -10,7 +10,7 @@ const externalStyle=StyleSheet.create({
     },
     scrollView: {
         height: '20%',
-        width: '80%',
+        width: '90%',
         margin: 20,
         alignSelf: 'center',
         padding: 20,

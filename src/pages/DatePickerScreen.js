@@ -23,7 +23,8 @@ import { format } from "date-fns";
 
 import externalStyle from '../styles/externalStyle';
 import PawIcon from '../styles/PawIcon';
-import { quantitySent } from './QuantityScreen';
+import { quantitySent, pagePassDate } from './QuantityScreen';
+
 
 // function useInput() {
 //     const [date, setDate] = useState(new Date());
@@ -99,6 +100,17 @@ class DatePickerScreen extends React.Component {
         this.hideDatePicker();
     }
 
+    returnPage = (pagePassDate) => {
+        if (pagePassDate == 'AddPet')
+        {
+            return <AddButton title="Submit" onPress={() => this.props.navigation.navigate('AddPet')} />
+        }
+        else
+        {
+            return <AddButton title="Submit" onPress={() => this.props.navigation.navigate('ModifyPet')} />
+        }
+    }
+
     // const input = useInput(new Date())
     // const input2 = useInput(new Date())
     render() {
@@ -113,7 +125,7 @@ class DatePickerScreen extends React.Component {
                     onCancel={this.hideDatePicker}
                     />
                     <View style={{//width: 265,
-                        height: '25%',
+                        // height: '25%',
                         justifyContent: 'center',
                         alignSelf: "center",
                         /*flexWrap:'wrap'*/}}>
@@ -144,7 +156,8 @@ class DatePickerScreen extends React.Component {
             </View>
             <ScrollView style={externalStyle.scrollView}>
                 {myLoop}
-                <AddButton title="Submit" onPress={() => this.props.navigation.navigate('ModifyPet')} />
+
+                {this.returnPage(pagePassDate)}
             </ScrollView>
             <PawIcon />
             {/* <Button

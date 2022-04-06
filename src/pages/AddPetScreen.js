@@ -23,6 +23,8 @@ import externalStyle from '../styles/externalStyle';
 import PawIcon from '../styles/PawIcon';
 import CreateScheduleScreen from './CreateScheduleScreen'
 
+export var pagePass;
+
 const AddButton = ({ onPress, title}) => (
     <TouchableOpacity onPress={onPress} style={externalStyle.primaryButtonContainer}>
       <Text style={externalStyle.primaryButtonText}>{title}</Text>
@@ -40,7 +42,14 @@ class AddPetScreen extends React.Component {
         }
     }
 
+    sendData = () => {
+      pagePass = 'AddPet';
+
+      return;
+    }
+
     render() {
+
         return (
           <View style={{flex: 1,backgroundColor: '#fff'}}>
             {/* <HeaderPrototype text="Add A Pet" /> */}
@@ -92,7 +101,7 @@ class AddPetScreen extends React.Component {
                 <Text style={externalStyle.extraText}>What time to feed?</Text>
                 <TouchableOpacity
                   style={{ backgroundColor:"#FFFFFF00", padding: 2}}
-                  onPress={() => this.props.navigation.navigate('Quantity')}>
+                  onPress={() => {this.sendData(); this.props.navigation.navigate('Quantity');}}>
                   <Icon name="calendar" size={18} color="#000000CC" backgroundColor="#FFFFFF00"/>
                 </TouchableOpacity>
               </View>

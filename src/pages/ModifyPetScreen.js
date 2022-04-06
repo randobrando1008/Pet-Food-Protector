@@ -23,7 +23,6 @@ import { format } from "date-fns";
 import externalStyle from '../styles/externalStyle';
 import PawIcon from '../styles/PawIcon';
 
-
 class HomeScreen extends React.Component {
 
   constructor(props) {

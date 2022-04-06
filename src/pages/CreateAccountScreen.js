@@ -11,7 +11,6 @@ import {
   TouchableOpacity,
   Pressable,
   TextInput,
-  Image,
   AsyncStorage,
 } from 'react-native';
 
@@ -38,9 +37,101 @@ class CreateAccountScreen extends React.Component {
         fName: '',
         lName: '',
         email: '',
+        emailError: '',
         password: '',
-        cPassword: ''
+        passwordError: '',
+        cPassword: '',
+        cPasswordError: '',
       }
+  }
+
+  submit()
+  {
+    let rjx=/^[a-zA-Z][a-zA-Z0-9]{3,31}$/;
+    let isValidEmail = rjx.test(this.state.email)
+    let isValidPassword = rjx.test(this.state.password)
+    let isValidcPassword = rjx.test(this.state.cPassword)
+    var emailCorrect = false
+    var passwordCorrect = false
+    var cPasswordCorrect = false
+
+    if(!isValidEmail || this.state.email == "")
+    {
+      this.setState({emailError: "Email is not valid"})
+    }
+    else
+    {
+      this.setState({emailError: ""})
+      emailCorrect = true
+    }
+
+    if(!isValidPassword || this.state.password == "")
+    {
+      this.setState({passwordError: "Password is not valid"})
+    }
+    else
+    {
+      this.setState({passwordError: ""})
+      passwordCorrect = true
+    }
+
+    if((!isValidcPassword || this.state.cPassword == "") || (this.state.cPassword == this.state.password))
+    {
+      if(this.state.cPassword == this.state.password)
+      {
+        this.setState({cPasswordError: "Password is not the same"})
+      }
+      else
+      {
+        this.setState({cPasswordError: "Confirm Password is not valid"})
+      }
+    }
+    else
+    {
+      this.setState({cPasswordError: ""})
+      cPasswordCorrect = true
+    }
+
+    if(emailCorrect && passwordCorrect && cPasswordCorrect)
+    {
+      this.props.navigation.navigate('CreateSchedule')
+    }
+  }
+
+  emailValidator()
+  {
+    if(this.state.email=="")
+    {
+      this.setState({emailError: "Email cannot be empty"})
+    }
+    else
+    {
+      this.setState({emailError: ""})
+    }
+  }
+
+  passwordValidator()
+  {
+    if(this.state.password=="")
+    {
+      this.setState({passwordError: "Password cannot be empty"})
+    }
+    else
+    {
+      this.setState({passwordError: ""})
+    }
+  }
+
+  cPasswordValidator()
+  {
+    if(this.state.cPassword=="")
+    {
+      this.setState({cPasswordError: "Confirm Password cannot be empty"})
+    }
+    else
+    {
+      this.setState({cPasswordError: ""})
+    }
   }
 
   componentDidMount = () => {
@@ -80,50 +171,60 @@ class CreateAccountScreen extends React.Component {
           <ScrollView style={externalStyle.scrollView}>
             <Text style={styles.headerStyle}>Create An Account</Text>
             <View style={externalStyle.lineStyle} />
+
             <Text style={externalStyle.extraText}>First Name:</Text>
             <TextInput
                 value={this.state.fName}
                 style={externalStyle.inputStyle}
                 placeholder="Type in your First Name"
-                onChangeText={ (value) => this.setState({fName: value}) }
                 keyboardType="default"
+                onChangeText={ (value) => this.setState({fName: value}) }
             />
+
             <Text style={externalStyle.extraText}>Last Name:</Text>
             <TextInput
                 value={this.state.lName}
                 style={externalStyle.inputStyle}
                 placeholder="Type in your Last Name"
-                onChangeText={ (value) => this.setState({lName: value}) }
                 keyboardType="default"
+                onChangeText={ (value) => this.setState({lName: value}) }
             />
+
             <Text style={externalStyle.extraText}>Email:</Text>
             <TextInput
                 value={this.state.email}
                 style={externalStyle.inputStyle}
                 placeholder="Type in your Email"
-                onChangeText={ (value) => this.setState({email: value}) }
                 keyboardType="email-address"
+                onBlur={()=>this.emailValidator()}
+                onChangeText={ (value) => this.setState({email: value}) }
             />
+            <Text style={{alignSelf: 'center', color: 'red'}}>{this.state.emailError}</Text>
+
             <Text style={externalStyle.extraText}>Password:</Text>
             <TextInput
                 value={this.state.password}
                 style={externalStyle.inputStyle}
                 placeholder="Type in your Password"
-                onChangeText={ (value) => this.setState({password: value}) }
                 keyboardType="default"
+                onBlur={()=>this.passwordValidator()}
+                onChangeText={ (value) => this.setState({password: value}) }
             />
+            <Text style={{alignSelf: 'center', color: 'red'}}>{this.state.passwordError}</Text>
+
             <Text style={externalStyle.extraText}>Confirm Password:</Text>
             <TextInput
                 value={this.state.cPassword}
                 style={externalStyle.inputStyle}
                 placeholder="Retype in your Password"
-                onChangeText={ (value) => this.setState({cPassword: value}) }
                 keyboardType="default"
+                onBlur={()=>this.cPasswordValidator()}
+                onChangeText={ (value) => this.setState({cPassword: value}) }
             />
-            <CreateAccountButton title="Create Account" onPress={this.handleConfirm} />
-            {/* <CreateAccountButton title="Create Account" onPress={() => this.props.navigation.navigate('SignIn')} /> */}
+            <Text style={{alignSelf: 'center', color: 'red'}}>{this.state.cPasswordError}</Text>
+            <CreateAccountButton title="Create Account" onPress={() => this.submit()} />
+            <PawIcon />
           </ScrollView>
-          <PawIcon />
         </View>
 
     );

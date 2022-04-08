@@ -24,7 +24,7 @@ import externalStyle from '../styles/externalStyle';
 import PawIcon from '../styles/PawIcon';
 import CreateScheduleScreen from './CreateScheduleScreen'
 
-export var pagePass;
+export var quantitySent;
 
 import { userID } from './SignInScreen.js';
 import { v4 as uuidv4 } from 'uuid';
@@ -46,9 +46,10 @@ class AddPetScreen extends React.Component {
           feedWeightError: '',
           feedNumber: '',
           feedNumberError: '',
-          timesNumber: '',
           feedTime: '',
-          feedTimeError: ''
+          feedTimeError: '',
+          timesNumber: ''
+
         }
     }
 

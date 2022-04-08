@@ -49,9 +49,21 @@ class CreateAccountScreen extends React.Component {
 
   submit()
   {
-    let isValidEmail = false;
-    let isValidPassword = false;
+    var isfNameValid = false;
+    var islNameValid = false;
+    var isValidEmail = false;
+    var isValidPassword = false;
     var cPasswordMatch = false;
+
+    if(this.state.fName != "")
+    {
+      isfNameValid = true;
+    }
+
+    if(this.state.lName != "")
+    {
+      islNameValid = true;
+    }
 
     if(this.state.email.includes("@") && this.state.email.includes("."))
     {
@@ -61,6 +73,24 @@ class CreateAccountScreen extends React.Component {
     if(this.state.password != "")
     {
       isValidPassword = true;
+    }
+
+    if(!isfNameValid || this.state.fName == "")
+    {
+      this.setState({fNameError: "First Name is not valid"});
+    }
+    else
+    {
+      this.setState({fNameError: ""});
+    }
+
+    if(!islNameValid || this.state.lName == "")
+    {
+      this.setState({lNameError: "Last Name is not valid"});
+    }
+    else
+    {
+      this.setState({lNameError: ""});
     }
 
     if(!isValidEmail || this.state.email == "")
@@ -95,7 +125,7 @@ class CreateAccountScreen extends React.Component {
       cPasswordMatch = true;
     }
 
-    if(isValidEmail && isValidPassword && cPasswordMatch)
+    if(isValidEmail && isValidPassword && cPasswordMatch && isfNameValid && islNameValid)
     {
       var id = uuidv4();
 
@@ -113,6 +143,30 @@ class CreateAccountScreen extends React.Component {
       );
 
       this.props.navigation.navigate('SignIn');
+    }
+  }
+
+  fNameValidator()
+  {
+    if(this.state.fName=="")
+    {
+      this.setState({fNameError: "First Name cannot be empty"});
+    }
+    else
+    {
+      this.setState({fNameError: ""});
+    }
+  }
+
+  lNameValidator()
+  {
+    if(this.state.lName=="")
+    {
+      this.setState({lNameError: "Last Name cannot be empty"});
+    }
+    else
+    {
+      this.setState({lNameError: ""});
     }
   }
 
@@ -171,8 +225,10 @@ class CreateAccountScreen extends React.Component {
                 style={externalStyle.inputStyle}
                 placeholder="Type in your First Name"
                 keyboardType="default"
+                onBlur={()=>this.fNameValidator()}
                 onChangeText={ (value) => this.setState({fName: value}) }
             />
+            <Text style={{alignSelf: 'center', color: 'red'}}>{this.state.fNameError}</Text>
 
             <Text style={externalStyle.extraText}>Last Name:</Text>
             <TextInput
@@ -180,8 +236,10 @@ class CreateAccountScreen extends React.Component {
                 style={externalStyle.inputStyle}
                 placeholder="Type in your Last Name"
                 keyboardType="default"
+                onBlur={()=>this.lNameValidator()}
                 onChangeText={ (value) => this.setState({lName: value}) }
             />
+            <Text style={{alignSelf: 'center', color: 'red'}}>{this.state.lNameError}</Text>
 
             <Text style={externalStyle.extraText}>Email:</Text>
             <TextInput
@@ -196,6 +254,7 @@ class CreateAccountScreen extends React.Component {
 
             <Text style={externalStyle.extraText}>Password:</Text>
             <TextInput
+                secureTextEntry={true}
                 value={this.state.password}
                 style={externalStyle.inputStyle}
                 placeholder="Type in your Password"
@@ -207,6 +266,7 @@ class CreateAccountScreen extends React.Component {
 
             <Text style={externalStyle.extraText}>Confirm Password:</Text>
             <TextInput
+                secureTextEntry={true}
                 value={this.state.cPassword}
                 style={externalStyle.inputStyle}
                 placeholder="Retype in your Password"

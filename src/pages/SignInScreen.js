@@ -109,8 +109,8 @@ class SignInScreen extends React.Component {
         {
           break;
         }
-      }     
-    });  
+      }
+    });
   }
 
   emailValidator()
@@ -153,6 +153,7 @@ class SignInScreen extends React.Component {
           <Text style={{alignSelf: 'center', color: 'red'}}>{this.state.emailError}</Text>
           <Text style={externalStyle.extraText}>Password:</Text>
           <TextInput
+              secureTextEntry={true}
               value={this.state.password}
               keyboardType={'default'}
               style={externalStyle.inputStyle}

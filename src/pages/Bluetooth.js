@@ -27,7 +27,7 @@ import BleManager from '../node_modules/react-native-ble-manager/BleManager';
 const BleManagerModule = NativeModules.BleManager;
 const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
 
-import { stringToBytes } from "convert-string";
+import { stringToBytes, bytesToString } from "convert-string";
 
 const Buffer = require('buffer/').Buffer;
 
@@ -107,55 +107,67 @@ const App = () => {
         .then(() => {
           console.log('Connected to ' + peripheral.id, peripheral);
 
-          BleManager.retrieveServices(peripheral.id).then((peripheralInfo) => {
-            console.log(peripheralInfo);
-            var service = '49535343-fe7d-4ae5-8fa9-9fafd205e455';
-            var characteristic = '49535343-1e4d-4bd9-ba61-23c647249616';
-            setTimeout(() => {
-              BleManager.startNotification(peripheral.id, service, characteristic).then(() => {
-                console.log('Started notification on ' + peripheral.id);
-                setTimeout(() => {
-                  BleManager.write(peripheral.id, service, characteristic, convertedWriteData).then(() => {
-                    console.log("Write: " + convertedWriteData);
-                  })
-                  .catch((error) => {
-                    console.log(error);
-                  });
-                }, 500);
-              }).catch((error) => {
-                console.log('Notification error', error);
-              });
-            }, 200);
-          });
+          // BleManager.retrieveServices(peripheral.id).then((peripheralInfo) => {
+          //   console.log(peripheralInfo);
+          //   var service = '49535343-fe7d-4ae5-8fa9-9fafd205e455';
+          //   var characteristic = '49535343-1e4d-4bd9-ba61-23c647249616';
+          //   setTimeout(() => {
+          //     BleManager.startNotification(peripheral.id, service, characteristic).then(() => {
+          //       console.log('Started notification on ' + peripheral.id);
+          //       setTimeout(() => {
+          //         BleManager.write(peripheral.id, service, characteristic, convertedWriteData).then(() => {
+          //           console.log("Write: " + convertedWriteData);
+          //         })
+          //         .catch((error) => {
+          //           console.log(error);
+          //         });
+          //       }, 500);
+          //     }).catch((error) => {
+          //       console.log('Notification error', error);
+          //     });
+          //   }, 200);
+          // });
 
           // retrieve peripheral services info
-          // BleManager.retrieveServices(peripheral.id).then((peripheralInfo) => {
-          //   console.log('Retrieved peripheral services', peripheralInfo);
+          BleManager.retrieveServices(peripheral.id).then((peripheralInfo) => {
+            console.log('Retrieved peripheral services', peripheralInfo);
 
-          //   // test read and write data to peripheral
-          //   const serviceUUID = '49535343-fe7d-4ae5-8fa9-9fafd205e455';
-          //   const charasteristicUUID = '49535343-1e4d-4bd9-ba61-23c647249616';
+            // test read and write data to peripheral
+            const serviceUUID = '49535343-fe7d-4ae5-8fa9-9fafd205e455';
+            const charasteristicUUID = '49535343-1e4d-4bd9-ba61-23c647249616';
 
-          //   console.log('peripheral id:', peripheral.id);
-          //   console.log('service:', serviceUUID);
-          //   console.log('characteristic:', charasteristicUUID);
+            console.log('peripheral id:', peripheral.id);
+            console.log('service:', serviceUUID);
+            console.log('characteristic:', charasteristicUUID);
 
-          //   // BleManager.read(peripheral.id, serviceUUID, charasteristicUUID)
-          //   //   .then((res) => {
-          //   //     console.log('read response', res);
-          //   //     if (res) {
-          //   //       const buffer = Buffer.from(res);
-          //   //       const data = buffer.toString();
-          //   //       console.log('data', data);
-          //   //     }
-          //   //   })
-          //   //   .catch((error) => {
-          //   //     console.log('read err', error);
-          //   //     // alert(error);
-          //   //   });
+            BleManager.startNotification(peripheral.id, serviceUUID, charasteristicUUID).then(() => {
+              bleManagerEmitter.addListener(
+                "BleManagerDidUpdateValueForCharacteristic",
+                ({ value, peripheral, charasteristicUUID, serviceUUID }) => {
+                  // Convert bytes array to string
+                  const data = bytesToString(value);
+                  console.log(data);
+                  console.log(`Recieved ${data} for characteristic ${charasteristicUUID}`);
+                }
+              );
+            });
+
+            // BleManager.read(peripheral.id, serviceUUID, charasteristicUUID)
+            //   .then((res) => {
+            //     console.log('read response', res);
+            //     if (res) {
+            //       const buffer = Buffer.from(res);
+            //       const data = buffer.toString();
+            //       console.log('data', data);
+            //     }
+            //   })
+            //   .catch((error) => {
+            //     console.log('read err', error);
+            //     // alert(error);
+            //   });
 
 
-          // });
+          });
         })
         .catch((error) => {
           console.log('Connection error', error);
@@ -294,4 +306,3 @@ const styles = StyleSheet.create({
 });
 
 export default App;
-

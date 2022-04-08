@@ -95,7 +95,7 @@ class AddPetScreen extends React.Component {
         this.setState({feedWeightError: ""});
       }
 
-      if(!isFeedAmountValid || this.state.feedNumber == "")
+      if(!isFeedAmountValid || this.state.feedNumber == "" || parseInt(this.state.feedNumber) > 3)
       {
         this.setState({feedNumberError: "Max number of feeding times is 3"});
       }
@@ -139,8 +139,8 @@ class AddPetScreen extends React.Component {
         );
 
         let petObject = {
-          name: this.state.name,
-          weight: this.state.weight
+          name: this.state.feedName,
+          weight: this.state.feedWeight
         };
 
         AsyncStorage.setItem(
@@ -224,11 +224,10 @@ class AddPetScreen extends React.Component {
                 value={this.state.feedWeight}
                 numericvalue
                 keyboardType={'numeric'}
-                onChangeText={weight => this.setState({ weight })}
+                onChangeText={feedWeight => this.setState({ feedWeight })}
                 placeholder={'Weight'}
                 style={externalStyle.inputStyle}
                 onBlur={()=>this.feedWeightValidator()}
-                onChangeText={ (value) => this.setState({feedWeight: value}) }
               />
               <Text style={externalStyle.extraText}>Note: Pet's Weight is in pounds</Text>
               <Text style={{alignSelf: 'center', color: 'red'}}>{this.state.feedWeightError}</Text>
@@ -236,11 +235,12 @@ class AddPetScreen extends React.Component {
               <Text style={externalStyle.extraText}>How Many Times To Feed:</Text>
               <TextInput
                 value={this.state.feedNumber}
+                numericvalue
+                keyboardType={'numeric'}
+                onChangeText={feedNumber => this.setState({ feedNumber })}
+                placeholder={'Quantity'}
                 style={externalStyle.inputStyle}
-                placeholder="Quantity"
-                keyboardType="numeric"
                 onBlur={()=>this.feedNumberValidator()}
-                onChange={ e => this.setState({feedNumber: e.target.value}) }
               />
               <Text style={{alignSelf: 'center', color: 'red'}}>{this.state.feedNumberError}</Text>
 

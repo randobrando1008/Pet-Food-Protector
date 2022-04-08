@@ -37,13 +37,15 @@ class SignInScreen extends React.Component {
           email: '',
           emailError: '',
           password: '',
-          passwordError: ''
+          passwordError: '',
+          accountFound: false
       }
   }
   submit()
   {
     let isValidEmail = false;
     let isValidPassword = false;
+    this.state.accountFound = false;
 
     if(this.state.email.includes("@") && this.state.email.includes("."))
     {
@@ -79,6 +81,8 @@ class SignInScreen extends React.Component {
       for(var i = 0; i < result.length; i++)
       {
         var user_id = result[i];
+        let record = i;
+        let length = result.length;
         AsyncStorage.getItem(result[i], (err, result) => {
           var parsedResults = JSON.parse(result);
           if(parsedResults.email == this.state.email)
@@ -90,25 +94,41 @@ class SignInScreen extends React.Component {
               userID = user_id;
             }
           }
-
+          
           if(emailCorrect && passwordCorrect)
           {
+            this.state.accountFound = true;
             this.props.navigation.navigate('CreateSchedule');
           }
-          else if(!emailCorrect)
+
+          console.log(record);
+          console.log(length);
+          console.log(emailCorrect);
+          console.log(passwordCorrect);
+          console.log(this.state.accountFound);
+
+          if((record == (length-1)) && (!emailCorrect || !passwordCorrect) && (!this.state.accountFound) && this.state.password != "")
           {
-            this.setState({emailError: "Email is incorrect"});
+            console.log(record);
+            console.log(length);
+            console.log(emailCorrect);
+            console.log(passwordCorrect);
+            console.log(this.state.accountFound);
+            this.setState({passwordError: "Email/Password is incorrect"});
           }
-          else if(!passwordCorrect)
+          else
           {
-            this.setState({passwordError: "Password is incorrect"});
+            if(this.state.password != "")
+            {
+              this.setState({passwordError: ""});
+            }
           }
         });
         
-        if(userID != '' && emailCorrect && passwordCorrect)
-        {
-          break;
-        }
+        // if(this.props.route.name != "SignIn")
+        // {
+        //   break;
+        // }
       }
     });
   }

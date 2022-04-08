@@ -45,20 +45,18 @@ class AddPetScreen extends React.Component {
           feedWeight: '',
           feedWeightError: '',
           feedNumber: '',
-          feedNumberError: ''
+          feedNumberError: '',
+          timesNumber: '',
+          feedTime: '',
+          feedTimeError: ''
         }
-    }
-
-	sendData = () => {
-      pagePass = 'AddPet';
-
-      return;
     }
 
     submitInformation = async () => {
       var isNameValid = false;
       var isWeightValid = false;
       var isFeedAmountValid = false;
+      var isFeedTimeValid = false;
 
       if(this.state.feedName != "")
       {
@@ -73,8 +71,14 @@ class AddPetScreen extends React.Component {
 
       if(this.state.feedNumber != "")
       {
-        if(parseFloat(this.state.feedNumber) < 3 && parseFloat(this.state.feedNumber) > 0)
+        if(parseFloat(this.state.feedNumber) < 2.1 && parseFloat(this.state.feedNumber) > 0)
           isFeedAmountValid = true;
+      }
+
+      if(this.state.feedTime != "")
+      {
+        if(parseInt(this.state.feedTime) < 4 && parseInt(this.state.feedTime) > 0)
+          isFeedTimeValid = true;
       }
 
       if(!isNameValid || this.state.feedName == "")
@@ -86,7 +90,7 @@ class AddPetScreen extends React.Component {
         this.setState({feedNameError: ""});
       }
 
-      if(!isWeightValid || this.state.feedWeight == "")
+      if(!isWeightValid || this.state.feedWeight == "" || this.state.feedTime > 350)
       {
         this.setState({feedWeightError: "Max weight 350"});
       }
@@ -95,7 +99,7 @@ class AddPetScreen extends React.Component {
         this.setState({feedWeightError: ""});
       }
 
-      if(!isFeedAmountValid || this.state.feedNumber == "" || parseDouble(this.state.feedNumber) > 2)
+      if(!isFeedAmountValid || this.state.feedNumber == "" || this.state.feedTime > 2)
       {
         this.setState({feedNumberError: "Max amount of food is 2 cups"});
       }
@@ -104,7 +108,16 @@ class AddPetScreen extends React.Component {
         this.setState({feedNumberError: ""});
       }
 
-      if(isNameValid && isWeightValid && isFeedAmountValid)
+      if(!isFeedTimeValid || this.state.feedTime == "" || this.state.feedTime > 3)
+      {
+          this.setState({feedTimeError: "Max number of feeding times is 3"});
+      }
+      else
+      {
+          this.setState({feedTimeError: ""});
+      }
+
+      if(isNameValid && isWeightValid && isFeedAmountValid && isFeedTimeValid)
       {
 
         var petID = uuidv4();
@@ -148,7 +161,8 @@ class AddPetScreen extends React.Component {
           JSON.stringify(petObject),
         );
 
-        this.props.navigation.navigate('CreateAccount')
+        quantitySent = this.state.timesNumber;
+        this.props.navigation.navigate('DatePickerScreen')
       }
     }
 
@@ -180,11 +194,23 @@ class AddPetScreen extends React.Component {
     {
       if(this.state.feedNumber=="")
       {
-        this.setState({feedNumberError: "Number of Feeding Times cannot be empty"});
+        this.setState({feedNumberError: "Amount of food cannot be empty"});
       }
       else
       {
         this.setState({feedNumberError: ""});
+      }
+    }
+
+    feedTimeValidator()
+    {
+      if(this.state.feedTime=="")
+      {
+        this.setState({feedTimeError: "Number of feeding times cannot be empty"});
+      }
+      else
+      {
+        this.setState({feedTimeError: ""});
       }
     }
 
@@ -243,7 +269,20 @@ class AddPetScreen extends React.Component {
                 style={externalStyle.inputStyle}
                 onBlur={()=>this.feedNumberValidator()}
               />
+              <Text style={externalStyle.extraText}>Note: Food Weight is in cups</Text>
               <Text style={{alignSelf: 'center', color: 'red'}}>{this.state.feedNumberError}</Text>
+
+              <Text style={externalStyle.extraText}>How many times a day:</Text>
+              <TextInput
+                  value={this.state.feedTime}
+                  numericvalue
+                  keyboardType={'numeric'}
+                  onChangeText={feedTime => this.setState({ feedTime })}
+                  placeholder={'Quantity'}
+                  style={externalStyle.inputStyle}
+                  onBlur={()=>this.feedTimeValidator()}
+              />
+              <Text style={{alignSelf: 'center', color: 'red'}}>{this.state.feedTimeError}</Text>
 
               <View style={{width: 265,
                     justifyContent: 'center',
@@ -251,12 +290,13 @@ class AddPetScreen extends React.Component {
                     flexWrap:'wrap'}}>
                 <Text style={externalStyle.extraText}>What Time To Feed?</Text>
                 <TouchableOpacity
-                  style={{ backgroundColor:"#FFFFFF00", padding: 2}}
-                  onPress={() => {this.sendData(); this.props.navigation.navigate('Quantity');}}>
-                  <Icon name="calendar" size={18} color="#000000CC" backgroundColor="#FFFFFF00"/>
+                  style={externalStyle.primaryButtonContainer}
+                  onPress={() => {this.submitInformation}}>
+                  {/* <Icon name="calendar" size={18} color="#000000CC" backgroundColor="#FFFFFF00"/> */}
+                  <Text style={externalStyle.primaryButtonText}>Pick Times</Text>
                 </TouchableOpacity>
               </View>
-              <AddButton title="Submit" onPress={this.submitInformation} />
+              {/* <AddButton title="Submit" onPress={this.submitInformation} /> */}
             </ScrollView>
             <PawIcon />
           </View>

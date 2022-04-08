@@ -73,7 +73,7 @@ class AddPetScreen extends React.Component {
 
       if(this.state.feedNumber != "")
       {
-        if(parseInt(this.state.feedNumber) < 4 && parseInt(this.state.feedNumber) > 0)
+        if(parseFloat(this.state.feedNumber) < 3 && parseFloat(this.state.feedNumber) > 0)
           isFeedAmountValid = true;
       }
 
@@ -95,9 +95,9 @@ class AddPetScreen extends React.Component {
         this.setState({feedWeightError: ""});
       }
 
-      if(!isFeedAmountValid || this.state.feedNumber == "" || parseInt(this.state.feedNumber) > 3)
+      if(!isFeedAmountValid || this.state.feedNumber == "" || parseDouble(this.state.feedNumber) > 2)
       {
-        this.setState({feedNumberError: "Max number of feeding times is 3"});
+        this.setState({feedNumberError: "Max amount of food is 2 cups"});
       }
       else
       {
@@ -147,8 +147,9 @@ class AddPetScreen extends React.Component {
           petID,
           JSON.stringify(petObject),
         );
+
+        this.props.navigation.navigate('CreateAccount')
       }
-      //this.props.navigation.navigate('CreateSchedule');
     }
 
     feedNameValidator()
@@ -232,7 +233,7 @@ class AddPetScreen extends React.Component {
               <Text style={externalStyle.extraText}>Note: Pet's Weight is in pounds</Text>
               <Text style={{alignSelf: 'center', color: 'red'}}>{this.state.feedWeightError}</Text>
 
-              <Text style={externalStyle.extraText}>How Many Times To Feed:</Text>
+              <Text style={externalStyle.extraText}>How Much Food To Feed:</Text>
               <TextInput
                 value={this.state.feedNumber}
                 numericvalue

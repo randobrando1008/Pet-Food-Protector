@@ -69,7 +69,7 @@ class AddPetScreen extends React.Component {
         if(parseInt(this.state.feedWeight) < 351 && parseInt(this.state.feedWeight) > 0)
           isWeightValid = true;
       }
-
+      console.log(this.state.feedNumber);
       if(this.state.feedNumber != "")
       {
         if(parseFloat(this.state.feedNumber) < 2.1 && parseFloat(this.state.feedNumber) > 0)
@@ -127,8 +127,8 @@ class AddPetScreen extends React.Component {
         await AsyncStorage.getItem(userID)
           .then(req => JSON.parse(req))
           .then(json => {
-            console.log(json.petID);
-            if(json.petID != '')
+            console.log("PetID: ", json.petID);
+            if(json.petID != '' && json.petID != undefined)
             {
               var petIDStore = JSON.parse(json.petID);
               for(var i = 0; i < petIDStore.length; i++)
@@ -163,7 +163,7 @@ class AddPetScreen extends React.Component {
         );
 
         quantitySent = this.state.timesNumber;
-        this.props.navigation.navigate('DatePickerScreen')
+        this.props.navigation.navigate('DatePickerScreen');
       }
     }
 

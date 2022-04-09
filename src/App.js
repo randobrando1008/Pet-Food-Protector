@@ -73,11 +73,11 @@ class App extends React.Component {
             name="Setting"
             component={SettingScreen}
           />
-          {/* <Stack.Screen
+          <Stack.Screen
             options={{headerShown:false}}
             name="Bluetooth"
             component={Bluetooth}
-          /> */}
+          />
           <Stack.Screen
             options={{headerShown:false}}
             name="Quantity"

@@ -44,6 +44,7 @@ class SettingScreen extends React.Component {
   }
 
   componentDidMount = () => {
+    console.log(this.userID);
     AsyncStorage.getItem(userID, (err, result) => {
       var parsedResults = JSON.parse(result);
       console.log(parsedResults);

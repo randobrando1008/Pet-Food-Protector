@@ -23,35 +23,9 @@ import { format } from "date-fns";
 
 import externalStyle from '../styles/externalStyle';
 import PawIcon from '../styles/PawIcon';
-import { quantitySent, pagePassDate } from './QuantityScreen';
+import { quantitySent } from './AddPetScreen';
+import { quantitySent2 } from './ModifyPetScreen';
 
-
-// function useInput() {
-//     const [date, setDate] = useState(new Date());
-//     const [mode, setMode] = useState('date');
-//     const [show, setShow] = useState(false);
-
-//     const showMode = (currentMode) => {
-//         setShow(true);
-//         setMode(currentMode);
-//     };
-//     const showDatepicker = () => {
-//         showMode('date');
-//     };
-
-//     const onChange = (event, selectedDate) => {
-//         const currentDate = selectedDate || date
-//         setShow(Platform.OS === 'ios');
-//         setDate(currentDate);
-//     }
-//     return {
-//         date,
-//         showDatepicker,
-//         show,
-//         mode,
-//         onChange
-//     }
-// }
 
 const AddButton = ({ onPress, title}) => (
     <TouchableOpacity onPress={onPress} style={externalStyle.primaryButtonContainer}>
@@ -100,22 +74,21 @@ class DatePickerScreen extends React.Component {
         this.hideDatePicker();
     }
 
-    returnPage = (pagePassDate) => {
-        if (pagePassDate == 'AddPet')
+    render() {
+        var myLoop = [];
+        var finalQuantity;
+        if(this.props.route.name == "AddPet")
         {
-            return <AddButton title="Submit" onPress={() => this.props.navigation.navigate('AddPet')} />
+            console.log("quantity sent: " + quantitySent);
+            finalQuantity = quantitySent;
         }
         else
         {
-            return <AddButton title="Submit" onPress={() => this.props.navigation.navigate('ModifyPet')} />
+            console.log("quantity2 sent: " + quantitySent2);
+            finalQuantity = quantitySent2;
         }
-    }
-
-    // const input = useInput(new Date())
-    // const input2 = useInput(new Date())
-    render() {
-        var myLoop = [];
-        for(let i = 0; i < quantitySent; ++i){
+        console.log("final quantity sent: " + finalQuantity);
+        for(let i = 0; i < finalQuantity; ++i){
             myLoop.push(
                 <View key={i}>
                     <DateTimePicker
@@ -124,11 +97,8 @@ class DatePickerScreen extends React.Component {
                     onConfirm={this.handleConfirm}
                     onCancel={this.hideDatePicker}
                     />
-                    <View style={{//width: 265,
-                        // height: '25%',
-                        justifyContent: 'center',
-                        alignSelf: "center",
-                        /*flexWrap:'wrap'*/}}>
+                    <View style={{ justifyContent: 'center',
+                        alignSelf: "center"}}>
                         <Text style={externalStyle.extraText}>Chanage Schedule</Text>
                         <TouchableOpacity
                             style={{ backgroundColor:"#FFFFFF00", padding: 1}}
@@ -156,37 +126,9 @@ class DatePickerScreen extends React.Component {
             </View>
             <ScrollView style={externalStyle.scrollView}>
                 {myLoop}
-
-                {this.returnPage(pagePassDate)}
+                <AddButton title="Submit" onPress={() => this.props.navigation.navigate('CreateSchedule')} />
             </ScrollView>
             <PawIcon />
-            {/* <Button
-                onPress={input.showDatepicker}
-                title={input.date.toLocaleDateString()} />
-                {input.show && (
-                    <DateTimePicker
-                    testID="dateTimePicker1"
-                    value={input.date}
-                    mode={input.mode}
-                    is24Hour={true}
-                    display="default"
-                    onChange={input.onChange}
-                    />
-                )}
-
-            <Button              
-                onPress={input2.showDatepicker}
-                title={input2.date.toLocaleDateString()} />
-                {input2.show && (
-                    <DateTimePicker
-                    testID="dateTimePicker2"
-                    value={input2.date}
-                    mode={input2.mode}
-                    is24Hour={true}
-                    display="default"
-                    onChange={input2.onChange}
-                    />
-                )}*/}
         </View>
     );}
 }

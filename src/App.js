@@ -29,7 +29,6 @@ import ModifyPetScreen from './pages/ModifyPetScreen';
 import SettingScreen from './pages/SettingScreen';
 import BluetoothRead from './pages/BluetoothRead';
 import BluetoothWrite from './pages/BluetoothWrite';
-import QuantityScreen from './pages/QuantityScreen';
 import DatePickerScreen from './pages/DatePickerScreen';
 
 class App extends React.Component {
@@ -83,11 +82,6 @@ class App extends React.Component {
             options={{headerShown:true}}
             name="BluetoothWrite"
             component={BluetoothWrite}
-          />
-          <Stack.Screen
-            options={{headerShown:false}}
-            name="Quantity"
-            component={QuantityScreen}
           />
           <Stack.Screen
             options={{headerShown:false}}

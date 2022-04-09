@@ -47,8 +47,7 @@ class AddPetScreen extends React.Component {
           feedNumber: '',
           feedNumberError: '',
           feedTime: '',
-          feedTimeError: '',
-          timesNumber: ''
+          feedTimeError: ''
 
         }
     }
@@ -100,7 +99,7 @@ class AddPetScreen extends React.Component {
         this.setState({feedWeightError: ""});
       }
 
-      if(!isFeedAmountValid || this.state.feedNumber == "" || this.state.feedTime > 2)
+      if(!isFeedAmountValid || this.state.feedNumber == "" || this.state.feedNumber > 2)
       {
         this.setState({feedNumberError: "Max amount of food is 2 cups"});
       }
@@ -162,7 +161,7 @@ class AddPetScreen extends React.Component {
           JSON.stringify(petObject),
         );
 
-        quantitySent = this.state.timesNumber;
+        quantitySent = this.state.feedTime;
         this.props.navigation.navigate('DatePickerScreen');
       }
     }
@@ -220,7 +219,6 @@ class AddPetScreen extends React.Component {
 
         return (
           <View style={{flex: 1,backgroundColor: '#fff'}}>
-            {/* <HeaderPrototype text="Add A Pet" /> */}
             <View style={externalStyle.header}>
               <TouchableOpacity
                 style={{ backgroundColor:"#FFFFFF00", flexDirection: "row", flex: 1, padding: 2}}
@@ -290,15 +288,13 @@ class AddPetScreen extends React.Component {
                     justifyContent: 'center',
                     alignSelf: "center",
                     flexWrap:'wrap'}}>
-                <Text style={externalStyle.extraText}>What Time To Feed?</Text>
+                <Text style={externalStyle.extraText}>What Times To Feed?</Text>
                 <TouchableOpacity
                   style={externalStyle.primaryButtonContainer}
                   onPress={() => this.submitInformation()}>
-                  {/* <Icon name="calendar" size={18} color="#000000CC" backgroundColor="#FFFFFF00"/> */}
                   <Text style={externalStyle.primaryButtonText}>Pick Times</Text>
                 </TouchableOpacity>
               </View>
-              {/* <AddButton title="Submit" onPress={this.submitInformation} /> */}
             </ScrollView>
             <PawIcon />
           </View>

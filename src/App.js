@@ -27,7 +27,8 @@ import CreateScheduleScreen from './pages/CreateScheduleScreen';
 import AddPetScreen from './pages/AddPetScreen';
 import ModifyPetScreen from './pages/ModifyPetScreen';
 import SettingScreen from './pages/SettingScreen';
-import Bluetooth from './pages/Bluetooth';
+import BluetoothRead from './pages/BluetoothRead';
+import BluetoothWrite from './pages/BluetoothWrite';
 import QuantityScreen from './pages/QuantityScreen';
 import DatePickerScreen from './pages/DatePickerScreen';
 
@@ -74,9 +75,14 @@ class App extends React.Component {
             component={SettingScreen}
           />
           <Stack.Screen
-            options={{headerShown:false}}
-            name="Bluetooth"
-            component={Bluetooth}
+            options={{headerShown:true}}
+            name="BluetoothRead"
+            component={BluetoothRead}
+          />
+          <Stack.Screen
+            options={{headerShown:true}}
+            name="BluetoothWrite"
+            component={BluetoothWrite}
           />
           <Stack.Screen
             options={{headerShown:false}}
@@ -85,7 +91,7 @@ class App extends React.Component {
           />
           <Stack.Screen
             options={{headerShown:false}}
-            name="DatePicker"
+            name="DatePickerScreen"
             component={DatePickerScreen}
           />
         </Stack.Navigator>

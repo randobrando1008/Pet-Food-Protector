@@ -62,12 +62,12 @@ class CreateScheduleScreen extends React.Component {
   }
 
   componentDidMount = () => {
-    AsyncStorage.getAllKeys((err, result) => {
-      console.log(result);
-      // AsyncStorage.getItem(result[1], (err, result) => {
-      //   console.log(result.petID);
-      // });
-    });
+    // AsyncStorage.getAllKeys((err, result) => {
+    //   console.log(result);
+    //   // AsyncStorage.getItem(result[1], (err, result) => {
+    //   //   console.log(result.petID);
+    //   // });
+    // });
   }
 
   render() {

@@ -107,27 +107,6 @@ const App = () => {
         .then(() => {
           console.log('Connected to ' + peripheral.id, peripheral);
 
-          // BleManager.retrieveServices(peripheral.id).then((peripheralInfo) => {
-          //   console.log(peripheralInfo);
-          //   var service = '49535343-fe7d-4ae5-8fa9-9fafd205e455';
-          //   var characteristic = '49535343-1e4d-4bd9-ba61-23c647249616';
-          //   setTimeout(() => {
-          //     BleManager.startNotification(peripheral.id, service, characteristic).then(() => {
-          //       console.log('Started notification on ' + peripheral.id);
-          //       setTimeout(() => {
-          //         BleManager.write(peripheral.id, service, characteristic, convertedWriteData).then(() => {
-          //           console.log("Write: " + convertedWriteData);
-          //         })
-          //         .catch((error) => {
-          //           console.log(error);
-          //         });
-          //       }, 500);
-          //     }).catch((error) => {
-          //       console.log('Notification error', error);
-          //     });
-          //   }, 200);
-          // });
-
           // retrieve peripheral services info
           BleManager.retrieveServices(peripheral.id).then((peripheralInfo) => {
             console.log('Retrieved peripheral services', peripheralInfo);
@@ -152,21 +131,7 @@ const App = () => {
               );
             });
 
-            // BleManager.read(peripheral.id, serviceUUID, charasteristicUUID)
-            //   .then((res) => {
-            //     console.log('read response', res);
-            //     if (res) {
-            //       const buffer = Buffer.from(res);
-            //       const data = buffer.toString();
-            //       console.log('data', data);
-            //     }
-            //   })
-            //   .catch((error) => {
-            //     console.log('read err', error);
-            //     // alert(error);
-            //   });
-
-
+            BleManager.disconnect(peripheral.id);
           });
         })
         .catch((error) => {
@@ -212,15 +177,18 @@ const App = () => {
 
   const renderItem = (item) => {
     const color = item.connected ? 'green' : '#fff';
-    return (
-      <TouchableHighlight onPress={() => testPeripheral(item) }>
-        <View style={[styles.row, {backgroundColor: color}]}>
-          <Text style={{fontSize: 12, textAlign: 'center', color: '#333333', padding: 10}}>{item.name}</Text>
-          <Text style={{fontSize: 10, textAlign: 'center', color: '#333333', padding: 2}}>RSSI: {item.rssi}</Text>
-          <Text style={{fontSize: 8, textAlign: 'center', color: '#333333', padding: 2, paddingBottom: 20}}>{item.id}</Text>
-        </View>
-      </TouchableHighlight>
-    );
+    if(item.name == "RN4870-C6FC" || item.id == "04:91:62:94:C6:FC")
+    {
+      return (
+        <TouchableHighlight onPress={() => testPeripheral(item) }>
+          <View style={[styles.row, {backgroundColor: color}]}>
+            <Text style={{fontSize: 12, textAlign: 'center', color: '#333333', padding: 10}}>{item.name}</Text>
+            <Text style={{fontSize: 10, textAlign: 'center', color: '#333333', padding: 2}}>RSSI: {item.rssi}</Text>
+            <Text style={{fontSize: 8, textAlign: 'center', color: '#333333', padding: 2, paddingBottom: 20}}>{item.id}</Text>
+          </View>
+        </TouchableHighlight>
+      );
+    }
   }
 
   return (

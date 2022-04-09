@@ -264,7 +264,7 @@ class AddPetScreen extends React.Component {
               <Text style={externalStyle.extraText}>How Much Food To Feed:</Text>
               <TextInput
                 value={this.state.feedNumber}
-                numericvalue
+                autoCapitalize="none"
                 keyboardType={'numeric'}
                 onChangeText={feedNumber => this.setState({ feedNumber })}
                 placeholder={'Quantity'}

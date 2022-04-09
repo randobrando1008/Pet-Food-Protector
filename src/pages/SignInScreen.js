@@ -150,10 +150,6 @@ class SignInScreen extends React.Component {
     }
   }
 
-  componentDidMount = () => {
-    console.log(userID);
-  }
-
   render() {
     return (
       <View style={{flex: 1,backgroundColor: '#fff'}}>

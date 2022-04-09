@@ -100,7 +100,7 @@ class AddPetScreen extends React.Component {
         this.setState({feedWeightError: ""});
       }
 
-      if(!isFeedAmountValid || this.state.feedNumber == "" || this.state.feedTime > 2)
+      if(!isFeedAmountValid || this.state.feedNumber == "" || this.state.feedNumber > 2)
       {
         this.setState({feedNumberError: "Max amount of food is 2 cups"});
       }

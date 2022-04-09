@@ -50,6 +50,7 @@ class SettingScreen extends React.Component {
 
   submit()
   {
+    console.log("Submit Function");
     var isfNameValid = false;
     var islNameValid = false;
     var isValidEmail = false;
@@ -112,38 +113,21 @@ class SettingScreen extends React.Component {
       this.setState({passwordError: ""});
     }
 
-    if(this.state.cPassword == "")
+    if(isValidEmail && isValidPassword && isfNameValid && islNameValid)
     {
-      this.setState({cPasswordError: "Confirm Password cannot be empty"});
-    }
-    else if(this.state.cPassword != this.state.password)
-    {
-      this.setState({cPasswordError: "Passwords Do Not Match"});
-    }
-    else
-    {
-      this.setState({cPasswordError: ""});
-      cPasswordMatch = true;
-    }
-
-    if(isValidEmail && isValidPassword && cPasswordMatch && isfNameValid && islNameValid)
-    {
-      var id = uuidv4();
-
       let object = {
         firstname: this.state.fName,
         lastname: this.state.lName,
         email: this.state.email,
-        password: this.state.password,
-        petID: ""
+        password: this.state.password
       };
 
-      AsyncStorage.setItem(
-        id,
+      AsyncStorage.mergeItem(
+        userID,
         JSON.stringify(object),
       );
 
-      this.props.navigation.navigate('SignIn');
+      this.props.navigation.navigate('CreateSchedule');
     }
   }
 
@@ -198,6 +182,7 @@ class SettingScreen extends React.Component {
   componentDidMount = () => {
     AsyncStorage.getItem(userID, (err, result) => {
       var parsedResults = JSON.parse(result);
+      console.log(parsedResults);
       this.setState({fName: parsedResults.firstname});
       this.setState({lName: parsedResults.lastname});
       this.setState({email: parsedResults.email});

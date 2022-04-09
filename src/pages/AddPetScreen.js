@@ -91,7 +91,7 @@ class AddPetScreen extends React.Component {
         this.setState({feedNameError: ""});
       }
 
-      if(!isWeightValid || this.state.feedWeight == "" || this.state.feedTime > 350)
+      if(!isWeightValid || this.state.feedWeight == "" || parseInt(this.state.feedWeight) > 350)
       {
         this.setState({feedWeightError: "Max weight 350"});
       }
@@ -181,6 +181,7 @@ class AddPetScreen extends React.Component {
 
     feedWeightValidator()
     {
+      console.log(this.state.feedWeight);
       if(this.state.feedWeight=="")
       {
         this.setState({feedWeightError: "Pet's Weight cannot be empty"});
@@ -292,7 +293,7 @@ class AddPetScreen extends React.Component {
                 <Text style={externalStyle.extraText}>What Time To Feed?</Text>
                 <TouchableOpacity
                   style={externalStyle.primaryButtonContainer}
-                  onPress={() => {this.submitInformation}}>
+                  onPress={() => this.submitInformation()}>
                   {/* <Icon name="calendar" size={18} color="#000000CC" backgroundColor="#FFFFFF00"/> */}
                   <Text style={externalStyle.primaryButtonText}>Pick Times</Text>
                 </TouchableOpacity>

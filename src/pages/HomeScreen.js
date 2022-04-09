@@ -97,7 +97,7 @@ class HomeScreen extends React.Component {
         <View style = {externalStyle.lineStyle} />
         <SignInButton title="Sign In" onPress={() => this.props.navigation.navigate('SignIn')} />
         <CreateAccountButton title="Create an Account" onPress={() => this.props.navigation.navigate('CreateAccount')} />
-        <Button title="Bluetooth" onPress={() => this.props.navigation.navigate('Bluetooth')} />
+        <Button title="Bluetooth" onPress={() => this.props.navigation.navigate('BluetoothRead')} />
         <PawIcon />
       </View>
     );

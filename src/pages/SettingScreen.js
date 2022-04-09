@@ -36,17 +36,168 @@ class SettingScreen extends React.Component {
       super(props);
       this.state = {
         fName: '',
+        fNameError: '',
         lName: '',
+        lNameError: '',
         email: '',
+        emailError: '',
         password: '',
-        cPassword: ''
+        passwordError: '',
+        cPassword: '',
+        cPasswordError: '',
       }
+  }
+
+  submit()
+  {
+    var isfNameValid = false;
+    var islNameValid = false;
+    var isValidEmail = false;
+    var isValidPassword = false;
+    var cPasswordMatch = false;
+
+    if(this.state.fName != "")
+    {
+      isfNameValid = true;
+    }
+
+    if(this.state.lName != "")
+    {
+      islNameValid = true;
+    }
+
+    if(this.state.email.includes("@") && this.state.email.includes("."))
+    {
+      isValidEmail = true;
+    }
+
+    if(this.state.password != "")
+    {
+      isValidPassword = true;
+    }
+
+    if(!isfNameValid || this.state.fName == "")
+    {
+      this.setState({fNameError: "First Name is not valid"});
+    }
+    else
+    {
+      this.setState({fNameError: ""});
+    }
+
+    if(!islNameValid || this.state.lName == "")
+    {
+      this.setState({lNameError: "Last Name is not valid"});
+    }
+    else
+    {
+      this.setState({lNameError: ""});
+    }
+
+    if(!isValidEmail || this.state.email == "")
+    {
+      this.setState({emailError: "Email is not valid"});
+    }
+    else
+    {
+      this.setState({emailError: ""});
+    }
+
+    if(!isValidPassword || this.state.password == "")
+    {
+      this.setState({passwordError: "Password is not valid"});
+    }
+    else
+    {
+      this.setState({passwordError: ""});
+    }
+
+    if(this.state.cPassword == "")
+    {
+      this.setState({cPasswordError: "Confirm Password cannot be empty"});
+    }
+    else if(this.state.cPassword != this.state.password)
+    {
+      this.setState({cPasswordError: "Passwords Do Not Match"});
+    }
+    else
+    {
+      this.setState({cPasswordError: ""});
+      cPasswordMatch = true;
+    }
+
+    if(isValidEmail && isValidPassword && cPasswordMatch && isfNameValid && islNameValid)
+    {
+      var id = uuidv4();
+
+      let object = {
+        firstname: this.state.fName,
+        lastname: this.state.lName,
+        email: this.state.email,
+        password: this.state.password,
+        petID: ""
+      };
+
+      AsyncStorage.setItem(
+        id,
+        JSON.stringify(object),
+      );
+
+      this.props.navigation.navigate('SignIn');
+    }
+  }
+
+  fNameValidator()
+  {
+    if(this.state.fName=="")
+    {
+      this.setState({fNameError: "First Name cannot be empty"});
+    }
+    else
+    {
+      this.setState({fNameError: ""});
+    }
+  }
+
+  lNameValidator()
+  {
+    if(this.state.lName=="")
+    {
+      this.setState({lNameError: "Last Name cannot be empty"});
+    }
+    else
+    {
+      this.setState({lNameError: ""});
+    }
+  }
+
+  emailValidator()
+  {
+    if(this.state.email=="")
+    {
+      this.setState({emailError: "Email cannot be empty"});
+    }
+    else
+    {
+      this.setState({emailError: ""});
+    }
+  }
+
+  passwordValidator()
+  {
+    if(this.state.password=="")
+    {
+      this.setState({passwordError: "Password cannot be empty"});
+    }
+    else
+    {
+      this.setState({passwordError: ""});
+    }
   }
 
   componentDidMount = () => {
     AsyncStorage.getItem(userID, (err, result) => {
       var parsedResults = JSON.parse(result);
-      console.log(parsedResults);
       this.setState({fName: parsedResults.firstname});
       this.setState({lName: parsedResults.lastname});
       this.setState({email: parsedResults.email});
@@ -67,43 +218,52 @@ class SettingScreen extends React.Component {
         </View>
 
         <ScrollView style={externalStyle.scrollView}>
-        <Text style={externalStyle.extraText}>First Name:</Text>
-            <TextInput
-                value={this.state.fName}
-                style={externalStyle.inputStyle}
-                placeholder="Type in your First Name"
-                onChangeText={ (value) => this.setState({fName: value}) }
-            />
-            <Text style={externalStyle.extraText}>Last Name:</Text>
-            <TextInput
-                value={this.state.lName}
-                style={externalStyle.inputStyle}
-                placeholder="Type in your Last Name"
-                onChangeText={ (value) => this.setState({lName: value}) }
-            />
-            <Text style={externalStyle.extraText}>Email:</Text>
-            <TextInput
-                value={this.state.email}
-                style={externalStyle.inputStyle}
-                placeholder="Type in your Email"
-                onChangeText={ (value) => this.setState({email: value}) }
-            />
-            <Text style={externalStyle.extraText}>Password:</Text>
-            <TextInput
-                value={this.state.password}
-                style={externalStyle.inputStyle}
-                placeholder="Type in your Password"
-                onChangeText={ (value) => this.setState({password: value}) }
-            />
-            <Text style={externalStyle.extraText}>Confirm Password:</Text>
-            <TextInput
-                value={this.state.cPassword}
-                style={externalStyle.inputStyle}
-                placeholder="Retype in your Password"
-                onChangeText={ (value) => this.setState({cPassword: value}) }
-            />
-          <MakeChangesButton title="Submit Changes" />
-          <PawIcon />
+          <Text style={externalStyle.extraText}>First Name:</Text>
+              <TextInput
+                  value={this.state.fName}
+                  style={externalStyle.inputStyle}
+                  placeholder="Type in your First Name"
+                  keyboardType="default"
+                  onBlur={()=>this.fNameValidator()}
+                  onChangeText={ (value) => this.setState({fName: value}) }
+              />
+              <Text style={{alignSelf: 'center', color: 'red'}}>{this.state.fNameError}</Text>
+
+              <Text style={externalStyle.extraText}>Last Name:</Text>
+              <TextInput
+                  value={this.state.lName}
+                  style={externalStyle.inputStyle}
+                  placeholder="Type in your Last Name"
+                  keyboardType="default"
+                  onBlur={()=>this.lNameValidator()}
+                  onChangeText={ (value) => this.setState({lName: value}) }
+              />
+              <Text style={{alignSelf: 'center', color: 'red'}}>{this.state.lNameError}</Text>
+
+              <Text style={externalStyle.extraText}>Email:</Text>
+              <TextInput
+                  value={this.state.email}
+                  style={externalStyle.inputStyle}
+                  placeholder="Type in your Email"
+                  keyboardType="email-address"
+                  onBlur={()=>this.emailValidator()}
+                  onChangeText={ (value) => this.setState({email: value}) }
+              />
+              <Text style={{alignSelf: 'center', color: 'red'}}>{this.state.emailError}</Text>
+
+              <Text style={externalStyle.extraText}>Password:</Text>
+              <TextInput
+                  secureTextEntry={true}
+                  value={this.state.password}
+                  style={externalStyle.inputStyle}
+                  placeholder="Type in your Password"
+                  keyboardType="default"
+                  onBlur={()=>this.passwordValidator()}
+                  onChangeText={ (value) => this.setState({password: value}) }
+              />
+              <Text style={{alignSelf: 'center', color: 'red'}}>{this.state.passwordError}</Text>
+            <MakeChangesButton title="Submit Changes" onPress={() => this.submit()} />
+            <PawIcon />
         </ScrollView>
       </View>
     );

@@ -69,7 +69,7 @@ class AddPetScreen extends React.Component {
         if(parseInt(this.state.feedWeight) < 351 && parseInt(this.state.feedWeight) > 0)
           isWeightValid = true;
       }
-
+      console.log(this.state.feedNumber);
       if(this.state.feedNumber != "")
       {
         if(parseFloat(this.state.feedNumber) < 2.1 && parseFloat(this.state.feedNumber) > 0)
@@ -91,7 +91,7 @@ class AddPetScreen extends React.Component {
         this.setState({feedNameError: ""});
       }
 
-      if(!isWeightValid || this.state.feedWeight == "" || this.state.feedTime > 350)
+      if(!isWeightValid || this.state.feedWeight == "" || parseInt(this.state.feedWeight) > 350)
       {
         this.setState({feedWeightError: "Max weight 350"});
       }
@@ -127,8 +127,8 @@ class AddPetScreen extends React.Component {
         await AsyncStorage.getItem(userID)
           .then(req => JSON.parse(req))
           .then(json => {
-            console.log(json.petID);
-            if(json.petID != '')
+            console.log("PetID: ", json.petID);
+            if(json.petID != '' && json.petID != undefined)
             {
               var petIDStore = JSON.parse(json.petID);
               for(var i = 0; i < petIDStore.length; i++)
@@ -163,7 +163,7 @@ class AddPetScreen extends React.Component {
         );
 
         quantitySent = this.state.timesNumber;
-        this.props.navigation.navigate('DatePickerScreen')
+        this.props.navigation.navigate('DatePickerScreen');
       }
     }
 
@@ -181,6 +181,7 @@ class AddPetScreen extends React.Component {
 
     feedWeightValidator()
     {
+      console.log(this.state.feedWeight);
       if(this.state.feedWeight=="")
       {
         this.setState({feedWeightError: "Pet's Weight cannot be empty"});
@@ -263,7 +264,7 @@ class AddPetScreen extends React.Component {
               <Text style={externalStyle.extraText}>How Much Food To Feed:</Text>
               <TextInput
                 value={this.state.feedNumber}
-                numericvalue
+                autoCapitalize="none"
                 keyboardType={'numeric'}
                 onChangeText={feedNumber => this.setState({ feedNumber })}
                 placeholder={'Quantity'}
@@ -292,7 +293,7 @@ class AddPetScreen extends React.Component {
                 <Text style={externalStyle.extraText}>What Time To Feed?</Text>
                 <TouchableOpacity
                   style={externalStyle.primaryButtonContainer}
-                  onPress={() => {this.submitInformation}}>
+                  onPress={() => this.submitInformation()}>
                   {/* <Icon name="calendar" size={18} color="#000000CC" backgroundColor="#FFFFFF00"/> */}
                   <Text style={externalStyle.primaryButtonText}>Pick Times</Text>
                 </TouchableOpacity>

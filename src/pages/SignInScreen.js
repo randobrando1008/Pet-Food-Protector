@@ -21,7 +21,7 @@ import { format } from "date-fns";
 import externalStyle from '../styles/externalStyle';
 import PawIcon from '../styles/PawIcon';
 
-export var userID;
+export let userID = undefined;
 
 const SignInButton = ({ onPress, title}) => (
     <TouchableOpacity onPress={onPress} style={externalStyle.primaryButtonContainer}>
@@ -41,7 +41,7 @@ class SignInScreen extends React.Component {
           accountFound: false
       }
   }
-  submit()
+  submit = async () =>
   {
     let isValidEmail = false;
     let isValidPassword = false;
@@ -77,12 +77,15 @@ class SignInScreen extends React.Component {
       this.setState({passwordError: ""});
     }
 
-    AsyncStorage.getAllKeys((err, result) => {
+    await AsyncStorage.getAllKeys((err, result) => {
       for(var i = 0; i < result.length; i++)
       {
-        var user_id = result[i];
+        let user_id = "";
+        user_id = result[i];
         let record = i;
         let length = result.length;
+        emailCorrect = false;
+        passwordCorrect = false;
         AsyncStorage.getItem(result[i], (err, result) => {
           var parsedResults = JSON.parse(result);
           if(parsedResults.email == this.state.email)
@@ -91,6 +94,7 @@ class SignInScreen extends React.Component {
             if(parsedResults.password == this.state.password)
             {
               passwordCorrect = true;
+              userID = "";
               userID = user_id;
             }
           }
@@ -99,21 +103,11 @@ class SignInScreen extends React.Component {
           {
             this.state.accountFound = true;
             this.props.navigation.navigate('CreateSchedule');
-          }
 
-          console.log(record);
-          console.log(length);
-          console.log(emailCorrect);
-          console.log(passwordCorrect);
-          console.log(this.state.accountFound);
+          }
 
           if((record == (length-1)) && (!emailCorrect || !passwordCorrect) && (!this.state.accountFound) && this.state.password != "")
           {
-            console.log(record);
-            console.log(length);
-            console.log(emailCorrect);
-            console.log(passwordCorrect);
-            console.log(this.state.accountFound);
             this.setState({passwordError: "Email/Password is incorrect"});
           }
           else

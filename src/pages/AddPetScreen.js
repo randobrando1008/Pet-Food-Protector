@@ -25,6 +25,7 @@ import PawIcon from '../styles/PawIcon';
 import CreateScheduleScreen from './CreateScheduleScreen'
 
 export var quantitySent;
+export var pagePass
 
 import { userID } from './SignInScreen.js';
 import { v4 as uuidv4 } from 'uuid';
@@ -161,6 +162,7 @@ class AddPetScreen extends React.Component {
           JSON.stringify(petObject),
         );
 
+        pagePass = this.props.route.name;
         quantitySent = this.state.feedTime;
         this.props.navigation.navigate('DatePickerScreen');
       }

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, Component} from 'react';
 import type {Node} from 'react';
 import {
   SafeAreaView,
@@ -19,6 +19,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { format } from "date-fns";
+import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 
 export var quantitySent2;
 
@@ -288,10 +289,16 @@ class HomeScreen extends React.Component {
   }
 }
 
+// 4/7/22, Dispensed: 00g
 function SettingsScreen() {
+  var tableHead = ['Head', 'Head2', 'Head3', 'Head4'];
+  var tableData = ['Data', 'Data2', 'Data3', 'Data4'];
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Analytics!</Text>
+      <Table borderStyle={{borderWidth: 2, borderColor: '#00A5FF'}}>
+        <Row data={tableHead} style={styles.head} textStyle={styles.text}/>
+        <Row data={tableData} textStyle={styles.text}/>
+      </Table>
     </View>
   );
 }
@@ -330,3 +337,9 @@ const AddButton = ({ onPress, title}) => (
       <Text style={externalStyle.primaryButtonText}>{title}</Text>
     </TouchableOpacity>
 );
+
+const styles = StyleSheet.create({
+  container: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff' },
+  head: { height: 40,  width: '80%', boarderRadius:20, backgroundColor: '#ffffff' },
+  text: { margin: 6, color: '#C4C4C4' }
+});

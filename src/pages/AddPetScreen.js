@@ -120,7 +120,6 @@ class AddPetScreen extends React.Component {
 
       if(isNameValid && isWeightValid && isFeedAmountValid && isFeedTimeValid)
       {
-
         var petID = uuidv4();
         var petIDArrayStore = [];
 

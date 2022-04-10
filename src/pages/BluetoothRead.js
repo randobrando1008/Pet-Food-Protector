@@ -64,7 +64,7 @@ const App = () => {
   }
 
   const handleUpdateValueForCharacteristic = (data) => {
-    console.log('Received data from ' + data.peripheral + ' characteristic ' + data.characteristic, data.value);
+    // console.log('Received data from ' + data.peripheral + ' characteristic ' + data.characteristic, data.value);
   }
 
   const retrieveConnected = () => {
@@ -97,8 +97,8 @@ const App = () => {
 
   const testPeripheral = (peripheral) => {
     var readDataValues = "";
-    var writeData = "100";
-    var convertedWriteData = stringToBytes(writeData);
+    var readData = true;
+    var stopping = true;
     if (peripheral){
       if (peripheral.connected){
         BleManager.disconnect(peripheral.id);
@@ -123,15 +123,31 @@ const App = () => {
               bleManagerEmitter.addListener(
                 "BleManagerDidUpdateValueForCharacteristic",
                 ({ value, peripheral, charasteristicUUID, serviceUUID }) => {
-                  // Convert bytes array to string
-                  const data = bytesToString(value);
-                  console.log(data);
-                  console.log(`Recieved ${data} for characteristic ${charasteristicUUID}`);
+                  if(readData)
+                  {
+                    // Convert bytes array to string
+                    const data = bytesToString(value);
+                    // console.log(data);
+                    // console.log(`Recieved ${data} for characteristic ${charasteristicUUID}`);
+                    if(data != "")
+                    {
+                      console.log(data);
+                      readData = false;
+                    }
+                  }
+                  else
+                  {
+                    if(stopping)
+                    {
+                      BleManager.stopNotification(peripheral.id, serviceUUID, charasteristicUUID);
+                      BleManager.disconnect(peripheral.id);
+                      stopping = false;
+                    }
+                    return;
+                  }
                 }
               );
             });
-
-            BleManager.disconnect(peripheral.id);
           });
         })
         .catch((error) => {

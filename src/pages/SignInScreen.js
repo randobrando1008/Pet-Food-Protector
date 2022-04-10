@@ -103,7 +103,6 @@ class SignInScreen extends React.Component {
           {
             this.state.accountFound = true;
             this.props.navigation.navigate('CreateSchedule');
-
           }
 
           if((record == (length-1)) && (!emailCorrect || !passwordCorrect) && (!this.state.accountFound) && this.state.password != "")
@@ -118,11 +117,6 @@ class SignInScreen extends React.Component {
             }
           }
         });
-        
-        // if(this.props.route.name != "SignIn")
-        // {
-        //   break;
-        // }
       }
     });
   }

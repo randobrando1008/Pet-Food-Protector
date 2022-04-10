@@ -19,6 +19,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { format } from "date-fns";
+import { petID } from "./CreateScheduleScreen.js";
 
 export var quantitySent2;
 
@@ -201,6 +202,10 @@ class HomeScreen extends React.Component {
     {
       this.setState({feedTimeError: ""});
     }
+  }
+
+  componentDidMount = () => {
+    console.log(petID);
   }
 
   render() {

@@ -12,7 +12,9 @@ import {
   Pressable,
   AsyncStorage,
   TextInput,
-  Animated
+  Animated,
+  TouchableHighlight,
+  FlatList
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -24,6 +26,8 @@ import { format } from "date-fns";
 import externalStyle from '../styles/externalStyle';
 import PawIcon from '../styles/PawIcon';
 import { userID } from './SignInScreen.js';
+
+export var petID = undefined;
 
 const SignInButton = ({ onPress, title}) => (
     <TouchableOpacity onPress={onPress} style={externalStyle.primaryButtonContainer}>
@@ -37,7 +41,9 @@ class CreateScheduleScreen extends React.Component {
       super(props);
       this.state = {
           email: '',
-          password: ''
+          password: '',
+          petIDArrayStoring: [],
+          storedValues: []
       }
       this.index = 0;
       this.animatedValue = new Animated.Value(0);
@@ -61,13 +67,81 @@ class CreateScheduleScreen extends React.Component {
     });
   }
 
-  componentDidMount = () => {
+  renderItem = (item) => {
+    console.log(item);
+    // return (
+      // <TouchableHighlight>
+      //   <View style={[styles.row, {backgroundColor: color}]}>
+      //     <Text style={{fontSize: 12, textAlign: 'center', color: '#333333', padding: 10}}>{item.name}</Text>
+      //     <Text style={{fontSize: 10, textAlign: 'center', color: '#333333', padding: 2}}>RSSI: {item.rssi}</Text>
+      //     <Text style={{fontSize: 8, textAlign: 'center', color: '#333333', padding: 2, paddingBottom: 20}}>{item.id}</Text>
+      //   </View>
+      // </TouchableHighlight>
+    // );
+  }
+
+  sendToModify = (item) => {
+    console.log(item);
+
+    petID = "";
+    petID = item.id;
+
+    this.props.navigation.navigate('ModifyPet');
+  }
+
+  renderItem = (item) => {
+    return (
+      <TouchableHighlight onPress={() => this.sendToModify(item) }>
+        <View>
+          <Text style={{fontSize: 12, textAlign: 'center', color: '#333333', padding: 10}}>{item.name}</Text>
+          <Text style={{fontSize: 10, textAlign: 'center', color: '#333333', padding: 2}}>Weight: {item.weight}</Text>
+        </View>
+      </TouchableHighlight>
+    );
+  }
+
+  componentDidMount = async () => {
+    var setStateStoreValues = [];
     // AsyncStorage.getAllKeys((err, result) => {
     //   console.log(result);
     //   // AsyncStorage.getItem(result[1], (err, result) => {
     //   //   console.log(result.petID);
     //   // });
     // });
+
+    this.state.petIDArrayStoring = [];
+    await AsyncStorage.getItem(userID)
+      .then(req => JSON.parse(req))
+      .then(json => {
+        // console.log("PetID: ", json.petID);
+        if(json.petID != '' && json.petID != undefined)
+        {
+          var petIDStore = JSON.parse(json.petID);
+          for(var i = 0; i < petIDStore.length; i++)
+          {
+            this.state.petIDArrayStoring[i] = petIDStore[i];
+          }
+        }
+      });
+
+    for(var i = 0; i < this.state.petIDArrayStoring.length; i++)
+    {
+      await AsyncStorage.getItem(this.state.petIDArrayStoring[i])
+      .then(req => JSON.parse(req))
+      .then(json => {
+        // console.log("Name:", json.name);
+        // console.log("Weight:", json.weight);
+        let object = {
+          id: this.state.petIDArrayStoring[i],
+          name: json.name,
+          weight: json.weight
+        }
+
+        this.setState({
+          storedValues:[...this.state.storedValues, object]
+        });
+      });
+    }
   }
 
   render() {
@@ -90,10 +164,17 @@ class CreateScheduleScreen extends React.Component {
               <Icon name="plus" size={40} color="#FFFFFF"/>
             </View>
           </TouchableOpacity>
-          <ScrollView style={externalStyle.scrollView}>
-          <SignInButton title="Modify Pet" onPress={() => this.props.navigation.navigate('ModifyPet')} />
 
-          </ScrollView>
+          <FlatList
+            data={this.state.storedValues}
+            renderItem={({ item }) => this.renderItem(item) }
+            keyExtractor={item => item.id}
+          />  
+          
+          {/* <ScrollView style={externalStyle.scrollView}>
+            <SignInButton title="Modify Pet" onPress={() => this.props.navigation.navigate('ModifyPet')} />
+          </ScrollView> */}
+
           <PawIcon />
         </View>
     );

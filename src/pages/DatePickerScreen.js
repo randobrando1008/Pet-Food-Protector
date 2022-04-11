@@ -72,18 +72,13 @@ class DatePickerScreen extends React.Component {
         // this.props.state.hourTime.concat(hours);
         // this.props.state.minuteTime = minutes;
         console.log("A time has been picked: " + hours + ":" + minutes );
-        this.state.key = this.state.hour.indexOf();
+        // console.log("Index of Hour: " + this.state.hour.indexOf());
+        ++this.state.key;
         console.log("Minute Time: " + this.state.minuteTime);
         console.log("Hour Time: " + this.state.hourTime);
         this.hideDatePicker();
     }
 
-    printTime = (i) => {
-        console.log("key is: " + this.state.key);
-        console.log("i is: " + i);
-        if(this.state.key == i)
-            this.state.hourTime.length ? <Text style={externalStyle.extraText}>Time set: {this.state.hourTime[i]}:{this.state.minuteTime[i]}</Text>:null
-    }
 
     render() {
         var myLoop = [];
@@ -114,7 +109,8 @@ class DatePickerScreen extends React.Component {
                             <Icon name="calendar" size={18} color="#000000CC" backgroundColor="#FFFFFF00"/>
                         </TouchableOpacity>
                     </View>
-                    {this.printTime(i)}
+                    {i > this.state.key ? null : <Text style={externalStyle.extraText}>Time set: {this.state.hourTime[i]}:{this.state.minuteTime[i]}</Text>}
+                    {/* {this.printTime(i)} */}
                 </View>
             );
         }

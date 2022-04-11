@@ -74,7 +74,7 @@ class App extends React.Component {
             component={SettingScreen}
           />
           <Stack.Screen
-            options={{headerShown:true}}
+            options={{headerShown:false}}
             name="BluetoothRead"
             component={BluetoothRead}
           />

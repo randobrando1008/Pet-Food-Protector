@@ -17,11 +17,17 @@ import {
   PermissionsAndroid,
   FlatList,
   TouchableHighlight,
+  TouchableOpacity,
 } from 'react-native';
+
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
+
+import externalStyle from '../styles/externalStyle';
+import PawIcon from '../styles/PawIcon';
 
 import BleManager from '../node_modules/react-native-ble-manager/BleManager';
 const BleManagerModule = NativeModules.BleManager;
@@ -209,43 +215,64 @@ const App = () => {
 
   return (
     <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
+    <View style={{flex: 1,backgroundColor: '#fff'}}/*style={styles.body}*/>
+      {/* <StatusBar barStyle="dark-content" /> */}
+      <View style={externalStyle.header}>
+          <TouchableOpacity
+            style={{ backgroundColor:"#FFFFFF00", flexDirection: "row", flex: 1, padding: 2}}
+            onPress={() => this.props.navigation.goBack()}>
+            <Icon name="arrow-left" size={30} color="#000000CC" backgroundColor="#FFFFFF00"/>
+          </TouchableOpacity>
+          <Text style={externalStyle.headerText}>Bluetooth Read</Text>
+          <TouchableOpacity
+            style={{ backgroundColor:"#FFFFFF00", flexDirection: "row", padding: 2}}
+            onPress={() => this.props.navigation.navigate('Setting')}>
+            <Icon name="gear" size={30} color="#000000CC" backgroundColor="#FFFFFF00"/>
+          </TouchableOpacity>
+        </View>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
+          style={externalStyle.scrollView}>
           {global.HermesInternal == null ? null : (
             <View style={styles.engine}>
               <Text style={styles.footer}>Engine: Hermes</Text>
             </View>
           )}
-          <View style={styles.body}>
+
             
             <View style={{margin: 10}}>
-              <Button 
+              <TouchableOpacity onPress={() => startScan()} style={externalStyle.primaryButtonContainer}>
+                <Text style={externalStyle.primaryButtonText}>{'Scan Bluetooth (' + (isScanning ? 'on' : 'off') + ')'}</Text>
+              </TouchableOpacity>
+              {/* <Button
                 title={'Scan Bluetooth (' + (isScanning ? 'on' : 'off') + ')'}
                 onPress={() => startScan() } 
-              />            
+              />             */}
             </View>
 
             <View style={{margin: 10}}>
-              <Button title="Retrieve connected peripherals" onPress={() => retrieveConnected() } />
+              <TouchableOpacity onPress={() => retrieveConnected()} style={externalStyle.secondaryButtonContainer}>
+                <Text style={externalStyle.secondaryButtonText}>{"Retrieve connected peripherals"}</Text>
+              </TouchableOpacity>
+              {/* <Button title="Retrieve connected peripherals" onPress={() => retrieveConnected() } /> */}
             </View>
 
             {(list.length == 0) &&
               <View style={{flex:1, margin: 20}}>
-                <Text style={{textAlign: 'center'}}>No peripherals</Text>
+                <Text style={{textAlign: 'center', color: '#C4C4C4', fontSize: 18}}>No peripherals</Text>
               </View>
             }
           
-          </View>              
+
         </ScrollView>
         <FlatList
             data={list}
             renderItem={({ item }) => renderItem(item) }
             keyExtractor={item => item.id}
-          />              
-      </SafeAreaView>
+          />
+
+        <PawIcon />
+    </View>
     </>
   );
 };

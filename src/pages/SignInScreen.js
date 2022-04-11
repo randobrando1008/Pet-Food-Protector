@@ -11,7 +11,8 @@ import {
   TouchableOpacity,
   Pressable,
   TextInput,
-  AsyncStorage
+  AsyncStorage,
+  ToastAndroid
 } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -102,12 +103,22 @@ class SignInScreen extends React.Component {
           if(emailCorrect && passwordCorrect)
           {
             this.state.accountFound = true;
+            ToastAndroid.showWithGravity(
+              "Sign In Successful",
+              ToastAndroid.SHORT,
+              ToastAndroid.BOTTOM,
+            );
             this.props.navigation.navigate('CreateSchedule');
           }
 
           if((record == (length-1)) && (!emailCorrect || !passwordCorrect) && (!this.state.accountFound) && this.state.password != "")
           {
             this.setState({passwordError: "Email/Password is incorrect"});
+            ToastAndroid.showWithGravity(
+              "Sign In Failed",
+              ToastAndroid.SHORT,
+              ToastAndroid.BOTTOM,
+            );
           }
           else
           {
@@ -151,6 +162,7 @@ class SignInScreen extends React.Component {
           <View style={externalStyle.lineStyle} />
           <Text style={externalStyle.extraText}>Username:</Text>
           <TextInput
+              autoCapitalize="none"
               value={this.state.email}
               keyboardType={'email-address'}
               style={externalStyle.inputStyle}
@@ -161,6 +173,7 @@ class SignInScreen extends React.Component {
           <Text style={{alignSelf: 'center', color: 'red'}}>{this.state.emailError}</Text>
           <Text style={externalStyle.extraText}>Password:</Text>
           <TextInput
+              autoCapitalize="none"
               secureTextEntry={true}
               value={this.state.password}
               keyboardType={'default'}

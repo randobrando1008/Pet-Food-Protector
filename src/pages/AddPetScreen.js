@@ -68,7 +68,7 @@ class AddPetScreen extends React.Component {
         if(parseInt(this.state.feedWeight) < 351 && parseInt(this.state.feedWeight) > 0)
           isWeightValid = true;
       }
-      console.log(this.state.feedNumber);
+
       if(this.state.feedNumber != "")
       {
         if(parseFloat(this.state.feedNumber) < 2.1 && parseFloat(this.state.feedNumber) > 0)
@@ -125,7 +125,7 @@ class AddPetScreen extends React.Component {
         await AsyncStorage.getItem(userID)
           .then(req => JSON.parse(req))
           .then(json => {
-            console.log("PetID: ", json.petID);
+            //console.log("PetID: ", json.petID);
             if(json.petID != '' && json.petID != undefined)
             {
               var petIDStore = JSON.parse(json.petID);
@@ -134,12 +134,12 @@ class AddPetScreen extends React.Component {
                 petIDArrayStore[i] = petIDStore[i];
               }
             }
-            console.log(petID);
+            //console.log(petID);
             petIDArrayStore.push(petID);
-            console.log(petIDArrayStore);
+            //console.log(petIDArrayStore);
           });
 
-        console.log(petIDArrayStore);
+        //console.log(petIDArrayStore);
 
         let object = {
           petID: JSON.stringify(petIDArrayStore)
@@ -179,7 +179,6 @@ class AddPetScreen extends React.Component {
 
     feedWeightValidator()
     {
-      console.log(this.state.feedWeight);
       if(this.state.feedWeight=="")
       {
         this.setState({feedWeightError: "Pet's Weight cannot be empty"});

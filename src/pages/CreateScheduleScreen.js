@@ -110,8 +110,6 @@ class CreateScheduleScreen extends React.Component {
       await AsyncStorage.getItem(this.state.petIDArrayStoring[i])
       .then(req => JSON.parse(req))
       .then(json => {
-        // console.log("Name:", json.name);
-        // console.log("Weight:", json.weight);
         let object = {
           id: this.state.petIDArrayStoring[i],
           name: json.name,

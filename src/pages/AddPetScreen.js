@@ -25,10 +25,12 @@ import PawIcon from '../styles/PawIcon';
 import CreateScheduleScreen from './CreateScheduleScreen'
 
 export var quantitySent;
-export var pagePass
+export var pagePass;
 
 import { userID } from './SignInScreen.js';
 import { v4 as uuidv4 } from 'uuid';
+
+export let petID = undefined;
 
 const AddButton = ({ onPress, title}) => (
     <TouchableOpacity onPress={onPress} style={externalStyle.primaryButtonContainer}>
@@ -120,7 +122,7 @@ class AddPetScreen extends React.Component {
 
       if(isNameValid && isWeightValid && isFeedAmountValid && isFeedTimeValid)
       {
-        var petID = uuidv4();
+        var pet_id = uuidv4();
         var petIDArrayStore = [];
 
         await AsyncStorage.getItem(userID)
@@ -136,11 +138,10 @@ class AddPetScreen extends React.Component {
               }
             }
             //console.log(petID);
-            petIDArrayStore.push(petID);
-            //console.log(petIDArrayStore);
+            petIDArrayStore.push(pet_id);
+            petID = "";
+            petID = pet_id;
           });
-
-        //console.log(petIDArrayStore);
 
         let object = {
           petID: JSON.stringify(petIDArrayStore)
@@ -153,14 +154,17 @@ class AddPetScreen extends React.Component {
 
         let petObject = {
           name: this.state.feedName,
-          weight: this.state.feedWeight
+          petweight: this.state.feedWeight,
+          foodweight: this.state.feedNumber,
+          foodTimesNumber: this.state.feedTime,
+          feedingTimes: []
         };
 
         AsyncStorage.setItem(
-          petID,
+          pet_id,
           JSON.stringify(petObject),
         );
-
+        
         pagePass = this.props.route.name;
         quantitySent = this.state.feedTime;
         this.props.navigation.navigate('DatePickerScreen');

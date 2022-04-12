@@ -10,7 +10,8 @@ import {
   View,
   TouchableOpacity,
   Button,
-  TextInput
+  TextInput,
+  AsyncStorage
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -23,9 +24,14 @@ import { format } from "date-fns";
 
 import externalStyle from '../styles/externalStyle';
 import PawIcon from '../styles/PawIcon';
-import { quantitySent, pagePass } from './AddPetScreen';
+import { quantitySent, pagePass} from './AddPetScreen.js';
+import { petID } from './AddPetScreen.js';
 import { quantitySent2 } from './ModifyPetScreen';
 
+export let feedingTimesArray;
+export let weightOfFood;
+export let feedingNumbers;
+export let navigation;
 
 const AddButton = ({ onPress, title}) => (
     <TouchableOpacity onPress={onPress} style={externalStyle.primaryButtonContainer}>
@@ -41,7 +47,10 @@ class DatePickerScreen extends React.Component {
             hourTime: [],
             minuteTime: [],
             key: -1,
-            isDatePickerVisible: false
+            isDatePickerVisible: false,
+            feedingTimes: [],
+            foodWeight: "",
+            numberOfFeeding: ""
         }
     }
 
@@ -61,6 +70,10 @@ class DatePickerScreen extends React.Component {
         {
             hours += 12;
         }
+        if(date.getHours() < 10)
+        {
+            hours = "0" + hours;
+        }
         if(minutes < 10)
         {
             minutes = "0" + minutes;
@@ -79,6 +92,40 @@ class DatePickerScreen extends React.Component {
         this.hideDatePicker();
     }
 
+    writeToBluetooth = () => {
+        for(var i = 0; i < 3; i++)
+        {
+            if(this.state.hourTime[i] != undefined || this.state.minuteTime[i] != undefined)
+            {
+                var feedingTime = "";
+                feedingTime = `${this.state.hourTime[i]}${this.state.minuteTime[i]}`;
+                this.state.feedingTimes.push(feedingTime);
+            }
+            else
+            {
+                var feedingTime = "";
+                feedingTime = `9999`;
+                this.state.feedingTimes.push(feedingTime);
+            }
+        }
+
+        feedingTimesArray = this.state.feedingTimes;
+        weightOfFood = this.state.foodWeight;
+        feedingNumbers = this.state.numberOfFeeding;
+        navigation = this.props.navigation;
+        this.props.navigation.navigate('BluetoothWrite');
+    }
+
+    componentDidMount = async () => {
+        await AsyncStorage.getItem(petID)
+          .then(req => JSON.parse(req))
+          .then(json => {
+            this.state.foodWeight = json.foodweight;
+            this.state.numberOfFeeding = json.foodTimesNumber;
+          });
+        
+    }
+
 
     render() {
         var myLoop = [];
@@ -95,10 +142,10 @@ class DatePickerScreen extends React.Component {
             myLoop.push(
                 <View key={i}>
                     <DateTimePicker
-                    isVisible={this.state.isDatePickerVisible}
-                    mode="time"
-                    onConfirm={this.handleConfirm}
-                    onCancel={this.hideDatePicker}
+                        isVisible={this.state.isDatePickerVisible}
+                        mode="time"
+                        onConfirm={this.handleConfirm}
+                        onCancel={this.hideDatePicker}
                     />
                     <View style={{ justifyContent: 'center',
                         alignSelf: "center"}}>
@@ -131,7 +178,8 @@ class DatePickerScreen extends React.Component {
             </View>
             <ScrollView style={externalStyle.scrollView}>
                 {myLoop}
-                <AddButton title="Submit" onPress={() => this.props.navigation.navigate('CreateSchedule')} />
+                {/* <AddButton title="Submit" onPress={() => this.props.navigation.navigate('BluetoothWrite')} /> */}
+                <AddButton title="Submit" onPress={() => this.writeToBluetooth()} />
             </ScrollView>
             <PawIcon />
         </View>

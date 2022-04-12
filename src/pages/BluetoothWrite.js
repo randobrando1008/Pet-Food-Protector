@@ -17,11 +17,16 @@ import {
   PermissionsAndroid,
   FlatList,
   TouchableHighlight,
+
+  TouchableOpacity,
 } from 'react-native';
 
 import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
+
+import externalStyle from '../styles/externalStyle';
+import PawIcon from '../styles/PawIcon';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -194,43 +199,42 @@ const App = () => {
 
   return (
     <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
+      <View style={{flex: 1,backgroundColor: '#fff'}}>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
+          style={externalStyle.scrollView}>
           {global.HermesInternal == null ? null : (
             <View style={styles.engine}>
               <Text style={styles.footer}>Engine: Hermes</Text>
             </View>
           )}
-          <View style={styles.body}>
-            
             <View style={{margin: 10}}>
-              <Button 
-                title={'Scan Bluetooth (' + (isScanning ? 'on' : 'off') + ')'}
-                onPress={() => startScan() } 
-              />            
+              <TouchableOpacity onPress={() => startScan()} style={externalStyle.primaryButtonContainer}>
+                <Text style={externalStyle.primaryButtonText}>{'Scan Bluetooth (' + (isScanning ? 'on' : 'off') + ')'}</Text>
+              </TouchableOpacity>
             </View>
 
             <View style={{margin: 10}}>
-              <Button title="Retrieve connected peripherals" onPress={() => retrieveConnected() } />
+
+              <TouchableOpacity onPress={() => retrieveConnected()} style={externalStyle.secondaryButtonContainer}>
+                <Text style={externalStyle.secondaryButtonText}>{"Retrieve connected peripherals"}</Text>
+              </TouchableOpacity>
             </View>
 
             {(list.length == 0) &&
               <View style={{flex:1, margin: 20}}>
-                <Text style={{textAlign: 'center'}}>No peripherals</Text>
+                <Text style={{textAlign: 'center', color: '#C4C4C4', fontSize: 18}}>No peripherals</Text>
               </View>
             }
-          
-          </View>              
+
         </ScrollView>
         <FlatList
             data={list}
             renderItem={({ item }) => renderItem(item) }
             keyExtractor={item => item.id}
-          />              
-      </SafeAreaView>
+          />
+          <PawIcon />
+    </View>
     </>
   );
 };
@@ -245,21 +249,6 @@ const styles = StyleSheet.create({
   },
   body: {
     backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
   },
   highlight: {
     fontWeight: '700',

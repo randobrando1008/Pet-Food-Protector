@@ -23,10 +23,19 @@ import { format } from "date-fns";
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import { petID } from "./CreateScheduleScreen.js";
 
+import { readData } from "./BluetoothRead.js"
+
 export var quantitySent2;
 
 import externalStyle from '../styles/externalStyle';
 import PawIcon from '../styles/PawIcon';
+export let navigation;
+
+const SignInButton = ({ onPress, title}) => (
+  <TouchableOpacity onPress={onPress} style={externalStyle.primaryButtonContainer}>
+    <Text style={externalStyle.primaryButtonText}>{title}</Text>
+  </TouchableOpacity>
+);
 
 class HomeScreen extends React.Component {
 
@@ -208,11 +217,13 @@ class HomeScreen extends React.Component {
 
   componentDidMount = () => {
     console.log(petID);
+    console.log(readData);
+    navigation = this.props.navigation;
     AsyncStorage.getItem(petID, (err, result) => {
       var parsedResults = JSON.parse(result);
       console.log(parsedResults);
       this.setState({feedName: parsedResults.name});
-      this.setState({feedWeight: parsedResults.weight});
+      this.setState({feedWeight: parsedResults.petweight});
     });
   }
 
@@ -307,6 +318,7 @@ function SettingsScreen() {
   var tableData = ['Data', 'Data2', 'Data3', 'Data4'];
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <SignInButton title="BLUETOOTH" onPress={() => navigation.navigate('BluetoothRead')} />
       <Table borderStyle={{borderWidth: 2, borderColor: '#00A5FF'}}>
         <Row data={tableHead} style={styles.head} textStyle={styles.text}/>
         <Row data={tableData} textStyle={styles.text}/>

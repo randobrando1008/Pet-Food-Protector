@@ -80,9 +80,9 @@ class CreateScheduleScreen extends React.Component {
   renderItem = (item) => {
     return (
       <TouchableHighlight onPress={() => this.sendToModify(item) }>
-        <View style={{borderColor: "#EAEAEA", borderWidth: 2, borderRadius: 15, alignSelf: 'center', width: '75%', margin: 5}}>
+		<View style={{borderColor: "#EAEAEA", borderWidth: 2, borderRadius: 15, alignSelf: 'center', width: '75%', margin: 5}}>
           <Text style={externalStyle.extraText}>{item.name}</Text>
-          <Text style={externalStyle.extraText}>Weight: {item.weight}</Text>
+          <Text style={externalStyle.extraText}>Weight: {item.petweight}</Text>
         </View>
       </TouchableHighlight>
     );
@@ -113,7 +113,7 @@ class CreateScheduleScreen extends React.Component {
         let object = {
           id: this.state.petIDArrayStoring[i],
           name: json.name,
-          weight: json.weight
+          petweight: json.petweight
         }
 
         this.setState({
@@ -124,12 +124,15 @@ class CreateScheduleScreen extends React.Component {
   }
 
   componentDidMount = async () => {
-    // AsyncStorage.getAllKeys((err, result) => {
-    //   console.log(result);
-    //   // AsyncStorage.getItem(result[1], (err, result) => {
-    //   //   console.log(result.petID);
-    //   // });
-    // });
+    AsyncStorage.getAllKeys((err, result) => {
+      console.log(result);
+      for(var i = 0; i < result.length; i++)
+      {
+        AsyncStorage.getItem(result[i], (err, result) => {
+          console.log(result);
+        });
+      }
+    });
 
     this.state.petIDArrayStoring = [];
     this.state.storedValues = [];
@@ -152,12 +155,12 @@ class CreateScheduleScreen extends React.Component {
       await AsyncStorage.getItem(this.state.petIDArrayStoring[i])
       .then(req => JSON.parse(req))
       .then(json => {
-        // console.log("Name:", json.name);
-        // console.log("Weight:", json.weight);
+        console.log("Name:", json.name);
+        console.log("Weight:", json.petweight);
         let object = {
           id: this.state.petIDArrayStoring[i],
           name: json.name,
-          weight: json.weight
+          petweight: json.petweight
         }
 
         this.setState({

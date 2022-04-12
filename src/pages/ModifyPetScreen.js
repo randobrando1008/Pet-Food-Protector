@@ -10,7 +10,8 @@ import {
   View,
   TouchableOpacity,
   Button,
-  TextInput
+  TextInput,
+  AsyncStorage
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -207,6 +208,12 @@ class HomeScreen extends React.Component {
 
   componentDidMount = () => {
     console.log(petID);
+    AsyncStorage.getItem(petID, (err, result) => {
+      var parsedResults = JSON.parse(result);
+      console.log(parsedResults);
+      this.setState({feedName: parsedResults.name});
+      this.setState({feedWeight: parsedResults.weight});
+    });
   }
 
   render() {

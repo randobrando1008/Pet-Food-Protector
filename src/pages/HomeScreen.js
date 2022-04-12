@@ -49,39 +49,6 @@ class HomeScreen extends React.Component {
 
   // componentDidMount = async () => {
   //   AsyncStorage.clear();
-  //   // var id = "123";
-  //   // var petIDArray = ["123-123","234-123"];
-  //   // var petIDArrayStore = [];
-
-  //   // let object = {
-  //   //   firstname: "TEST",
-  //   //   lastname: "TESTASWELL",
-  //   //   email: "TEST@EMAIL.COM",
-  //   //   password: "PASSWORD",
-  //   //   petID: JSON.stringify(petIDArray)
-  //   // };
-
-  //   // AsyncStorage.setItem(
-  //   //   id,
-  //   //   JSON.stringify(object),
-  //   // );
-    
-  //   // AsyncStorage.getItem(id)
-  //   //   .then(req => JSON.parse(req))
-  //   //   .then(json => {
-  //   //     var petIDStore = JSON.parse(json.petID);
-  //   //     for(var i = 0; i < petIDStore.length; i++)
-  //   //     {
-  //   //       petIDArrayStore[i] = petIDStore[i];
-  //   //     }
-  //   //     console.log(petIDArrayStore);
-  //   //     petIDArrayStore.push("345-1-2");
-  //   //     console.log(petIDArrayStore);
-  //   //   })
-
-  //   // AsyncStorage.getAllKeys((err, result) => {
-  //   //   console.log(result);
-  //   // });
   // }
 
   render() {

@@ -12,6 +12,7 @@ import {
   Pressable,
   TextInput,
   AsyncStorage,
+  ToastAndroid
 } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -142,7 +143,21 @@ class CreateAccountScreen extends React.Component {
         JSON.stringify(object),
       );
 
+      ToastAndroid.showWithGravity(
+        "Account Creation Successful",
+        ToastAndroid.SHORT,
+        ToastAndroid.BOTTOM,
+      );
+
       this.props.navigation.navigate('SignIn');
+    }
+    else
+    {
+      ToastAndroid.showWithGravity(
+        "Account Creation Failed",
+        ToastAndroid.SHORT,
+        ToastAndroid.BOTTOM,
+      );
     }
   }
 
@@ -243,6 +258,7 @@ class CreateAccountScreen extends React.Component {
 
             <Text style={externalStyle.extraText}>Email:</Text>
             <TextInput
+                autoCapitalize="none"
                 value={this.state.email}
                 style={externalStyle.inputStyle}
                 placeholder="Type in your Email"
@@ -254,6 +270,7 @@ class CreateAccountScreen extends React.Component {
 
             <Text style={externalStyle.extraText}>Password:</Text>
             <TextInput
+                autoCapitalize="none"
                 secureTextEntry={true}
                 value={this.state.password}
                 style={externalStyle.inputStyle}
@@ -266,6 +283,7 @@ class CreateAccountScreen extends React.Component {
 
             <Text style={externalStyle.extraText}>Confirm Password:</Text>
             <TextInput
+                autoCapitalize="none"
                 secureTextEntry={true}
                 value={this.state.cPassword}
                 style={externalStyle.inputStyle}

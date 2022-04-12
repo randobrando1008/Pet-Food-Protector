@@ -25,10 +25,12 @@ import PawIcon from '../styles/PawIcon';
 import CreateScheduleScreen from './CreateScheduleScreen'
 
 export var quantitySent;
-export var pagePass
+export var pagePass;
 
 import { userID } from './SignInScreen.js';
 import { v4 as uuidv4 } from 'uuid';
+
+export let petID = undefined;
 
 const AddButton = ({ onPress, title}) => (
     <TouchableOpacity onPress={onPress} style={externalStyle.primaryButtonContainer}>
@@ -69,7 +71,7 @@ class AddPetScreen extends React.Component {
         if(parseInt(this.state.feedWeight) < 351 && parseInt(this.state.feedWeight) > 0)
           isWeightValid = true;
       }
-      console.log(this.state.feedNumber);
+
       if(this.state.feedNumber != "")
       {
         if(parseFloat(this.state.feedNumber) < 2.1 && parseFloat(this.state.feedNumber) > 0)
@@ -120,13 +122,13 @@ class AddPetScreen extends React.Component {
 
       if(isNameValid && isWeightValid && isFeedAmountValid && isFeedTimeValid)
       {
-        var petID = uuidv4();
+        var pet_id = uuidv4();
         var petIDArrayStore = [];
 
         await AsyncStorage.getItem(userID)
           .then(req => JSON.parse(req))
           .then(json => {
-            console.log("PetID: ", json.petID);
+            //console.log("PetID: ", json.petID);
             if(json.petID != '' && json.petID != undefined)
             {
               var petIDStore = JSON.parse(json.petID);
@@ -135,12 +137,11 @@ class AddPetScreen extends React.Component {
                 petIDArrayStore[i] = petIDStore[i];
               }
             }
-            console.log(petID);
-            petIDArrayStore.push(petID);
-            console.log(petIDArrayStore);
+            //console.log(petID);
+            petIDArrayStore.push(pet_id);
+            petID = "";
+            petID = pet_id;
           });
-
-        console.log(petIDArrayStore);
 
         let object = {
           petID: JSON.stringify(petIDArrayStore)
@@ -153,14 +154,17 @@ class AddPetScreen extends React.Component {
 
         let petObject = {
           name: this.state.feedName,
-          weight: this.state.feedWeight
+          petweight: this.state.feedWeight,
+          foodweight: this.state.feedNumber,
+          foodTimesNumber: this.state.feedTime,
+          feedingTimes: []
         };
 
         AsyncStorage.setItem(
-          petID,
+          pet_id,
           JSON.stringify(petObject),
         );
-
+        
         pagePass = this.props.route.name;
         quantitySent = this.state.feedTime;
         this.props.navigation.navigate('DatePickerScreen');
@@ -181,7 +185,6 @@ class AddPetScreen extends React.Component {
 
     feedWeightValidator()
     {
-      console.log(this.state.feedWeight);
       if(this.state.feedWeight=="")
       {
         this.setState({feedWeightError: "Pet's Weight cannot be empty"});

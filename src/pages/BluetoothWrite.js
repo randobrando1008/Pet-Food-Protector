@@ -23,11 +23,16 @@ import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
 
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 import BleManager from '../node_modules/react-native-ble-manager/BleManager';
 const BleManagerModule = NativeModules.BleManager;
 const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
 
 import { stringToBytes, bytesToString } from "convert-string";
+
+import { feedingTimesArray, weightOfFood, feedingNumbers, navigation} from "./DatePickerScreen.js"
 
 const Buffer = require('buffer/').Buffer;
 
@@ -127,6 +132,8 @@ const App = () => {
               });
             }, 200);
           });
+
+          navigate('CreateSchedule');
         })
         .catch((error) => {
           console.log('Connection error', error);

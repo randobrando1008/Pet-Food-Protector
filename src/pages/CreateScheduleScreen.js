@@ -80,9 +80,9 @@ class CreateScheduleScreen extends React.Component {
   renderItem = (item) => {
     return (
       <TouchableHighlight onPress={() => this.sendToModify(item) }>
-        <View>
-          <Text style={{fontSize: 12, textAlign: 'center', color: '#333333', padding: 10}}>{item.name}</Text>
-          <Text style={{fontSize: 10, textAlign: 'center', color: '#333333', padding: 2}}>Weight: {item.weight}</Text>
+        <View style={{borderColor: "#EAEAEA", borderRadius: 15}}>
+          <Text style={externalStyle.extraText}>{item.name}</Text>
+          <Text style={externalStyle.extraText}>Weight: {item.weight}</Text>
         </View>
       </TouchableHighlight>
     );

@@ -23,7 +23,7 @@ import { format } from "date-fns";
 
 import externalStyle from '../styles/externalStyle';
 import PawIcon from '../styles/PawIcon';
-import { quantitySent } from './AddPetScreen';
+import { quantitySent, pagePass } from './AddPetScreen';
 import { quantitySent2 } from './ModifyPetScreen';
 
 
@@ -38,10 +38,9 @@ class DatePickerScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            feedName: '',
-            feedWeight: '',
-            feedNumber: '',
-            timesNumber: '',
+            hourTime: [],
+            minuteTime: [],
+            key: -1,
             isDatePickerVisible: false
         }
     }
@@ -60,34 +59,38 @@ class DatePickerScreen extends React.Component {
         var minutes = date.getMinutes();
         if(date.getHours() > 12)
         {
-            var dd = "PM"
-        }
-        else
-        {
-            var dd = "AM"
+            hours += 12;
         }
         if(minutes < 10)
         {
             minutes = "0" + minutes;
         }
-        console.log("A time has been picked: " + hours + ":" + minutes + dd);
+
+        this.state.hourTime.push(hours);
+        this.state.minuteTime.push(minutes);
+
+        // this.props.state.hourTime.concat(hours);
+        // this.props.state.minuteTime = minutes;
+        console.log("A time has been picked: " + hours + ":" + minutes );
+        // console.log("Index of Hour: " + this.state.hour.indexOf());
+        ++this.state.key;
+        console.log("Minute Time: " + this.state.minuteTime);
+        console.log("Hour Time: " + this.state.hourTime);
         this.hideDatePicker();
     }
+
 
     render() {
         var myLoop = [];
         var finalQuantity;
-        if(this.props.route.name == "AddPet")
+        if(pagePass == "AddPet")
         {
-            console.log("quantity sent: " + quantitySent);
             finalQuantity = quantitySent;
         }
         else
         {
-            console.log("quantity2 sent: " + quantitySent2);
             finalQuantity = quantitySent2;
         }
-        console.log("final quantity sent: " + finalQuantity);
         for(let i = 0; i < finalQuantity; ++i){
             myLoop.push(
                 <View key={i}>
@@ -106,6 +109,8 @@ class DatePickerScreen extends React.Component {
                             <Icon name="calendar" size={18} color="#000000CC" backgroundColor="#FFFFFF00"/>
                         </TouchableOpacity>
                     </View>
+                    {i > this.state.key ? null : <Text style={externalStyle.extraText}>Time set: {this.state.hourTime[i]}:{this.state.minuteTime[i]}</Text>}
+                    {/* {this.printTime(i)} */}
                 </View>
             );
         }

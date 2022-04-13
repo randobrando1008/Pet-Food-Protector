@@ -132,8 +132,6 @@ const App = () => {
               });
             }, 200);
           });
-
-          navigate('CreateSchedule');
         })
         .catch((error) => {
           console.log('Connection error', error);

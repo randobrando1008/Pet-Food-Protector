@@ -34,8 +34,11 @@ const BleManagerModule = NativeModules.BleManager;
 const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
 
 import { stringToBytes, bytesToString } from "convert-string";
+import { navigation } from "./ModifyPetScreen.js"
 
 const Buffer = require('buffer/').Buffer;
+
+export var dataRead = "";
 
 const App = () => {
   const [isScanning, setIsScanning] = useState(false);
@@ -94,11 +97,15 @@ const App = () => {
     {
       console.log('Got ble peripheral', peripheral);
     }
-    if (!peripheral.name) {
-      peripheral.name = 'NO NAME';
+    // if (!peripheral.name) {
+    //   peripheral.name = 'NO NAME';
+    // }
+    // peripherals.set(peripheral.id, peripheral);
+    // setList(Array.from(peripherals.values()));
+    if (peripheral.name) {
+      peripherals.set(peripheral.id, peripheral);
+      setList(Array.from(peripherals.values()));
     }
-    peripherals.set(peripheral.id, peripheral);
-    setList(Array.from(peripherals.values()));
   }
 
   const testPeripheral = (peripheral) => {
@@ -138,6 +145,8 @@ const App = () => {
                     if(data != "")
                     {
                       console.log(data);
+                      dataRead = "";
+                      dataRead = data;
                       readData = false;
                     }
                   }
@@ -148,6 +157,7 @@ const App = () => {
                       BleManager.stopNotification(peripheral.id, serviceUUID, charasteristicUUID);
                       BleManager.disconnect(peripheral.id);
                       stopping = false;
+                      navigation.navigate('ModifyPet');
                     }
                     return;
                   }
@@ -199,18 +209,15 @@ const App = () => {
 
   const renderItem = (item) => {
     const color = item.connected ? 'green' : '#fff';
-    if(item.name == "RN4870-C6FC" || item.id == "04:91:62:94:C6:FC")
-    {
-      return (
-        <TouchableHighlight onPress={() => testPeripheral(item) }>
-          <View style={[styles.row, {backgroundColor: color}]}>
-            <Text style={{fontSize: 12, textAlign: 'center', color: '#333333', padding: 10}}>{item.name}</Text>
-            <Text style={{fontSize: 10, textAlign: 'center', color: '#333333', padding: 2}}>RSSI: {item.rssi}</Text>
-            <Text style={{fontSize: 8, textAlign: 'center', color: '#333333', padding: 2, paddingBottom: 20}}>{item.id}</Text>
-          </View>
-        </TouchableHighlight>
-      );
-    }
+    return (
+      <TouchableHighlight onPress={() => testPeripheral(item) }>
+        <View style={[styles.row, {backgroundColor: color}]}>
+          <Text style={{fontSize: 12, textAlign: 'center', color: '#333333', padding: 10}}>{item.name}</Text>
+          <Text style={{fontSize: 10, textAlign: 'center', color: '#333333', padding: 2}}>RSSI: {item.rssi}</Text>
+          <Text style={{fontSize: 8, textAlign: 'center', color: '#333333', padding: 2, paddingBottom: 20}}>{item.id}</Text>
+        </View>
+      </TouchableHighlight>
+    );
   }
 
   return (

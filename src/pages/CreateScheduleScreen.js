@@ -69,8 +69,6 @@ class CreateScheduleScreen extends React.Component {
   }
 
   sendToModify = (item) => {
-    console.log(item);
-
     petID = "";
     petID = item.id;
 
@@ -94,7 +92,6 @@ class CreateScheduleScreen extends React.Component {
     await AsyncStorage.getItem(userID)
       .then(req => JSON.parse(req))
       .then(json => {
-        // console.log("PetID: ", json.petID);
         if(json.petID != '' && json.petID != undefined)
         {
           var petIDStore = JSON.parse(json.petID);
@@ -124,22 +121,20 @@ class CreateScheduleScreen extends React.Component {
   }
 
   componentDidMount = async () => {
-    AsyncStorage.getAllKeys((err, result) => {
-      console.log(result);
-      for(var i = 0; i < result.length; i++)
-      {
-        AsyncStorage.getItem(result[i], (err, result) => {
-          console.log(result);
-        });
-      }
-    });
+    // AsyncStorage.getAllKeys((err, result) => {
+    //   for(var i = 0; i < result.length; i++)
+    //   {
+    //     AsyncStorage.getItem(result[i], (err, result) => {
+    //       console.log(result);
+    //     });
+    //   }
+    // });
 
     this.state.petIDArrayStoring = [];
     this.state.storedValues = [];
     await AsyncStorage.getItem(userID)
       .then(req => JSON.parse(req))
       .then(json => {
-        // console.log("PetID: ", json.petID);
         if(json.petID != '' && json.petID != undefined)
         {
           var petIDStore = JSON.parse(json.petID);
@@ -155,8 +150,6 @@ class CreateScheduleScreen extends React.Component {
       await AsyncStorage.getItem(this.state.petIDArrayStoring[i])
       .then(req => JSON.parse(req))
       .then(json => {
-        console.log("Name:", json.name);
-        console.log("Weight:", json.petweight);
         let object = {
           id: this.state.petIDArrayStoring[i],
           name: json.name,

@@ -50,7 +50,7 @@ class DatePickerScreen extends React.Component {
             key: -1,
             isDatePickerVisible: false,
             feedingTimes: [],
-            foodWeight: "",
+            foodQuantity: "",
             numberOfFeeding: ""
         }
     }
@@ -111,7 +111,7 @@ class DatePickerScreen extends React.Component {
         }
 
         feedingTimesArray = this.state.feedingTimes;
-        weightOfFood = this.state.foodWeight;
+        weightOfFood = this.state.foodQuantity;
         feedingNumbers = this.state.numberOfFeeding;
         navigation = this.props.navigation;
         this.props.navigation.navigate('BluetoothWrite');
@@ -125,8 +125,8 @@ class DatePickerScreen extends React.Component {
             await AsyncStorage.getItem(petIDAdd)
                 .then(req => JSON.parse(req))
                 .then(json => {
-                  this.state.foodWeight = json.foodweight;
-                  this.state.numberOfFeeding = json.foodTimesNumber;
+                  this.state.foodQuantity = json.foodQuantity;
+                  this.state.numberOfFeeding = json.numberOfFeedings;
                 });
         }
 
@@ -135,8 +135,8 @@ class DatePickerScreen extends React.Component {
             await AsyncStorage.getItem(petIDModify)
                 .then(req => JSON.parse(req))
                 .then(json => {
-                  this.state.foodWeight = json.foodweight;
-                  this.state.numberOfFeeding = json.foodTimesNumber;
+                  this.state.foodQuantity = json.foodQuantity;
+                  this.state.numberOfFeeding = json.numberOfFeedings;
                 });
         }
     }

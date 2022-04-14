@@ -221,7 +221,7 @@ class HomeScreen extends React.Component {
       var parsedResults = JSON.parse(result);
       console.log(parsedResults);
       this.setState({feedName: parsedResults.name});
-      this.setState({feedWeight: parsedResults.petweight});
+      this.setState({feedWeight: parsedResults.petWeight});
     });
   }
 

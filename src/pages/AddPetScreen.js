@@ -45,12 +45,12 @@ class AddPetScreen extends React.Component {
         this.state = {
           feedName: '',
           feedNameError: '',
-          feedWeight: '',
-          feedWeightError: '',
-          feedNumber: '',
-          feedNumberError: '',
-          feedTime: '',
-          feedTimeError: ''
+          petWeight: '',
+          petWeightError: '',
+          foodQuantity: '',
+          foodQuantityError: '',
+          numberOfFeedings: '',
+          numberOfFeedingsError: ''
 
         }
     }
@@ -59,29 +59,29 @@ class AddPetScreen extends React.Component {
       var isNameValid = false;
       var isWeightValid = false;
       var isFeedAmountValid = false;
-      var isFeedTimeValid = false;
+      var isnumberOfFeedingsValid = false;
 
       if(this.state.feedName != "")
       {
         isNameValid = true;
       }
 
-      if(this.state.feedWeight != "")
+      if(this.state.petWeight != "")
       {
-        if(parseInt(this.state.feedWeight) < 351 && parseInt(this.state.feedWeight) > 0)
+        if(parseInt(this.state.petWeight) < 351 && parseInt(this.state.petWeight) > 0)
           isWeightValid = true;
       }
 
-      if(this.state.feedNumber != "")
+      if(this.state.foodQuantity != "")
       {
-        if(parseFloat(this.state.feedNumber) < 2.1 && parseFloat(this.state.feedNumber) > 0)
+        if(parseFloat(this.state.foodQuantity) < 2.1 && parseFloat(this.state.foodQuantity) > 0)
           isFeedAmountValid = true;
       }
 
-      if(this.state.feedTime != "")
+      if(this.state.numberOfFeedings != "")
       {
-        if(parseInt(this.state.feedTime) < 4 && parseInt(this.state.feedTime) > 0)
-          isFeedTimeValid = true;
+        if(parseInt(this.state.numberOfFeedings) < 4 && parseInt(this.state.numberOfFeedings) > 0)
+          isnumberOfFeedingsValid = true;
       }
 
       if(!isNameValid || this.state.feedName == "")
@@ -93,34 +93,34 @@ class AddPetScreen extends React.Component {
         this.setState({feedNameError: ""});
       }
 
-      if(!isWeightValid || this.state.feedWeight == "" || parseInt(this.state.feedWeight) > 350)
+      if(!isWeightValid || this.state.petWeight == "" || parseInt(this.state.petWeight) > 350)
       {
-        this.setState({feedWeightError: "Max weight 350"});
+        this.setState({petWeightError: "Max weight 350"});
       }
       else
       {
-        this.setState({feedWeightError: ""});
+        this.setState({petWeightError: ""});
       }
 
-      if(!isFeedAmountValid || this.state.feedNumber == "" || this.state.feedNumber > 2)
+      if(!isFeedAmountValid || this.state.foodQuantity == "" || this.state.foodQuantity > 2)
       {
-        this.setState({feedNumberError: "Max amount of food is 2 cups"});
+        this.setState({foodQuantityError: "Max amount of food is 2 cups"});
       }
       else
       {
-        this.setState({feedNumberError: ""});
+        this.setState({foodQuantityError: ""});
       }
 
-      if(!isFeedTimeValid || this.state.feedTime == "" || this.state.feedTime > 3)
+      if(!isnumberOfFeedingsValid || this.state.numberOfFeedings == "" || this.state.numberOfFeedings > 3)
       {
-          this.setState({feedTimeError: "Max number of feeding times is 3"});
+          this.setState({numberOfFeedingsError: "Max number of feeding times is 3"});
       }
       else
       {
-          this.setState({feedTimeError: ""});
+          this.setState({numberOfFeedingsError: ""});
       }
 
-      if(isNameValid && isWeightValid && isFeedAmountValid && isFeedTimeValid)
+      if(isNameValid && isWeightValid && isFeedAmountValid && isnumberOfFeedingsValid)
       {
         var pet_id = uuidv4();
         var petIDArrayStore = [];
@@ -152,9 +152,9 @@ class AddPetScreen extends React.Component {
 
         let petObject = {
           name: this.state.feedName,
-          petweight: this.state.feedWeight,
-          foodweight: this.state.feedNumber,
-          foodTimesNumber: this.state.feedTime,
+          petWeight: this.state.petWeight,
+          foodQuantity: this.state.foodQuantity,
+          numberOfFeedings: this.state.numberOfFeedings,
           feedingTimes: [],
           foodConsumed: []
         };
@@ -167,7 +167,7 @@ class AddPetScreen extends React.Component {
         petIDAdd = "";
         petIDAdd = pet_id;
         pagePass = this.props.route.name;
-        quantitySent = this.state.feedTime;
+        quantitySent = this.state.numberOfFeedings;
         this.props.navigation.navigate('DatePickerScreen');
       }
     }
@@ -184,39 +184,39 @@ class AddPetScreen extends React.Component {
       }
     }
 
-    feedWeightValidator()
+    petWeightValidator()
     {
-      if(this.state.feedWeight=="")
+      if(this.state.petWeight=="")
       {
-        this.setState({feedWeightError: "Pet's Weight cannot be empty"});
+        this.setState({petWeightError: "Pet's Weight cannot be empty"});
       }
       else
       {
-        this.setState({feedWeightError: ""});
+        this.setState({petWeightError: ""});
       }
     }
 
-    feedNumberValidator()
+    foodQuantityValidator()
     {
-      if(this.state.feedNumber=="")
+      if(this.state.foodQuantity=="")
       {
-        this.setState({feedNumberError: "Amount of food cannot be empty"});
+        this.setState({foodQuantityError: "Amount of food cannot be empty"});
       }
       else
       {
-        this.setState({feedNumberError: ""});
+        this.setState({foodQuantityError: ""});
       }
     }
 
-    feedTimeValidator()
+    numberOfFeedingsValidator()
     {
-      if(this.state.feedTime=="")
+      if(this.state.numberOfFeedings=="")
       {
-        this.setState({feedTimeError: "Number of feeding times cannot be empty"});
+        this.setState({numberOfFeedingsError: "Number of feeding times cannot be empty"});
       }
       else
       {
-        this.setState({feedTimeError: ""});
+        this.setState({numberOfFeedingsError: ""});
       }
     }
 
@@ -253,41 +253,41 @@ class AddPetScreen extends React.Component {
 
               <Text style={externalStyle.extraText}>Pet's Weight:</Text>
               <TextInput
-                value={this.state.feedWeight}
+                value={this.state.petWeight}
                 numericvalue
                 keyboardType={'numeric'}
-                onChangeText={feedWeight => this.setState({ feedWeight })}
+                onChangeText={petWeight => this.setState({ petWeight })}
                 placeholder={'Weight'}
                 style={externalStyle.inputStyle}
-                onBlur={()=>this.feedWeightValidator()}
+                onBlur={()=>this.petWeightValidator()}
               />
               <Text style={externalStyle.extraText}>Note: Pet's Weight is in pounds</Text>
-              <Text style={{alignSelf: 'center', color: 'red'}}>{this.state.feedWeightError}</Text>
+              <Text style={{alignSelf: 'center', color: 'red'}}>{this.state.petWeightError}</Text>
 
               <Text style={externalStyle.extraText}>How Much Food To Feed:</Text>
               <TextInput
-                value={this.state.feedNumber}
+                value={this.state.foodQuantity}
                 autoCapitalize="none"
                 keyboardType={'numeric'}
-                onChangeText={feedNumber => this.setState({ feedNumber })}
+                onChangeText={foodQuantity => this.setState({ foodQuantity })}
                 placeholder={'Quantity'}
                 style={externalStyle.inputStyle}
-                onBlur={()=>this.feedNumberValidator()}
+                onBlur={()=>this.foodQuantityValidator()}
               />
               <Text style={externalStyle.extraText}>Note: Food Weight is in cups</Text>
-              <Text style={{alignSelf: 'center', color: 'red'}}>{this.state.feedNumberError}</Text>
+              <Text style={{alignSelf: 'center', color: 'red'}}>{this.state.foodQuantityError}</Text>
 
               <Text style={externalStyle.extraText}>How many times a day:</Text>
               <TextInput
-                  value={this.state.feedTime}
+                  value={this.state.numberOfFeedings}
                   numericvalue
                   keyboardType={'numeric'}
-                  onChangeText={feedTime => this.setState({ feedTime })}
+                  onChangeText={numberOfFeedings => this.setState({ numberOfFeedings })}
                   placeholder={'Quantity'}
                   style={externalStyle.inputStyle}
-                  onBlur={()=>this.feedTimeValidator()}
+                  onBlur={()=>this.numberOfFeedingsValidator()}
               />
-              <Text style={{alignSelf: 'center', color: 'red'}}>{this.state.feedTimeError}</Text>
+              <Text style={{alignSelf: 'center', color: 'red'}}>{this.state.numberOfFeedingsError}</Text>
 
               <View style={{width: 265,
                     justifyContent: 'center',

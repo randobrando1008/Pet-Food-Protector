@@ -144,10 +144,10 @@ const App = () => {
   useEffect(() => {
     BleManager.start({showAlert: false});
 
-    bleManagerEmitter.addListener('BleManagerDiscoverPeripheral', handleDiscoverPeripheral);
-    bleManagerEmitter.addListener('BleManagerStopScan', handleStopScan );
-    bleManagerEmitter.addListener('BleManagerDisconnectPeripheral', handleDisconnectedPeripheral );
-    bleManagerEmitter.addListener('BleManagerDidUpdateValueForCharacteristic', handleUpdateValueForCharacteristic );
+    var subscriptionDiscover = bleManagerEmitter.addListener('BleManagerDiscoverPeripheral', handleDiscoverPeripheral);
+    var subscriptionScan = bleManagerEmitter.addListener('BleManagerStopScan', handleStopScan );
+    var subscriptionDisconnect = bleManagerEmitter.addListener('BleManagerDisconnectPeripheral', handleDisconnectedPeripheral );
+    var subscriptionUpdate = bleManagerEmitter.addListener('BleManagerDidUpdateValueForCharacteristic', handleUpdateValueForCharacteristic );
 
     if (Platform.OS === 'android' && Platform.Version >= 23) {
       PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION).then((result) => {
@@ -167,10 +167,10 @@ const App = () => {
     
     return (() => {
       console.log('unmount');
-      bleManagerEmitter.removeListener('BleManagerDiscoverPeripheral', handleDiscoverPeripheral);
-      bleManagerEmitter.removeListener('BleManagerStopScan', handleStopScan );
-      bleManagerEmitter.removeListener('BleManagerDisconnectPeripheral', handleDisconnectedPeripheral );
-      bleManagerEmitter.removeListener('BleManagerDidUpdateValueForCharacteristic', handleUpdateValueForCharacteristic );
+      subscriptionDiscover.remove();
+      subscriptionScan.remove();
+      subscriptionDisconnect.remove();
+      subscriptionUpdate.remove();
     })
   }, []);
 

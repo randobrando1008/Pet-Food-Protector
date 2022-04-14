@@ -18,6 +18,7 @@ import {
   FlatList,
   TouchableHighlight,
   TouchableOpacity,
+  AsyncStorage,
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -34,17 +35,14 @@ const BleManagerModule = NativeModules.BleManager;
 const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
 
 import { stringToBytes, bytesToString } from "convert-string";
-import { navigation } from "./ModifyPetScreen.js"
+import { navigation, petIDRead } from "./ModifyPetScreen.js"
 
 const Buffer = require('buffer/').Buffer;
-
-export var dataRead = "";
 
 const App = () => {
   const [isScanning, setIsScanning] = useState(false);
   const peripherals = new Map();
   const [list, setList] = useState([]);
-
 
   const startScan = () => {
     if (!isScanning) {
@@ -109,7 +107,7 @@ const App = () => {
   }
 
   const testPeripheral = (peripheral) => {
-    var readDataValues = "";
+    var readDataValues = [];
     var readData = true;
     var stopping = true;
     if (peripheral){
@@ -144,9 +142,23 @@ const App = () => {
                     // console.log(`Recieved ${data} for characteristic ${charasteristicUUID}`);
                     if(data != "")
                     {
+                      AsyncStorage.getItem(petIDRead)
+                        .then(req => JSON.parse(req))
+                        .then(json => {
+                          console.log("Food Consumed:", json.foodConsumed);
+                          readDataValues = json.foodConsumed;
+                          console.log(readDataValues);
+                        });
                       console.log(data);
-                      dataRead = "";
-                      dataRead = data;
+                      readDataValues.push(data);
+                      let petObject = {
+                        foodConsumed: readDataValues,
+                      };
+                
+                      AsyncStorage.mergeItem(
+                        petIDRead,
+                        JSON.stringify(petObject),
+                      );
                       readData = false;
                     }
                   }
@@ -155,7 +167,7 @@ const App = () => {
                     if(stopping)
                     {
                       BleManager.stopNotification(peripheral.id, serviceUUID, charasteristicUUID);
-                      BleManager.disconnect(peripheral.id);
+                      // BleManager.disconnect(peripheral.id);
                       stopping = false;
                       navigation.navigate('ModifyPet');
                     }
@@ -168,7 +180,7 @@ const App = () => {
         })
         .catch((error) => {
           console.log('Connection error', error);
-          BleManager.disconnect(peripheral.id);
+          // BleManager.disconnect(peripheral.id);
         });
       }
     }

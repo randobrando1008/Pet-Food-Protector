@@ -23,13 +23,12 @@ import { format } from "date-fns";
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import { petID } from "./CreateScheduleScreen.js";
 
-import { readData } from "./BluetoothRead.js"
-
-export var quantitySent2;
-
 import externalStyle from '../styles/externalStyle';
 import PawIcon from '../styles/PawIcon';
+
+export var quantitySent2;
 export let navigation;
+export var petIDModify;
 
 const SignInButton = ({ onPress, title}) => (
   <TouchableOpacity onPress={onPress} style={externalStyle.primaryButtonContainer}>
@@ -68,7 +67,7 @@ class HomeScreen extends React.Component {
       if(parseInt(this.state.feedWeight) < 351 && parseInt(this.state.feedWeight) > 0)
         isWeightValid = true;
     }
-    console.log(this.state.feedNumber);
+
     if(this.state.feedNumber != "")
     {
       if(parseFloat(this.state.feedNumber) < 2.1 && parseFloat(this.state.feedNumber) > 0)
@@ -161,6 +160,7 @@ class HomeScreen extends React.Component {
       //   JSON.stringify(petObject),
       // );
 
+      petIDModify = petID;
       quantitySent2 = this.state.feedTime;
       this.props.navigation.navigate('DatePickerScreen');
     }
@@ -180,7 +180,6 @@ class HomeScreen extends React.Component {
 
   feedWeightValidator()
   {
-    console.log(this.state.feedWeight);
     if(this.state.feedWeight=="")
     {
       this.setState({feedWeightError: "Pet's Weight cannot be empty"});
@@ -217,7 +216,6 @@ class HomeScreen extends React.Component {
 
   componentDidMount = () => {
     console.log(petID);
-    console.log(readData);
     navigation = this.props.navigation;
     AsyncStorage.getItem(petID, (err, result) => {
       var parsedResults = JSON.parse(result);

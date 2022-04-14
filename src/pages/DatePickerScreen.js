@@ -25,7 +25,8 @@ import { format } from "date-fns";
 import externalStyle from '../styles/externalStyle';
 import PawIcon from '../styles/PawIcon';
 import { quantitySent, pagePass} from './AddPetScreen.js';
-import { petID } from './AddPetScreen.js';
+import { petIDAdd } from './AddPetScreen.js';
+import { petIDModify } from './ModifyPetScreen.js';
 import { quantitySent2 } from './ModifyPetScreen';
 
 export let feedingTimesArray;
@@ -117,13 +118,27 @@ class DatePickerScreen extends React.Component {
     }
 
     componentDidMount = async () => {
-        await AsyncStorage.getItem(petID)
-          .then(req => JSON.parse(req))
-          .then(json => {
-            this.state.foodWeight = json.foodweight;
-            this.state.numberOfFeeding = json.foodTimesNumber;
-          });
-        
+        console.log(petIDAdd);
+        console.log(petIDModify);
+        if(petIDAdd != undefined)
+        {
+            await AsyncStorage.getItem(petIDAdd)
+                .then(req => JSON.parse(req))
+                .then(json => {
+                  this.state.foodWeight = json.foodweight;
+                  this.state.numberOfFeeding = json.foodTimesNumber;
+                });
+        }
+
+        if(petIDModify != undefined)
+        {
+            await AsyncStorage.getItem(petIDModify)
+                .then(req => JSON.parse(req))
+                .then(json => {
+                  this.state.foodWeight = json.foodweight;
+                  this.state.numberOfFeeding = json.foodTimesNumber;
+                });
+        }
     }
 
 

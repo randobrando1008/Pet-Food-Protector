@@ -148,17 +148,21 @@ const App = () => {
                           console.log("Food Consumed:", json.foodConsumed);
                           readDataValues = json.foodConsumed;
                           console.log(readDataValues);
-                        });
-                      console.log(data);
-                      readDataValues.push(data);
-                      let petObject = {
-                        foodConsumed: readDataValues,
-                      };
+
+                          console.log(data);
+
+                          readDataValues.push(data);
+
+                          let petObject = {
+                            foodConsumed: readDataValues,
+                          };
                 
-                      AsyncStorage.mergeItem(
-                        petIDRead,
-                        JSON.stringify(petObject),
-                      );
+                          AsyncStorage.mergeItem(
+                            petIDRead,
+                            JSON.stringify(petObject),
+                          );
+                        });
+                        
                       readData = false;
                     }
                   }

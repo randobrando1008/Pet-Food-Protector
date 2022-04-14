@@ -16,7 +16,6 @@ import {
   Platform,
   PermissionsAndroid,
   FlatList,
-  TouchableHighlight,
   TouchableOpacity,
   AsyncStorage,
 } from 'react-native';
@@ -226,13 +225,13 @@ const App = () => {
   const renderItem = (item) => {
     const color = item.connected ? 'green' : '#fff';
     return (
-      <TouchableHighlight onPress={() => testPeripheral(item) }>
+      <TouchableOpacity onPress={() => testPeripheral(item) }>
         <View style={[styles.row, {backgroundColor: color}]}>
           <Text style={{fontSize: 12, textAlign: 'center', color: '#333333', padding: 10}}>{item.name}</Text>
           <Text style={{fontSize: 10, textAlign: 'center', color: '#333333', padding: 2}}>RSSI: {item.rssi}</Text>
           <Text style={{fontSize: 8, textAlign: 'center', color: '#333333', padding: 2, paddingBottom: 20}}>{item.id}</Text>
         </View>
-      </TouchableHighlight>
+      </TouchableOpacity>
     );
   }
 

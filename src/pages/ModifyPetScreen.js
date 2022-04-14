@@ -327,11 +327,12 @@ function SettingsScreen() {
   var tableData = ['Data', 'Data2', 'Data3', 'Data4'];
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <SignInButton title="BLUETOOTH" onPress={() => navigation.navigate('BluetoothRead')} />
-      <Table borderStyle={{borderWidth: 2, borderColor: '#00A5FF'}}>
+
+      <Table borderStyle={{margin: 2, borderWidth: 2, borderColor: '#00A5FF'}}>
         <Row data={tableHead} style={styles.head} textStyle={styles.text}/>
         <Row data={tableData} textStyle={styles.text}/>
       </Table>
+      <SignInButton title="Refresh Data" onPress={() => navigation.navigate('BluetoothRead')} />
     </View>
   );
 }

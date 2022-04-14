@@ -13,7 +13,6 @@ import {
   AsyncStorage,
   TextInput,
   Animated,
-  TouchableHighlight,
   FlatList,
   Button
 } from 'react-native';
@@ -77,12 +76,12 @@ class CreateScheduleScreen extends React.Component {
 
   renderItem = (item) => {
     return (
-      <TouchableHighlight onPress={() => this.sendToModify(item) }>
-        <View style={{borderColor: "#EAEAEA", borderWidth: 15}}>
+      <TouchableOpacity onPress={() => this.sendToModify(item) }>
+        <View style={{borderColor: "#EAEAEA", borderWidth: 2, width: '90%', alignSelf: 'center', borderRadius: 15, margin: 3}}>
           <Text style={externalStyle.extraText}>{item.name}</Text>
           <Text style={externalStyle.extraText}>Weight: {item.petWeight}</Text>
         </View>
-      </TouchableHighlight>
+      </TouchableOpacity>
     );
   }
 

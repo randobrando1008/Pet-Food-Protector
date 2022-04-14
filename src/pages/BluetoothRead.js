@@ -238,7 +238,21 @@ const App = () => {
 
   return (
     <>
-    <View style={{flex: 1,backgroundColor: '#fff'}}>
+    <View style={{flex: 1,backgroundColor: '#fff'}}/*style={styles.body}*/>
+      {/* <StatusBar barStyle="dark-content" /> */}
+      {/* <View style={externalStyle.header}>
+          <TouchableOpacity
+            style={{ backgroundColor:"#FFFFFF00", flexDirection: "row", flex: 1, padding: 2}}
+            onPress={() => this.props.navigation.goBack()}>
+            <Icon name="arrow-left" size={30} color="#000000CC" backgroundColor="#FFFFFF00"/>
+          </TouchableOpacity>
+          <Text style={externalStyle.headerText}>Bluetooth Read</Text>
+          <TouchableOpacity
+            style={{ backgroundColor:"#FFFFFF00", flexDirection: "row", padding: 2}}
+            onPress={() => this.props.navigation.navigate('Setting')}>
+            <Icon name="gear" size={30} color="#000000CC" backgroundColor="#FFFFFF00"/>
+          </TouchableOpacity>
+        </View> */}
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={externalStyle.scrollView}>
@@ -253,12 +267,17 @@ const App = () => {
               <TouchableOpacity onPress={() => startScan()} style={externalStyle.primaryButtonContainer}>
                 <Text style={externalStyle.primaryButtonText}>{'Scan Bluetooth (' + (isScanning ? 'on' : 'off') + ')'}</Text>
               </TouchableOpacity>
+              {/* <Button
+                title={'Scan Bluetooth (' + (isScanning ? 'on' : 'off') + ')'}
+                onPress={() => startScan() } 
+              />             */}
             </View>
 
             <View style={{margin: 10}}>
               <TouchableOpacity onPress={() => retrieveConnected()} style={externalStyle.secondaryButtonContainer}>
                 <Text style={externalStyle.secondaryButtonText}>{"Retrieve connected peripherals"}</Text>
               </TouchableOpacity>
+              {/* <Button title="Retrieve connected peripherals" onPress={() => retrieveConnected() } /> */}
             </View>
 
             {(list.length == 0) &&
@@ -291,6 +310,21 @@ const styles = StyleSheet.create({
   },
   body: {
     backgroundColor: Colors.white,
+  },
+  sectionContainer: {
+    marginTop: 32,
+    paddingHorizontal: 24,
+  },
+  sectionTitle: {
+    fontSize: 24,
+    fontWeight: '600',
+    color: Colors.black,
+  },
+  sectionDescription: {
+    marginTop: 8,
+    fontSize: 18,
+    fontWeight: '400',
+    color: Colors.dark,
   },
   highlight: {
     fontWeight: '700',

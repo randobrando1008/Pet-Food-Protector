@@ -49,7 +49,10 @@ class AddPetScreen extends React.Component {
           foodQuantity: '',
           foodQuantityError: '',
           numberOfFeedings: '',
-          numberOfFeedingsError: ''
+          numberOfFeedingsError: '',
+          recommendFeeding1: '',
+          recommendFeeding2: '',
+          recommendFeeding3: '',
         }
     }
 
@@ -156,7 +159,7 @@ class AddPetScreen extends React.Component {
           foodQuantity: foodInGrams.toString(),
           numberOfFeedings: this.state.numberOfFeedings,
           feedingTimes: [],
-          foodConsumed: []
+          foodConsumed: [ "Received: 4/10/21, Data: 10g", "Received: 4/11/21, Data: 20g" ]
         };
 
         AsyncStorage.setItem(
@@ -192,6 +195,37 @@ class AddPetScreen extends React.Component {
       else
       {
         this.setState({petWeightError: ""});
+      }
+
+      if(parseFloat(this.state.petWeight) >= 1 && parseFloat(this.state.petWeight) <= 12)
+      {
+        this.setState({recommendFeeding1: "Recommended Ammount for 1 feeding time(in cups): 0.33 - 1"});
+        this.setState({recommendFeeding2: "Recommended Ammount for 2 feeding times(in cups): 0.17 - 0.5"});
+        this.setState({recommendFeeding3: "Recommended Ammount for 3 feeding times(in cups): 0.11 - 0.33"});
+      }
+      else if(parseFloat(this.state.petWeight) >= 13 && parseFloat(this.state.petWeight) <= 20)
+      {
+        this.setState({recommendFeeding1: "Recommended Ammount for 1 feeding time(in cups): 1 - 1.33"});
+        this.setState({recommendFeeding2: "Recommended Ammount for 2 feeding times(in cups): 0.5 - 0.67"});
+        this.setState({recommendFeeding3: "Recommended Ammount for 3 feeding times(in cups): 0.33 - 0.44"});
+      }
+      else if(parseFloat(this.state.petWeight) >= 21 && parseFloat(this.state.petWeight) <= 35)
+      {
+        this.setState({recommendFeeding1: "Recommended Ammount for 1 feeding time(in cups): 1.33 - 2"});
+        this.setState({recommendFeeding2: "Recommended Ammount for 2 feeding times(in cups): 0.67 - 1"});
+        this.setState({recommendFeeding3: "Recommended Ammount for 3 feeding times(in cups): 0.44 - 0.67"});
+      }
+      else if(parseFloat(this.state.petWeight) >= 36 && parseFloat(this.state.petWeight) <= 50)
+      {
+        this.setState({recommendFeeding1: "Recommended Ammount for 1 feeding time(in cups): 2 - 2.67"});
+        this.setState({recommendFeeding2: "Recommended Ammount for 2 feeding times(in cups): 1 - 1.33"});
+        this.setState({recommendFeeding3: "Recommended Ammount for 3 feeding times(in cups): 0.67 - 0.88"});
+      }
+      else
+      {
+        this.setState({recommendFeeding1: ""});
+        this.setState({recommendFeeding2: ""});
+        this.setState({recommendFeeding3: ""});
       }
     }
 
@@ -262,6 +296,9 @@ class AddPetScreen extends React.Component {
               />
               <Text style={externalStyle.extraText}>Note: Pet's Weight is in pounds</Text>
               <Text style={{alignSelf: 'center', color: 'red'}}>{this.state.petWeightError}</Text>
+              <Text style={{alignSelf: 'center', color: 'green'}}>{this.state.recommendFeeding1}</Text>
+              <Text style={{alignSelf: 'center', color: 'green'}}>{this.state.recommendFeeding2}</Text>
+              <Text style={{alignSelf: 'center', color: 'green'}}>{this.state.recommendFeeding3}</Text>
 
               <Text style={externalStyle.extraText}>How Much Food To Feed:</Text>
               <TextInput

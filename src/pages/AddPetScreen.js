@@ -30,7 +30,7 @@ export var pagePass;
 import { userID } from './SignInScreen.js';
 import { v4 as uuidv4 } from 'uuid';
 
-export let petID = undefined;
+export let petIDAdd = undefined;
 
 const AddButton = ({ onPress, title}) => (
     <TouchableOpacity onPress={onPress} style={externalStyle.primaryButtonContainer}>
@@ -139,8 +139,6 @@ class AddPetScreen extends React.Component {
             }
             //console.log(petID);
             petIDArrayStore.push(pet_id);
-            petID = "";
-            petID = pet_id;
           });
 
         let object = {
@@ -157,7 +155,8 @@ class AddPetScreen extends React.Component {
           petweight: this.state.feedWeight,
           foodweight: this.state.feedNumber,
           foodTimesNumber: this.state.feedTime,
-          feedingTimes: []
+          feedingTimes: [],
+          foodConsumed: []
         };
 
         AsyncStorage.setItem(
@@ -165,6 +164,8 @@ class AddPetScreen extends React.Component {
           JSON.stringify(petObject),
         );
         
+        petIDAdd = "";
+        petIDAdd = pet_id;
         pagePass = this.props.route.name;
         quantitySent = this.state.feedTime;
         this.props.navigation.navigate('DatePickerScreen');

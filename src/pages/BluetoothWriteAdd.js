@@ -216,17 +216,12 @@ const App = () => {
               <TouchableOpacity onPress={() => startScan() } style={externalStyle.primaryButtonContainer}>
                 <Text style={externalStyle.primaryButtonText}>{'Scan Bluetooth (' + (isScanning ? 'on' : 'off') + ')'}</Text>
               </TouchableOpacity>
-              {/* <Button
-                title={'Scan Bluetooth (' + (isScanning ? 'on' : 'off') + ')'}
-                onPress={() => startScan() } 
-              />             */}
             </View>
 
             <View style={{margin: 10}}>
               <TouchableOpacity onPress={() => retrieveConnected() } style={externalStyle.primaryButtonContainer}>
                 <Text style={externalStyle.primaryButtonText}>{"Retrieve connected peripherals"}</Text>
               </TouchableOpacity>
-              {/* <Button title="Retrieve connected peripherals" onPress={() => retrieveConnected() } /> */}
             </View>
 
             {(list.length == 0) &&
@@ -241,7 +236,8 @@ const App = () => {
             data={list}
             renderItem={({ item }) => renderItem(item) }
             keyExtractor={item => item.id}
-          />              
+        />
+        <PawIcon />
       </SafeAreaView>
     </>
   );
@@ -257,24 +253,6 @@ const styles = StyleSheet.create({
   },
   body: {
     backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
   },
   footer: {
     color: Colors.dark,

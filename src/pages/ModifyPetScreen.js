@@ -322,19 +322,80 @@ class HomeScreen extends React.Component {
 }
 
 // 4/7/22, Dispensed: 00g
-function SettingsScreen() {
-  var tableHead = ['Head', 'Head2', 'Head3', 'Head4'];
-  var tableData = ['Data', 'Data2', 'Data3', 'Data4'];
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+class SettingsScreen extends React.Component {
 
-      <Table borderStyle={{margin: 2, borderWidth: 2, borderColor: '#00A5FF'}}>
-        <Row data={tableHead} style={styles.head} textStyle={styles.text}/>
-        <Row data={tableData} textStyle={styles.text}/>
-      </Table>
-      <SignInButton title="Refresh Data" onPress={() => navigation.navigate('BluetoothRead')} />
-    </View>
-  );
+  constructor(props) {
+    super(props);
+    this.state = {
+      tableHead: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+      tableData: ['', '', '', '', '', '', ''],
+      petIDArrayStoring: [],
+      storedValues: [],
+    }
+  }
+
+  // refreshList = async () => {
+  //   this.state.petIDArrayStoring = [];
+  //   this.state.storedValues = [];
+  //   await AsyncStorage.getItem(userID)
+  //     .then(req => JSON.parse(req))
+  //     .then(json => {
+  //       if(json.petID != '' && json.petID != undefined)
+  //       {
+  //         var petIDStore = JSON.parse(json.petID);
+  //         for(var i = 0; i < petIDStore.length; i++)
+  //         {
+  //           this.state.petIDArrayStoring[i] = petIDStore[i];
+  //         }
+  //       }
+  //     });
+
+  //   for(var i = 0; i < this.state.petIDArrayStoring.length; i++)
+  //   {
+  //     await AsyncStorage.getItem(this.state.petIDArrayStoring[i])
+  //     .then(req => JSON.parse(req))
+  //     .then(json => {
+  //       if(json.petWeight != '' && json.petWeight != undefined)
+  //       {
+  //         var tableData[i] = JSON.parse(json.petID);
+  //         for(var i = 0; i < petIDStore.length; i++)
+  //         {
+  //           this.state.petIDArrayStoring[i] = petIDStore[i];
+  //         }
+  //       }
+  //     });
+  //       // let object = {
+  //       //   id: this.state.petIDArrayStoring[i],
+  //       //   foodConsumed: json.foodConsumed
+  //       //   // name: json.name,
+  //       //   // petWeight: json.petWeight
+  //       // }
+
+  //       this.setState({
+  //         tableData:[...this.state.storedValues, object]
+  //       });
+  //     });
+  //   }
+  // }
+
+  render () {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff'}}>
+        <Table borderStyle={{margin: 2, borderWidth: 2, borderRadius: 10, borderColor: '#EAEAEA'}}>
+          <Row data={this.state.tableHead} style={styles.head} textStyle={styles.text}/>
+          <Row data={this.state.tableData} textStyle={styles.text}/>
+        </Table>
+        <SignInButton title="Refresh Data" onPress={() => navigation.navigate('BluetoothRead')} />
+        <TouchableOpacity
+            // onPress={() => this.refreshList()}
+            style={{backgroundColor:"#00A5FF", justifyContent: "center", width: 70, height: 70, borderRadius: 70/2, alignSelf: 'flex-end', position: 'absolute', bottom: 50, left: 40}}>
+            <View style={{justifyContent: "center", alignSelf: "center"}}>
+              <Icon name="refresh" size={40} color="#FFFFFF"/>
+            </View>
+          </TouchableOpacity>
+      </View>
+    );
+  }
 }
 
 const Tab = createBottomTabNavigator();
@@ -361,7 +422,7 @@ export default function ModifyPetScreen() {
         })}
       >
       <Tab.Screen options={{headerShown:false}} name="Modify Schedule" component={HomeScreen} />
-      <Tab.Screen options={{headerShown:false}} name="Analytics" component={SettingsScreen} />
+      <Tab.Screen options={{headerTitleAlign: 'center', headerShown:true}} name="Analytics" component={SettingsScreen} />
     </Tab.Navigator>
   );
 }

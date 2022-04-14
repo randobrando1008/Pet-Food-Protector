@@ -24,10 +24,8 @@ import { format } from "date-fns";
 
 import externalStyle from '../styles/externalStyle';
 import PawIcon from '../styles/PawIcon';
-import { quantitySent, pagePass} from './AddPetScreen.js';
-import { petIDAdd } from './AddPetScreen.js';
 import { petIDModify } from './ModifyPetScreen.js';
-import { quantitySent2 } from './ModifyPetScreen';
+import { quantitySent } from './ModifyPetScreen';
 
 export let feedingTimesArray;
 export let weightOfFood;
@@ -40,7 +38,7 @@ const AddButton = ({ onPress, title}) => (
     </TouchableOpacity>
 );
 
-class DatePickerScreen extends React.Component {
+class DatePickerScreenModify extends React.Component {
 
     constructor(props) {
         super(props);
@@ -114,45 +112,24 @@ class DatePickerScreen extends React.Component {
         weightOfFood = this.state.foodQuantity;
         feedingNumbers = this.state.numberOfFeeding;
         navigation = this.props.navigation;
-        this.props.navigation.navigate('BluetoothWrite');
+        this.props.navigation.navigate('BluetoothWriteModify');
     }
 
     componentDidMount = async () => {
-        console.log(petIDAdd);
         console.log(petIDModify);
-        if(petIDAdd != undefined)
-        {
-            await AsyncStorage.getItem(petIDAdd)
-                .then(req => JSON.parse(req))
-                .then(json => {
-                  this.state.foodQuantity = json.foodQuantity;
-                  this.state.numberOfFeeding = json.numberOfFeedings;
-                });
-        }
-
-        if(petIDModify != undefined)
-        {
-            await AsyncStorage.getItem(petIDModify)
-                .then(req => JSON.parse(req))
-                .then(json => {
-                  this.state.foodQuantity = json.foodQuantity;
-                  this.state.numberOfFeeding = json.numberOfFeedings;
-                });
-        }
+        await AsyncStorage.getItem(petIDModify)
+            .then(req => JSON.parse(req))
+            .then(json => {
+              this.state.foodQuantity = json.foodQuantity;
+              this.state.numberOfFeeding = json.numberOfFeedings;
+            });
     }
 
 
     render() {
         var myLoop = [];
         var finalQuantity;
-        if(pagePass == "AddPet")
-        {
-            finalQuantity = quantitySent;
-        }
-        else
-        {
-            finalQuantity = quantitySent2;
-        }
+        finalQuantity = quantitySent;
         for(let i = 0; i < finalQuantity; ++i){
             myLoop.push(
                 <View key={i}>
@@ -201,4 +178,4 @@ class DatePickerScreen extends React.Component {
     );}
 }
 
-export default DatePickerScreen
+export default DatePickerScreenModify

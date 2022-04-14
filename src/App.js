@@ -28,8 +28,10 @@ import AddPetScreen from './pages/AddPetScreen';
 import ModifyPetScreen from './pages/ModifyPetScreen';
 import SettingScreen from './pages/SettingScreen';
 import BluetoothRead from './pages/BluetoothRead';
-import BluetoothWrite from './pages/BluetoothWrite';
-import DatePickerScreen from './pages/DatePickerScreen';
+import BluetoothWriteAdd from './pages/BluetoothWriteAdd';
+import BluetoothWriteModify from './pages/BluetoothWriteModify';
+import DatePickerScreenAdd from './pages/DatePickerScreenAdd';
+import DatePickerScreenModify from './pages/DatePickerScreenModify';
 
 class App extends React.Component {
 
@@ -80,13 +82,23 @@ class App extends React.Component {
           />
           <Stack.Screen
             options={{headerShown:true}}
-            name="BluetoothWrite"
-            component={BluetoothWrite}
+            name="BluetoothWriteAdd"
+            component={BluetoothWriteAdd}
+          />
+          <Stack.Screen
+            options={{headerShown:true}}
+            name="BluetoothWriteModify"
+            component={BluetoothWriteModify}
           />
           <Stack.Screen
             options={{headerShown:false}}
-            name="DatePickerScreen"
-            component={DatePickerScreen}
+            name="DatePickerScreenAdd"
+            component={DatePickerScreenAdd}
+          />
+          <Stack.Screen
+            options={{headerShown:false}}
+            name="DatePickerScreenModify"
+            component={DatePickerScreenModify}
           />
         </Stack.Navigator>
       </NavigationContainer>

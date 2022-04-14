@@ -32,7 +32,7 @@ const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
 
 import { stringToBytes, bytesToString } from "convert-string";
 
-import { feedingTimesArray, weightOfFood, feedingNumbers, navigation} from "./DatePickerScreen.js"
+import { feedingTimesArray, weightOfFood, feedingNumbers, navigation} from "./DatePickerScreenModify.js"
 
 const Buffer = require('buffer/').Buffer;
 
@@ -121,6 +121,7 @@ const App = () => {
                 setTimeout(() => {
                   BleManager.write(peripheral.id, serviceUUID, charasteristicUUID, convertedWriteData).then(() => {
                     console.log("Write: " + convertedWriteData);
+                    navigation.navigate("CreateSchedule");
                   })
                   .catch((error) => {
                     console.log(error);
@@ -142,6 +143,10 @@ const App = () => {
   }
 
   useEffect(() => {
+    var writeData = `${weightOfFood};${feedingNumbers};${feedingTimesArray[0]};${feedingTimesArray[1]};${feedingTimesArray[2]}`;
+    console.log(writeData);
+    var convertedWriteData = stringToBytes(writeData);
+    console.log(convertedWriteData);
     BleManager.start({showAlert: false});
 
     var subscriptionDiscover = bleManagerEmitter.addListener('BleManagerDiscoverPeripheral', handleDiscoverPeripheral);

@@ -24,8 +24,7 @@ import externalStyle from '../styles/externalStyle';
 import PawIcon from '../styles/PawIcon';
 import CreateScheduleScreen from './CreateScheduleScreen'
 
-export var quantitySent;
-export var pagePass;
+export var quantitySentAdd;
 
 import { userID } from './SignInScreen.js';
 import { v4 as uuidv4 } from 'uuid';
@@ -51,7 +50,6 @@ class AddPetScreen extends React.Component {
           foodQuantityError: '',
           numberOfFeedings: '',
           numberOfFeedingsError: ''
-
         }
     }
 
@@ -150,10 +148,12 @@ class AddPetScreen extends React.Component {
           JSON.stringify(object),
         );
 
+        let foodInGrams = parseFloat(this.state.foodQuantity) * 128;
+
         let petObject = {
           name: this.state.feedName,
           petWeight: this.state.petWeight,
-          foodQuantity: this.state.foodQuantity,
+          foodQuantity: foodInGrams.toString(),
           numberOfFeedings: this.state.numberOfFeedings,
           feedingTimes: [],
           foodConsumed: []
@@ -166,9 +166,8 @@ class AddPetScreen extends React.Component {
         
         petIDAdd = "";
         petIDAdd = pet_id;
-        pagePass = this.props.route.name;
-        quantitySent = this.state.numberOfFeedings;
-        this.props.navigation.navigate('DatePickerScreen');
+        quantitySentAdd = this.state.numberOfFeedings;
+        this.props.navigation.navigate('DatePickerScreenAdd');
       }
     }
 

@@ -29,6 +29,7 @@ import PawIcon from '../styles/PawIcon';
 export var quantitySent;
 export let navigation;
 export var petIDModify;
+export var petIDRead;
 
 const SignInButton = ({ onPress, title}) => (
   <TouchableOpacity onPress={onPress} style={externalStyle.primaryButtonContainer}>
@@ -160,6 +161,37 @@ class HomeScreen extends React.Component {
     {
       this.setState({petWeightError: ""});
     }
+
+    if(parseFloat(this.state.petWeight) >= 1 && parseFloat(this.state.petWeight) <= 12)
+    {
+      this.setState({recommendFeeding1: "Recommended Ammount for 1 feeding time(in cups): 0.33 - 1"});
+      this.setState({recommendFeeding2: "Recommended Ammount for 2 feeding times(in cups): 0.17 - 0.5"});
+      this.setState({recommendFeeding3: "Recommended Ammount for 3 feeding times(in cups): 0.11 - 0.33"});
+    }
+    else if(parseFloat(this.state.petWeight) >= 13 && parseFloat(this.state.petWeight) <= 20)
+    {
+      this.setState({recommendFeeding1: "Recommended Ammount for 1 feeding time(in cups): 1 - 1.33"});
+      this.setState({recommendFeeding2: "Recommended Ammount for 2 feeding times(in cups): 0.5 - 0.67"});
+      this.setState({recommendFeeding3: "Recommended Ammount for 3 feeding times(in cups): 0.33 - 0.44"});
+    }
+    else if(parseFloat(this.state.petWeight) >= 21 && parseFloat(this.state.petWeight) <= 35)
+    {
+      this.setState({recommendFeeding1: "Recommended Ammount for 1 feeding time(in cups): 1.33 - 2"});
+      this.setState({recommendFeeding2: "Recommended Ammount for 2 feeding times(in cups): 0.67 - 1"});
+      this.setState({recommendFeeding3: "Recommended Ammount for 3 feeding times(in cups): 0.44 - 0.67"});
+    }
+    else if(parseFloat(this.state.petWeight) >= 36 && parseFloat(this.state.petWeight) <= 50)
+    {
+      this.setState({recommendFeeding1: "Recommended Ammount for 1 feeding time(in cups): 2 - 2.67"});
+      this.setState({recommendFeeding2: "Recommended Ammount for 2 feeding times(in cups): 1 - 1.33"});
+      this.setState({recommendFeeding3: "Recommended Ammount for 3 feeding times(in cups): 0.67 - 0.88"});
+    }
+    else
+    {
+      this.setState({recommendFeeding1: ""});
+      this.setState({recommendFeeding2: ""});
+      this.setState({recommendFeeding3: ""});
+    }
   }
 
   foodQuantityValidator()
@@ -188,6 +220,7 @@ class HomeScreen extends React.Component {
 
   componentDidMount = () => {
     console.log(petID);
+    petIDRead = petID;
     navigation = this.props.navigation;
     AsyncStorage.getItem(petID, (err, result) => {
       var parsedResults = JSON.parse(result);
@@ -242,6 +275,9 @@ class HomeScreen extends React.Component {
           />
           <Text style={externalStyle.extraText}>Note: Pet's Weight is in pounds</Text>
           <Text style={{alignSelf: 'center', color: 'red'}}>{this.state.petWeightError}</Text>
+          <Text style={{alignSelf: 'center', color: 'green'}}>{this.state.recommendFeeding1}</Text>
+          <Text style={{alignSelf: 'center', color: 'green'}}>{this.state.recommendFeeding2}</Text>
+          <Text style={{alignSelf: 'center', color: 'green'}}>{this.state.recommendFeeding3}</Text>
 
           <Text style={externalStyle.extraText}>How Much Food To Feed:</Text>
           <TextInput

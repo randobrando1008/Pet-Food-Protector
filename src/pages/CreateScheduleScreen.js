@@ -69,8 +69,6 @@ class CreateScheduleScreen extends React.Component {
   }
 
   sendToModify = (item) => {
-    console.log(item);
-
     petID = "";
     petID = item.id;
 
@@ -80,9 +78,9 @@ class CreateScheduleScreen extends React.Component {
   renderItem = (item) => {
     return (
       <TouchableHighlight onPress={() => this.sendToModify(item) }>
-		<View style={{borderColor: "#EAEAEA", borderWidth: 2, borderRadius: 15, alignSelf: 'center', width: '75%', margin: 5}}>
+        <View style={{borderColor: "#EAEAEA", borderWidth: 15}}>
           <Text style={externalStyle.extraText}>{item.name}</Text>
-          <Text style={externalStyle.extraText}>Weight: {item.petweight}</Text>
+          <Text style={externalStyle.extraText}>Weight: {item.petWeight}</Text>
         </View>
       </TouchableHighlight>
     );
@@ -94,7 +92,6 @@ class CreateScheduleScreen extends React.Component {
     await AsyncStorage.getItem(userID)
       .then(req => JSON.parse(req))
       .then(json => {
-        // console.log("PetID: ", json.petID);
         if(json.petID != '' && json.petID != undefined)
         {
           var petIDStore = JSON.parse(json.petID);
@@ -113,7 +110,7 @@ class CreateScheduleScreen extends React.Component {
         let object = {
           id: this.state.petIDArrayStoring[i],
           name: json.name,
-          petweight: json.petweight
+          petWeight: json.petWeight
         }
 
         this.setState({
@@ -125,7 +122,6 @@ class CreateScheduleScreen extends React.Component {
 
   componentDidMount = async () => {
     AsyncStorage.getAllKeys((err, result) => {
-      console.log(result);
       for(var i = 0; i < result.length; i++)
       {
         AsyncStorage.getItem(result[i], (err, result) => {
@@ -139,7 +135,6 @@ class CreateScheduleScreen extends React.Component {
     await AsyncStorage.getItem(userID)
       .then(req => JSON.parse(req))
       .then(json => {
-        // console.log("PetID: ", json.petID);
         if(json.petID != '' && json.petID != undefined)
         {
           var petIDStore = JSON.parse(json.petID);
@@ -155,12 +150,10 @@ class CreateScheduleScreen extends React.Component {
       await AsyncStorage.getItem(this.state.petIDArrayStoring[i])
       .then(req => JSON.parse(req))
       .then(json => {
-        console.log("Name:", json.name);
-        console.log("Weight:", json.petweight);
         let object = {
           id: this.state.petIDArrayStoring[i],
           name: json.name,
-          petweight: json.petweight
+          petWeight: json.petWeight
         }
 
         this.setState({

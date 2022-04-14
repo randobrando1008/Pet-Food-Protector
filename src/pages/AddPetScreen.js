@@ -24,13 +24,12 @@ import externalStyle from '../styles/externalStyle';
 import PawIcon from '../styles/PawIcon';
 import CreateScheduleScreen from './CreateScheduleScreen'
 
-export var quantitySent;
-export var pagePass;
+export var quantitySentAdd;
 
 import { userID } from './SignInScreen.js';
 import { v4 as uuidv4 } from 'uuid';
 
-export let petID = undefined;
+export let petIDAdd = undefined;
 
 const AddButton = ({ onPress, title}) => (
     <TouchableOpacity onPress={onPress} style={externalStyle.primaryButtonContainer}>
@@ -45,13 +44,15 @@ class AddPetScreen extends React.Component {
         this.state = {
           feedName: '',
           feedNameError: '',
-          feedWeight: '',
-          feedWeightError: '',
-          feedNumber: '',
-          feedNumberError: '',
-          feedTime: '',
-          feedTimeError: ''
-
+          petWeight: '',
+          petWeightError: '',
+          foodQuantity: '',
+          foodQuantityError: '',
+          numberOfFeedings: '',
+          numberOfFeedingsError: '',
+          recommendFeeding1: '',
+          recommendFeeding2: '',
+          recommendFeeding3: '',
         }
     }
 
@@ -59,29 +60,29 @@ class AddPetScreen extends React.Component {
       var isNameValid = false;
       var isWeightValid = false;
       var isFeedAmountValid = false;
-      var isFeedTimeValid = false;
+      var isnumberOfFeedingsValid = false;
 
       if(this.state.feedName != "")
       {
         isNameValid = true;
       }
 
-      if(this.state.feedWeight != "")
+      if(this.state.petWeight != "")
       {
-        if(parseInt(this.state.feedWeight) < 351 && parseInt(this.state.feedWeight) > 0)
+        if(parseInt(this.state.petWeight) < 351 && parseInt(this.state.petWeight) > 0)
           isWeightValid = true;
       }
 
-      if(this.state.feedNumber != "")
+      if(this.state.foodQuantity != "")
       {
-        if(parseFloat(this.state.feedNumber) < 2.1 && parseFloat(this.state.feedNumber) > 0)
+        if(parseFloat(this.state.foodQuantity) < 2.1 && parseFloat(this.state.foodQuantity) > 0)
           isFeedAmountValid = true;
       }
 
-      if(this.state.feedTime != "")
+      if(this.state.numberOfFeedings != "")
       {
-        if(parseInt(this.state.feedTime) < 4 && parseInt(this.state.feedTime) > 0)
-          isFeedTimeValid = true;
+        if(parseInt(this.state.numberOfFeedings) < 4 && parseInt(this.state.numberOfFeedings) > 0)
+          isnumberOfFeedingsValid = true;
       }
 
       if(!isNameValid || this.state.feedName == "")
@@ -93,34 +94,34 @@ class AddPetScreen extends React.Component {
         this.setState({feedNameError: ""});
       }
 
-      if(!isWeightValid || this.state.feedWeight == "" || parseInt(this.state.feedWeight) > 350)
+      if(!isWeightValid || this.state.petWeight == "" || parseInt(this.state.petWeight) > 350)
       {
-        this.setState({feedWeightError: "Max weight 350"});
+        this.setState({petWeightError: "Max weight 350"});
       }
       else
       {
-        this.setState({feedWeightError: ""});
+        this.setState({petWeightError: ""});
       }
 
-      if(!isFeedAmountValid || this.state.feedNumber == "" || this.state.feedNumber > 2)
+      if(!isFeedAmountValid || this.state.foodQuantity == "" || this.state.foodQuantity > 2)
       {
-        this.setState({feedNumberError: "Max amount of food is 2 cups"});
+        this.setState({foodQuantityError: "Max amount of food is 2 cups"});
       }
       else
       {
-        this.setState({feedNumberError: ""});
+        this.setState({foodQuantityError: ""});
       }
 
-      if(!isFeedTimeValid || this.state.feedTime == "" || this.state.feedTime > 3)
+      if(!isnumberOfFeedingsValid || this.state.numberOfFeedings == "" || this.state.numberOfFeedings > 3)
       {
-          this.setState({feedTimeError: "Max number of feeding times is 3"});
+          this.setState({numberOfFeedingsError: "Max number of feeding times is 3"});
       }
       else
       {
-          this.setState({feedTimeError: ""});
+          this.setState({numberOfFeedingsError: ""});
       }
 
-      if(isNameValid && isWeightValid && isFeedAmountValid && isFeedTimeValid)
+      if(isNameValid && isWeightValid && isFeedAmountValid && isnumberOfFeedingsValid)
       {
         var pet_id = uuidv4();
         var petIDArrayStore = [];
@@ -139,8 +140,6 @@ class AddPetScreen extends React.Component {
             }
             //console.log(petID);
             petIDArrayStore.push(pet_id);
-            petID = "";
-            petID = pet_id;
           });
 
         let object = {
@@ -152,12 +151,15 @@ class AddPetScreen extends React.Component {
           JSON.stringify(object),
         );
 
+        let foodInGrams = parseFloat(this.state.foodQuantity) * 128;
+
         let petObject = {
           name: this.state.feedName,
-          petweight: this.state.feedWeight,
-          foodweight: this.state.feedNumber,
-          foodTimesNumber: this.state.feedTime,
-          feedingTimes: []
+          petWeight: this.state.petWeight,
+          foodQuantity: foodInGrams.toString(),
+          numberOfFeedings: this.state.numberOfFeedings,
+          feedingTimes: [],
+          foodConsumed: []
         };
 
         AsyncStorage.setItem(
@@ -165,9 +167,10 @@ class AddPetScreen extends React.Component {
           JSON.stringify(petObject),
         );
         
-        pagePass = this.props.route.name;
-        quantitySent = this.state.feedTime;
-        this.props.navigation.navigate('DatePickerScreen');
+        petIDAdd = "";
+        petIDAdd = pet_id;
+        quantitySentAdd = this.state.numberOfFeedings;
+        this.props.navigation.navigate('DatePickerScreenAdd');
       }
     }
 
@@ -183,39 +186,70 @@ class AddPetScreen extends React.Component {
       }
     }
 
-    feedWeightValidator()
+    petWeightValidator()
     {
-      if(this.state.feedWeight=="")
+      if(this.state.petWeight=="")
       {
-        this.setState({feedWeightError: "Pet's Weight cannot be empty"});
+        this.setState({petWeightError: "Pet's Weight cannot be empty"});
       }
       else
       {
-        this.setState({feedWeightError: ""});
+        this.setState({petWeightError: ""});
+      }
+
+      if(parseFloat(this.state.petWeight) >= 1 && parseFloat(this.state.petWeight) <= 12)
+      {
+        this.setState({recommendFeeding1: "Recommended Ammount for 1 feeding time(in cups): 0.33 - 1"});
+        this.setState({recommendFeeding2: "Recommended Ammount for 2 feeding times(in cups): 0.17 - 0.5"});
+        this.setState({recommendFeeding3: "Recommended Ammount for 3 feeding times(in cups): 0.11 - 0.33"});
+      }
+      else if(parseFloat(this.state.petWeight) >= 13 && parseFloat(this.state.petWeight) <= 20)
+      {
+        this.setState({recommendFeeding1: "Recommended Ammount for 1 feeding time(in cups): 1 - 1.33"});
+        this.setState({recommendFeeding2: "Recommended Ammount for 2 feeding times(in cups): 0.5 - 0.67"});
+        this.setState({recommendFeeding3: "Recommended Ammount for 3 feeding times(in cups): 0.33 - 0.44"});
+      }
+      else if(parseFloat(this.state.petWeight) >= 21 && parseFloat(this.state.petWeight) <= 35)
+      {
+        this.setState({recommendFeeding1: "Recommended Ammount for 1 feeding time(in cups): 1.33 - 2"});
+        this.setState({recommendFeeding2: "Recommended Ammount for 2 feeding times(in cups): 0.67 - 1"});
+        this.setState({recommendFeeding3: "Recommended Ammount for 3 feeding times(in cups): 0.44 - 0.67"});
+      }
+      else if(parseFloat(this.state.petWeight) >= 36 && parseFloat(this.state.petWeight) <= 50)
+      {
+        this.setState({recommendFeeding1: "Recommended Ammount for 1 feeding time(in cups): 2 - 2.67"});
+        this.setState({recommendFeeding2: "Recommended Ammount for 2 feeding times(in cups): 1 - 1.33"});
+        this.setState({recommendFeeding3: "Recommended Ammount for 3 feeding times(in cups): 0.67 - 0.88"});
+      }
+      else
+      {
+        this.setState({recommendFeeding1: ""});
+        this.setState({recommendFeeding2: ""});
+        this.setState({recommendFeeding3: ""});
       }
     }
 
-    feedNumberValidator()
+    foodQuantityValidator()
     {
-      if(this.state.feedNumber=="")
+      if(this.state.foodQuantity=="")
       {
-        this.setState({feedNumberError: "Amount of food cannot be empty"});
+        this.setState({foodQuantityError: "Amount of food cannot be empty"});
       }
       else
       {
-        this.setState({feedNumberError: ""});
+        this.setState({foodQuantityError: ""});
       }
     }
 
-    feedTimeValidator()
+    numberOfFeedingsValidator()
     {
-      if(this.state.feedTime=="")
+      if(this.state.numberOfFeedings=="")
       {
-        this.setState({feedTimeError: "Number of feeding times cannot be empty"});
+        this.setState({numberOfFeedingsError: "Number of feeding times cannot be empty"});
       }
       else
       {
-        this.setState({feedTimeError: ""});
+        this.setState({numberOfFeedingsError: ""});
       }
     }
 
@@ -252,41 +286,44 @@ class AddPetScreen extends React.Component {
 
               <Text style={externalStyle.extraText}>Pet's Weight:</Text>
               <TextInput
-                value={this.state.feedWeight}
+                value={this.state.petWeight}
                 numericvalue
                 keyboardType={'numeric'}
-                onChangeText={feedWeight => this.setState({ feedWeight })}
+                onChangeText={petWeight => this.setState({ petWeight })}
                 placeholder={'Weight'}
                 style={externalStyle.inputStyle}
-                onBlur={()=>this.feedWeightValidator()}
+                onBlur={()=>this.petWeightValidator()}
               />
               <Text style={externalStyle.extraText}>Note: Pet's Weight is in pounds</Text>
-              <Text style={{alignSelf: 'center', color: 'red'}}>{this.state.feedWeightError}</Text>
+              <Text style={{alignSelf: 'center', color: 'red'}}>{this.state.petWeightError}</Text>
+              <Text style={{alignSelf: 'center', color: 'green'}}>{this.state.recommendFeeding1}</Text>
+              <Text style={{alignSelf: 'center', color: 'green'}}>{this.state.recommendFeeding2}</Text>
+              <Text style={{alignSelf: 'center', color: 'green'}}>{this.state.recommendFeeding3}</Text>
 
               <Text style={externalStyle.extraText}>How Much Food To Feed:</Text>
               <TextInput
-                value={this.state.feedNumber}
+                value={this.state.foodQuantity}
                 autoCapitalize="none"
                 keyboardType={'numeric'}
-                onChangeText={feedNumber => this.setState({ feedNumber })}
+                onChangeText={foodQuantity => this.setState({ foodQuantity })}
                 placeholder={'Quantity'}
                 style={externalStyle.inputStyle}
-                onBlur={()=>this.feedNumberValidator()}
+                onBlur={()=>this.foodQuantityValidator()}
               />
               <Text style={externalStyle.extraText}>Note: Food Weight is in cups</Text>
-              <Text style={{alignSelf: 'center', color: 'red'}}>{this.state.feedNumberError}</Text>
+              <Text style={{alignSelf: 'center', color: 'red'}}>{this.state.foodQuantityError}</Text>
 
               <Text style={externalStyle.extraText}>How many times a day:</Text>
               <TextInput
-                  value={this.state.feedTime}
+                  value={this.state.numberOfFeedings}
                   numericvalue
                   keyboardType={'numeric'}
-                  onChangeText={feedTime => this.setState({ feedTime })}
+                  onChangeText={numberOfFeedings => this.setState({ numberOfFeedings })}
                   placeholder={'Quantity'}
                   style={externalStyle.inputStyle}
-                  onBlur={()=>this.feedTimeValidator()}
+                  onBlur={()=>this.numberOfFeedingsValidator()}
               />
-              <Text style={{alignSelf: 'center', color: 'red'}}>{this.state.feedTimeError}</Text>
+              <Text style={{alignSelf: 'center', color: 'red'}}>{this.state.numberOfFeedingsError}</Text>
 
               <View style={{width: 265,
                     justifyContent: 'center',

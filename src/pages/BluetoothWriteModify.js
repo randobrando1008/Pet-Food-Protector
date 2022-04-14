@@ -17,16 +17,11 @@ import {
   PermissionsAndroid,
   FlatList,
   TouchableHighlight,
-
-  TouchableOpacity,
 } from 'react-native';
 
 import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
-
-import externalStyle from '../styles/externalStyle';
-import PawIcon from '../styles/PawIcon';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -37,7 +32,7 @@ const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
 
 import { stringToBytes, bytesToString } from "convert-string";
 
-import { feedingTimesArray, weightOfFood, feedingNumbers, navigation} from "./DatePickerScreen.js"
+import { feedingTimesArray, weightOfFood, feedingNumbers, navigation} from "./DatePickerScreenModify.js"
 
 const Buffer = require('buffer/').Buffer;
 
@@ -126,6 +121,7 @@ const App = () => {
                 setTimeout(() => {
                   BleManager.write(peripheral.id, serviceUUID, charasteristicUUID, convertedWriteData).then(() => {
                     console.log("Write: " + convertedWriteData);
+                    navigation.navigate("CreateSchedule");
                   })
                   .catch((error) => {
                     console.log(error);
@@ -137,8 +133,6 @@ const App = () => {
               });
             }, 200);
           });
-
-          navigate('CreateSchedule');
         })
         .catch((error) => {
           console.log('Connection error', error);
@@ -149,12 +143,16 @@ const App = () => {
   }
 
   useEffect(() => {
+    var writeData = `${weightOfFood};${feedingNumbers};${feedingTimesArray[0]};${feedingTimesArray[1]};${feedingTimesArray[2]}`;
+    console.log(writeData);
+    var convertedWriteData = stringToBytes(writeData);
+    console.log(convertedWriteData);
     BleManager.start({showAlert: false});
 
-    bleManagerEmitter.addListener('BleManagerDiscoverPeripheral', handleDiscoverPeripheral);
-    bleManagerEmitter.addListener('BleManagerStopScan', handleStopScan );
-    bleManagerEmitter.addListener('BleManagerDisconnectPeripheral', handleDisconnectedPeripheral );
-    bleManagerEmitter.addListener('BleManagerDidUpdateValueForCharacteristic', handleUpdateValueForCharacteristic );
+    var subscriptionDiscover = bleManagerEmitter.addListener('BleManagerDiscoverPeripheral', handleDiscoverPeripheral);
+    var subscriptionScan = bleManagerEmitter.addListener('BleManagerStopScan', handleStopScan );
+    var subscriptionDisconnect = bleManagerEmitter.addListener('BleManagerDisconnectPeripheral', handleDisconnectedPeripheral );
+    var subscriptionUpdate = bleManagerEmitter.addListener('BleManagerDidUpdateValueForCharacteristic', handleUpdateValueForCharacteristic );
 
     if (Platform.OS === 'android' && Platform.Version >= 23) {
       PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION).then((result) => {
@@ -174,10 +172,10 @@ const App = () => {
     
     return (() => {
       console.log('unmount');
-      bleManagerEmitter.removeListener('BleManagerDiscoverPeripheral', handleDiscoverPeripheral);
-      bleManagerEmitter.removeListener('BleManagerStopScan', handleStopScan );
-      bleManagerEmitter.removeListener('BleManagerDisconnectPeripheral', handleDisconnectedPeripheral );
-      bleManagerEmitter.removeListener('BleManagerDidUpdateValueForCharacteristic', handleUpdateValueForCharacteristic );
+      subscriptionDiscover.remove();
+      subscriptionScan.remove();
+      subscriptionDisconnect.remove();
+      subscriptionUpdate.remove();
     })
   }, []);
 
@@ -199,42 +197,43 @@ const App = () => {
 
   return (
     <>
-      <View style={{flex: 1,backgroundColor: '#fff'}}>
+      <StatusBar barStyle="dark-content" />
+      <SafeAreaView>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
-          style={externalStyle.scrollView}>
+          style={styles.scrollView}>
           {global.HermesInternal == null ? null : (
             <View style={styles.engine}>
               <Text style={styles.footer}>Engine: Hermes</Text>
             </View>
           )}
+          <View style={styles.body}>
+            
             <View style={{margin: 10}}>
-              <TouchableOpacity onPress={() => startScan()} style={externalStyle.primaryButtonContainer}>
-                <Text style={externalStyle.primaryButtonText}>{'Scan Bluetooth (' + (isScanning ? 'on' : 'off') + ')'}</Text>
-              </TouchableOpacity>
+              <Button 
+                title={'Scan Bluetooth (' + (isScanning ? 'on' : 'off') + ')'}
+                onPress={() => startScan() } 
+              />            
             </View>
 
             <View style={{margin: 10}}>
-
-              <TouchableOpacity onPress={() => retrieveConnected()} style={externalStyle.secondaryButtonContainer}>
-                <Text style={externalStyle.secondaryButtonText}>{"Retrieve connected peripherals"}</Text>
-              </TouchableOpacity>
+              <Button title="Retrieve connected peripherals" onPress={() => retrieveConnected() } />
             </View>
 
             {(list.length == 0) &&
               <View style={{flex:1, margin: 20}}>
-                <Text style={{textAlign: 'center', color: '#C4C4C4', fontSize: 18}}>No peripherals</Text>
+                <Text style={{textAlign: 'center'}}>No peripherals</Text>
               </View>
             }
-
+          
+          </View>              
         </ScrollView>
         <FlatList
             data={list}
             renderItem={({ item }) => renderItem(item) }
             keyExtractor={item => item.id}
-          />
-          <PawIcon />
-    </View>
+          />              
+      </SafeAreaView>
     </>
   );
 };
@@ -249,6 +248,21 @@ const styles = StyleSheet.create({
   },
   body: {
     backgroundColor: Colors.white,
+  },
+  sectionContainer: {
+    marginTop: 32,
+    paddingHorizontal: 24,
+  },
+  sectionTitle: {
+    fontSize: 24,
+    fontWeight: '600',
+    color: Colors.black,
+  },
+  sectionDescription: {
+    marginTop: 8,
+    fontSize: 18,
+    fontWeight: '400',
+    color: Colors.dark,
   },
   highlight: {
     fontWeight: '700',

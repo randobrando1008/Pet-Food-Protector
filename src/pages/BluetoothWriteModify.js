@@ -16,7 +16,7 @@ import {
   Platform,
   PermissionsAndroid,
   FlatList,
-  TouchableHighlight,
+  TouchableOpacity
 } from 'react-native';
 
 import {
@@ -33,6 +33,9 @@ const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
 import { stringToBytes, bytesToString } from "convert-string";
 
 import { feedingTimesArray, weightOfFood, feedingNumbers, navigation} from "./DatePickerScreenModify.js"
+
+import externalStyle from '../styles/externalStyle';
+import PawIcon from '../styles/PawIcon';
 
 const Buffer = require('buffer/').Buffer;
 
@@ -184,13 +187,13 @@ const App = () => {
     if(item.name == "RN4870-C6FC" || item.id == "04:91:62:94:C6:FC")
     {
       return (
-        <TouchableHighlight onPress={() => testPeripheral(item) }>
+        <TouchableOpacity onPress={() => testPeripheral(item) }>
           <View style={[styles.row, {backgroundColor: color}]}>
             <Text style={{fontSize: 12, textAlign: 'center', color: '#333333', padding: 10}}>{item.name}</Text>
             <Text style={{fontSize: 10, textAlign: 'center', color: '#333333', padding: 2}}>RSSI: {item.rssi}</Text>
             <Text style={{fontSize: 8, textAlign: 'center', color: '#333333', padding: 2, paddingBottom: 20}}>{item.id}</Text>
           </View>
-        </TouchableHighlight>
+        </TouchableOpacity>
       );
     }
   }
@@ -210,14 +213,20 @@ const App = () => {
           <View style={styles.body}>
             
             <View style={{margin: 10}}>
-              <Button 
+              <TouchableOpacity onPress={() => startScan() } style={externalStyle.primaryButtonContainer}>
+                <Text style={externalStyle.primaryButtonText}>{'Scan Bluetooth (' + (isScanning ? 'on' : 'off') + ')'}</Text>
+              </TouchableOpacity>
+              {/* <Button
                 title={'Scan Bluetooth (' + (isScanning ? 'on' : 'off') + ')'}
                 onPress={() => startScan() } 
-              />            
+              />             */}
             </View>
 
             <View style={{margin: 10}}>
-              <Button title="Retrieve connected peripherals" onPress={() => retrieveConnected() } />
+              <TouchableOpacity onPress={() => retrieveConnected() } style={externalStyle.primaryButtonContainer}>
+                <Text style={externalStyle.primaryButtonText}>{"Retrieve connected peripherals"}</Text>
+              </TouchableOpacity>
+              {/* <Button title="Retrieve connected peripherals" onPress={() => retrieveConnected() } /> */}
             </View>
 
             {(list.length == 0) &&
@@ -232,7 +241,8 @@ const App = () => {
             data={list}
             renderItem={({ item }) => renderItem(item) }
             keyExtractor={item => item.id}
-          />              
+        />
+        <PawIcon />
       </SafeAreaView>
     </>
   );
@@ -248,24 +258,6 @@ const styles = StyleSheet.create({
   },
   body: {
     backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
   },
   footer: {
     color: Colors.dark,

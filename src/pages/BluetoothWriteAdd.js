@@ -16,7 +16,7 @@ import {
   Platform,
   PermissionsAndroid,
   FlatList,
-  TouchableHighlight,
+  TouchableOpacity
 } from 'react-native';
 
 import {
@@ -33,6 +33,9 @@ const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
 import { stringToBytes, bytesToString } from "convert-string";
 
 import { feedingHours, feedingMinutes, weightOfFood, feedingNumbers, navigation} from "./DatePickerScreenAdd.js"
+
+import externalStyle from '../styles/externalStyle';
+import PawIcon from '../styles/PawIcon';
 
 const Buffer = require('buffer/').Buffer;
 
@@ -330,19 +333,20 @@ const App = () => {
           <View style={styles.body}>
             
             <View style={{margin: 10}}>
-              <Button 
-                title={'Scan Bluetooth (' + (isScanning ? 'on' : 'off') + ')'}
-                onPress={() => startScan() } 
-              />            
+              <TouchableOpacity onPress={() => startScan() } style={externalStyle.primaryButtonContainer}>
+                <Text style={externalStyle.primaryButtonText}>{'Scan Bluetooth (' + (isScanning ? 'on' : 'off') + ')'}</Text>
+              </TouchableOpacity>
             </View>
 
             <View style={{margin: 10}}>
-              <Button title="Retrieve connected peripherals" onPress={() => retrieveConnected() } />
+              <TouchableOpacity onPress={() => retrieveConnected() } style={externalStyle.primaryButtonContainer}>
+                <Text style={externalStyle.primaryButtonText}>{"Retrieve connected peripherals"}</Text>
+              </TouchableOpacity>
             </View>
 
             {(list.length == 0) &&
               <View style={{flex:1, margin: 20}}>
-                <Text style={{textAlign: 'center'}}>No peripherals</Text>
+                <Text style={{textAlign: 'center', color: '#C4C4C4', fontSize: 18,}}>No peripherals</Text>
               </View>
             }
           
@@ -352,7 +356,8 @@ const App = () => {
             data={list}
             renderItem={({ item }) => renderItem(item) }
             keyExtractor={item => item.id}
-          />              
+        />
+        <PawIcon />
       </SafeAreaView>
     </>
   );
@@ -368,24 +373,6 @@ const styles = StyleSheet.create({
   },
   body: {
     backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
   },
   footer: {
     color: Colors.dark,

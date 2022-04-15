@@ -144,7 +144,16 @@ const App = () => {
 
                           console.log(data);
 
-                          readDataValues.push(data);
+                          for(var i = 0; i < readDataValues.length; i++)
+                          {
+                            if(readDataValues[i] == "")
+                            {
+                              readDataValues[i] = data;
+                              break;
+                            }
+                          }
+
+                          // readDataValues.push(data);
 
                           let petObject = {
                             foodConsumed: readDataValues,

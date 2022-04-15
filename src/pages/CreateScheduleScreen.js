@@ -108,9 +108,9 @@ class CreateScheduleScreen extends React.Component {
       .then(json => {
         let object = {
 
-          // id: this.state.petIDArrayStoring[i],
-          // name: json.name,
-          // petWeight: json.petWeight
+          id: this.state.petIDArrayStoring[i],
+          name: json.name,
+          petWeight: json.petWeight
         }
 
         this.setState({

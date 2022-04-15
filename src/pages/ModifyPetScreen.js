@@ -334,49 +334,33 @@ class SettingsScreen extends React.Component {
     }
   }
 
-  // refreshList = async () => {
-  //   this.state.petIDArrayStoring = [];
-  //   this.state.storedValues = [];
-  //   await AsyncStorage.getItem(userID)
-  //     .then(req => JSON.parse(req))
-  //     .then(json => {
-  //       if(json.petID != '' && json.petID != undefined)
-  //       {
-  //         var petIDStore = JSON.parse(json.petID);
-  //         for(var i = 0; i < petIDStore.length; i++)
-  //         {
-  //           this.state.petIDArrayStoring[i] = petIDStore[i];
-  //         }
-  //       }
-  //     });
+  refreshList = async () => {
+    await AsyncStorage.getItem(petID)
+      .then(req => JSON.parse(req))
+      .then(json => {
+        console.log(json.foodConsumed);
+        for(var i = 0; i < json.foodConsumed.length; i++)
+        {
+          if(json.foodConsumed[i] == "")
+          {
+            json.foodConsumed[i] = '4/9/22, 30g';
+            break;
+          }
+        }
+        this.setState({tableData: json.foodConsumed});
+        console.log(this.state.tableData);
+      });
+  }
 
-  //   for(var i = 0; i < this.state.petIDArrayStoring.length; i++)
-  //   {
-  //     await AsyncStorage.getItem(this.state.petIDArrayStoring[i])
-  //     .then(req => JSON.parse(req))
-  //     .then(json => {
-  //       if(json.petWeight != '' && json.petWeight != undefined)
-  //       {
-  //         var tableData[i] = JSON.parse(json.petID);
-  //         for(var i = 0; i < petIDStore.length; i++)
-  //         {
-  //           this.state.petIDArrayStoring[i] = petIDStore[i];
-  //         }
-  //       }
-  //     });
-  //       // let object = {
-  //       //   id: this.state.petIDArrayStoring[i],
-  //       //   foodConsumed: json.foodConsumed
-  //       //   // name: json.name,
-  //       //   // petWeight: json.petWeight
-  //       // }
-
-  //       this.setState({
-  //         tableData:[...this.state.storedValues, object]
-  //       });
-  //     });
-  //   }
-  // }
+  componentDidMount = async () => {
+    await AsyncStorage.getItem(petID)
+      .then(req => JSON.parse(req))
+      .then(json => {
+        console.log(json.foodConsumed);
+        this.setState({tableData: json.foodConsumed});
+        console.log(this.state.tableData);
+      });
+  };
 
   render () {
     return (
@@ -387,7 +371,7 @@ class SettingsScreen extends React.Component {
         </Table>
         <SignInButton title="Refresh Data" onPress={() => navigation.navigate('BluetoothRead')} />
         <TouchableOpacity
-            // onPress={() => this.refreshList()}
+            onPress={() => this.refreshList()}
             style={{backgroundColor:"#00A5FF", justifyContent: "center", width: 70, height: 70, borderRadius: 70/2, alignSelf: 'flex-end', position: 'absolute', bottom: 50, left: 40}}>
             <View style={{justifyContent: "center", alignSelf: "center"}}>
               <Icon name="refresh" size={40} color="#FFFFFF"/>

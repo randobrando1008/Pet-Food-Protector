@@ -159,7 +159,7 @@ class AddPetScreen extends React.Component {
           foodQuantity: foodInGrams.toString(),
           numberOfFeedings: this.state.numberOfFeedings,
           feedingTimes: [],
-          foodConsumed: []
+          foodConsumed: ["", "", "", "", "", "", ""]
         };
 
         AsyncStorage.setItem(

@@ -27,7 +27,8 @@ import PawIcon from '../styles/PawIcon';
 import { quantitySentAdd } from './AddPetScreen.js';
 import { petIDAdd } from './AddPetScreen.js';
 
-export let feedingTimesArray;
+export let feedingHours;
+export let feedingMinutes;
 export let weightOfFood;
 export let feedingNumbers;
 export let navigation;
@@ -47,7 +48,6 @@ class DatePickerScreenAdd extends React.Component {
             minuteTime: [],
             key: -1,
             isDatePickerVisible: false,
-            feedingTimes: [],
             foodQuantity: "",
             numberOfFeeding: ""
         }
@@ -94,22 +94,33 @@ class DatePickerScreenAdd extends React.Component {
     writeToBluetooth = () => {
         for(var i = 0; i < 3; i++)
         {
-            if(this.state.hourTime[i] != undefined || this.state.minuteTime[i] != undefined)
+            if(this.state.hourTime[i] == undefined && this.state.minuteTime[i] == undefined)
             {
-                var feedingTime = "";
-                feedingTime = `${this.state.hourTime[i]}${this.state.minuteTime[i]}`;
-                this.state.feedingTimes.push(feedingTime);
+                this.state.hourTime[i] = "99";
+                this.state.minuteTime[i] = "99";
             }
-            else
-            {
-                var feedingTime = "";
-                feedingTime = `9999`;
-                this.state.feedingTimes.push(feedingTime);
-            }
+            // if(this.state.hourTime[i] != undefined || this.state.minuteTime[i] != undefined)
+            // {
+            //     var feedingTime = "";
+            //     feedingTime = `${this.state.hourTime[i]}${this.state.minuteTime[i]}`;
+            //     this.state.feedingTimes.push(feedingTime);
+            // }
+            // else
+            // {
+            //     var feedingTime = "";
+            //     feedingTime = `9999`;
+            //     this.state.feedingTimes.push(feedingTime);
+            // }
         }
 
-        feedingTimesArray = this.state.feedingTimes;
-        weightOfFood = this.state.foodQuantity;
+        feedingHours = this.state.hourTime;
+        feedingMinutes = this.state.minuteTime;
+        var variable = this.state.foodQuantity;
+        if(parseFloat(this.state.foodQuantity) < 100)
+        {
+            variable = "0" + variable;
+        }
+        weightOfFood = variable;
         feedingNumbers = this.state.numberOfFeeding;
         navigation = this.props.navigation;
         this.props.navigation.navigate('BluetoothWriteAdd');

@@ -22,6 +22,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { format } from "date-fns";
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import { petID } from "./CreateScheduleScreen.js";
+import { userID } from './SignInScreen.js';
 
 import externalStyle from '../styles/externalStyle';
 import PawIcon from '../styles/PawIcon';
@@ -218,6 +219,62 @@ class HomeScreen extends React.Component {
     }
   }
 
+  deletePet = async () => {
+    var petIDArrayStore = [];
+
+    await AsyncStorage.getAllKeys((err, result) => {
+      console.log(result);
+    });
+
+    await AsyncStorage.getItem(userID)
+      .then(req => JSON.parse(req))
+      .then(json => {
+        var petIDs = JSON.parse(json.petID);
+        console.log(petIDs);
+        for(var i = 0; i < petIDs.length; i++)
+        {
+          if(petIDs[i] == petID)
+          {
+            petIDs[i] = "";
+            break;
+          }
+        }
+        console.log(petIDs);
+        for(var i = 0; i < petIDs.length; i++)
+        {
+          if(petIDs[i] != "")
+          {
+            petIDArrayStore[i] = petIDs[i];
+          }
+        }
+        console.log(petIDArrayStore);
+      });
+
+      
+    let object = {
+      petID: JSON.stringify(petIDArrayStore)
+    };
+
+    await AsyncStorage.mergeItem(
+      userID,
+      JSON.stringify(object),
+    );
+
+    await AsyncStorage.removeItem(petID);
+
+    await AsyncStorage.getAllKeys((err, result) => {
+      console.log(result);
+    });
+
+    await AsyncStorage.getItem(userID)
+      .then(req => JSON.parse(req))
+      .then(json => {
+        console.log(json);
+      });
+      
+    this.props.navigation.navigate('CreateSchedule');
+  }
+
   componentDidMount = () => {
     console.log(petID);
     petIDRead = petID;
@@ -245,8 +302,8 @@ class HomeScreen extends React.Component {
           <Text style={externalStyle.headerText}>Modify Schedule</Text>
           <TouchableOpacity
             style={{ backgroundColor:"#FFFFFF00", flexDirection: "row", padding: 2}}
-            onPress={() => this.props.navigation.navigate('Setting')}>
-            <Icon name="gear" size={30} color="#000000CC" backgroundColor="#FFFFFF00"/>
+            onPress={() => this.deletePet()}>
+            <Icon name="trash" size={30} color="#000000CC" backgroundColor="#FFFFFF00"/>
           </TouchableOpacity>
         </View>
 

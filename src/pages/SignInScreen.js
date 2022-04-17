@@ -155,6 +155,12 @@ class SignInScreen extends React.Component {
     }
   }
 
+  // componentDidMount = async () => {
+  //   AsyncStorage.getAllKeys((err, result) => {
+  //     console.log(result);
+  //   });
+  // }
+
   render() {
     return (
       <View style={{flex: 1,backgroundColor: '#fff'}}>

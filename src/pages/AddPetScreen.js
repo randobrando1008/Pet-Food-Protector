@@ -290,7 +290,7 @@ class AddPetScreen extends React.Component {
                 numericvalue
                 keyboardType={'numeric'}
                 onChangeText={petWeight => this.setState({ petWeight })}
-                placeholder={'Weight'}
+                placeholder={'Pet Weight'}
                 style={externalStyle.inputStyle}
                 onBlur={()=>this.petWeightValidator()}
               />
@@ -319,7 +319,7 @@ class AddPetScreen extends React.Component {
                   numericvalue
                   keyboardType={'numeric'}
                   onChangeText={numberOfFeedings => this.setState({ numberOfFeedings })}
-                  placeholder={'Quantity'}
+                  placeholder={'Feeding Times Per Day(e.g. 1,2,3)'}
                   style={externalStyle.inputStyle}
                   onBlur={()=>this.numberOfFeedingsValidator()}
               />

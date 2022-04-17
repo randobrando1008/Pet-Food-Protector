@@ -326,7 +326,7 @@ class HomeScreen extends React.Component {
             numericvalue
             keyboardType={'numeric'}
             onChangeText={petWeight => this.setState({ petWeight })}
-            placeholder={'Weight'}
+            placeholder={'Pet Weight'}
             style={externalStyle.inputStyle}
             onBlur={()=>this.petWeightValidator()}
           />
@@ -355,7 +355,7 @@ class HomeScreen extends React.Component {
               numericvalue
               keyboardType={'numeric'}
               onChangeText={numberOfFeedings => this.setState({ numberOfFeedings })}
-              placeholder={'Quantity'}
+              placeholder={'Feeding Times Per Day(e.g. 1,2,3)'}
               style={externalStyle.inputStyle}
               onBlur={()=>this.numberOfFeedingsValidator()}
           />
@@ -396,14 +396,14 @@ class SettingsScreen extends React.Component {
       .then(req => JSON.parse(req))
       .then(json => {
         console.log(json.foodConsumed);
-        for(var i = 0; i < json.foodConsumed.length; i++)
-        {
-          if(json.foodConsumed[i] == "")
-          {
-            json.foodConsumed[i] = '4/9/22, 30g';
-            break;
-          }
-        }
+        // for(var i = 0; i < json.foodConsumed.length; i++)
+        // {
+        //   if(json.foodConsumed[i] == "")
+        //   {
+        //     json.foodConsumed[i] = '4/9/22, 30g';
+        //     break;
+        //   }
+        // }
         this.setState({tableData: json.foodConsumed});
         console.log(this.state.tableData);
       });
@@ -476,6 +476,6 @@ const AddButton = ({ onPress, title}) => (
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff' },
-  head: { height: 40,  width: '80%', boarderRadius:20, backgroundColor: '#ffffff' },
+  head: { height: 40,  width: '100%', boarderRadius:20, backgroundColor: '#ffffff' },
   text: { margin: 6, color: '#C4C4C4' }
 });

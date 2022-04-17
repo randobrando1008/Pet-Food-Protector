@@ -47,7 +47,6 @@ class DatePickerScreenModify extends React.Component {
             minuteTime: [],
             key: -1,
             isDatePickerVisible: false,
-            feedingTimes: [],
             foodQuantity: "",
             numberOfFeeding: ""
         }
@@ -69,10 +68,10 @@ class DatePickerScreenModify extends React.Component {
         {
             hours += 12;
         }
-        if(date.getHours() < 10)
-        {
-            hours = "0" + hours;
-        }
+        // if(date.getHours() < 10)
+        // {
+        //     hours = "0" + hours;
+        // }
         if(minutes < 10)
         {
             minutes = "0" + minutes;
@@ -94,21 +93,21 @@ class DatePickerScreenModify extends React.Component {
     writeToBluetooth = () => {
         for(var i = 0; i < 3; i++)
         {
-            if(this.state.hourTime[i] != undefined || this.state.minuteTime[i] != undefined)
+            if(this.state.hourTime[i] == undefined && this.state.minuteTime[i] == undefined)
             {
-                var feedingTime = "";
-                feedingTime = `${this.state.hourTime[i]}${this.state.minuteTime[i]}`;
-                this.state.feedingTimes.push(feedingTime);
-            }
-            else
-            {
-                var feedingTime = "";
-                feedingTime = `9999`;
-                this.state.feedingTimes.push(feedingTime);
+                this.state.hourTime[i] = "99";
+                this.state.minuteTime[i] = "99";
             }
         }
 
-        feedingTimesArray = this.state.feedingTimes;
+        feedingHours = this.state.hourTime;
+        feedingMinutes = this.state.minuteTime;
+        // var variable = this.state.foodQuantity;
+        // if(parseFloat(this.state.foodQuantity) < 100)
+        // {
+        //     variable = "0" + variable;
+        // }
+        // weightOfFood = variable;
         weightOfFood = this.state.foodQuantity;
         feedingNumbers = this.state.numberOfFeeding;
         navigation = this.props.navigation;
@@ -141,7 +140,7 @@ class DatePickerScreenModify extends React.Component {
                     />
                     <View style={{ justifyContent: 'center',
                         alignSelf: "center"}}>
-                        <Text style={externalStyle.extraText}>Chanage Schedule</Text>
+                        <Text style={externalStyle.extraText}>Change Schedule</Text>
                         <TouchableOpacity
                             style={{ backgroundColor:"#FFFFFF00", padding: 1}}
                             onPress={this.showDatePicker} >

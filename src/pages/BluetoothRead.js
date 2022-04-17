@@ -67,6 +67,7 @@ const App = () => {
       setList(Array.from(peripherals.values()));
     }
     console.log('Disconnected from ' + data.peripheral);
+    // navigation.navigate("ModifyPet");
   }
 
   const handleUpdateValueForCharacteristic = (data) => {
@@ -101,8 +102,22 @@ const App = () => {
     }
   }
 
+  const sendData = async (storeData) => {
+    console.log(storeData);
+    let petData = {
+      foodConsumed: storeData
+    }
+
+    await AsyncStorage.mergeItem(
+      petIDRead,
+      JSON.stringify(petData),
+    );
+  }
+
   const testPeripheral = (peripheral) => {
     var readDataValues = [];
+    var storeData = [];
+    var store = "";
     var readData = true;
     var stopping = true;
     if (peripheral){
@@ -128,57 +143,25 @@ const App = () => {
             BleManager.startNotification(peripheral.id, serviceUUID, charasteristicUUID).then(() => {
               bleManagerEmitter.addListener(
                 "BleManagerDidUpdateValueForCharacteristic",
+                //data:data:data:data:data:data:data:s
                 ({ value, peripheral, charasteristicUUID, serviceUUID }) => {
-                  if(readData)
-                  {
-                    // Convert bytes array to string
-                    const data = bytesToString(value);
-                    if(data != "")
+                  const data = bytesToString(value);
+                  setTimeout(() => {
+                    console.log(data);
+                    for(var i = 0; i < data.length; i++)
                     {
-                      AsyncStorage.getItem(petIDRead)
-                        .then(req => JSON.parse(req))
-                        .then(json => {
-                          console.log("Food Consumed:", json.foodConsumed);
-                          readDataValues = json.foodConsumed;
-                          console.log(readDataValues);
-
-                          console.log(data);
-
-                          for(var i = 0; i < readDataValues.length; i++)
-                          {
-                            if(readDataValues[i] == "")
-                            {
-                              readDataValues[i] = data;
-                              break;
-                            }
-                          }
-
-                          // readDataValues.push(data);
-
-                          let petObject = {
-                            foodConsumed: readDataValues,
-                          };
-                
-                          AsyncStorage.mergeItem(
-                            petIDRead,
-                            JSON.stringify(petObject),
-                          );
-                        });
-                        
-                      readData = false;
+                      if(data[i] != ":")
+                      {
+                        store = store + data[i];
+                      }
+                      else
+                      {
+                        storeData.push(store);
+                        store = "";
+                      }
                     }
-                  }
-                  else
-                  {
-                    if(stopping)
-                    {
-                      BleManager.stopNotification(peripheral.id, serviceUUID, charasteristicUUID);
-                      // BleManager.disconnect(peripheral.id);
-                      stopping = false;
-                      navigation.navigate('ModifyPet');
-                    }
-                    return;
-                  }
+                    sendData(storeData);
+                  }, 1000);
                 }
               );
             });

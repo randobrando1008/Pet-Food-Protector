@@ -69,10 +69,10 @@ class DatePickerScreenAdd extends React.Component {
         {
             hours += 12;
         }
-        // if(date.getHours() < 10)
-        // {
-        //     hours = "0" + hours;
-        // }
+        if(date.getHours() < 10)
+        {
+            hours = "0" + hours;
+        }
         if(minutes < 10)
         {
             minutes = "0" + minutes;
@@ -103,13 +103,13 @@ class DatePickerScreenAdd extends React.Component {
 
         feedingHours = this.state.hourTime;
         feedingMinutes = this.state.minuteTime;
-        // var variable = this.state.foodQuantity;
-        // if(parseFloat(this.state.foodQuantity) < 100)
-        // {
-        //     variable = "0" + variable;
-        // }
-        // weightOfFood = variable;
-        weightOfFood = this.state.foodQuantity;
+        var variable = this.state.foodQuantity;
+        if(parseFloat(this.state.foodQuantity) < 100)
+        {
+            variable = "0" + variable;
+        }
+        weightOfFood = variable;
+        // weightOfFood = this.state.foodQuantity;
         feedingNumbers = this.state.numberOfFeeding;
         navigation = this.props.navigation;
         this.props.navigation.navigate('BluetoothWriteAdd');

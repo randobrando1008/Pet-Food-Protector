@@ -151,7 +151,7 @@ class AddPetScreen extends React.Component {
           JSON.stringify(object),
         );
 
-        let foodInGrams = parseFloat(this.state.foodQuantity) * 128;
+        let foodInGrams = Math.round(parseFloat(this.state.foodQuantity) * 128);
 
         let petObject = {
           name: this.state.feedName,

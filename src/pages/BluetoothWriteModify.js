@@ -69,7 +69,7 @@ const App = () => {
       setList(Array.from(peripherals.values()));
     }
     console.log('Disconnected from ' + data.peripheral);
-    navigation.navigate("CreateSchedule");
+    // navigation.navigate("CreateSchedule");
   }
 
   const handleUpdateValueForCharacteristic = (data) => {

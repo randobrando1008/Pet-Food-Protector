@@ -79,7 +79,7 @@ const App = () => {
       if (results.length == 0) {
         console.log('No connected peripherals')
       }
-      console.log(results);
+      // console.log(results);
       for (var i = 0; i < results.length; i++) {
         var peripheral = results[i];
         peripheral.connected = true;
@@ -103,10 +103,12 @@ const App = () => {
   }
 
   const sendData = async (storeData) => {
-    console.log(storeData);
+    // console.log(storeData);
     let petData = {
       foodConsumed: storeData
     }
+
+    // console.log(storeData);
 
     await AsyncStorage.mergeItem(
       petIDRead,
@@ -115,10 +117,8 @@ const App = () => {
   }
 
   const testPeripheral = (peripheral) => {
-    var readDataValues = [];
     var storeData = [];
     var store = "";
-    var readData = true;
     var stopping = true;
     if (peripheral){
       if (peripheral.connected){
@@ -130,38 +130,67 @@ const App = () => {
 
           // retrieve peripheral services info
           BleManager.retrieveServices(peripheral.id).then((peripheralInfo) => {
-            console.log('Retrieved peripheral services', peripheralInfo);
+            // console.log('Retrieved peripheral services', peripheralInfo);
 
             // test read and write data to peripheral
             const serviceUUID = '49535343-fe7d-4ae5-8fa9-9fafd205e455';
             const charasteristicUUID = '49535343-1e4d-4bd9-ba61-23c647249616';
 
-            console.log('peripheral id:', peripheral.id);
-            console.log('service:', serviceUUID);
-            console.log('characteristic:', charasteristicUUID);
+            // console.log('peripheral id:', peripheral.id);
+            // console.log('service:', serviceUUID);
+            // console.log('characteristic:', charasteristicUUID);
 
             BleManager.startNotification(peripheral.id, serviceUUID, charasteristicUUID).then(() => {
               bleManagerEmitter.addListener(
                 "BleManagerDidUpdateValueForCharacteristic",
-                //data:data:data:data:data:data:data:s
+                //data:data:data:data:data:data:data:
                 ({ value, peripheral, charasteristicUUID, serviceUUID }) => {
                   const data = bytesToString(value);
-                  setTimeout(() => {
-                    console.log(data);
-                    for(var i = 0; i < data.length; i++)
-                    {
-                      if(data[i] != ":")
+                  // console.log(data);
+                  if(data == undefined)
+                  {
+                    // do nothing
+                  }
+                  else
+                  {
+                    setTimeout(() => {
+                      console.log(data);
+                      console.log(data.length);
+                      for(var i = 0; i < data.length; i++)
                       {
-                        store = store + data[i];
+                        if(data[i] != ":" && data[i] != "0")
+                        {
+                          store = store + data[i];
+                        }
+                        else if(data[i] == "0" && data[i+1] == "0")
+                        {
+                          store = "";
+                        }
+                        else
+                        {
+                          storeData.push(store);
+                          store = "";
+                        }
+                        if(i > 7)
+                        {
+                          for(var j = 0; j < 7; j++)
+                          {
+                            if(storeData[j] != undefined)
+                            {
+                              //do nothing
+                            }
+                            else
+                            {
+                              storeData[j] = "";
+                            }
+                          }
+                          sendData(storeData);
+                          storeData = [];
+                          break;
+                        }
                       }
-                      else
-                      {
-                        storeData.push(store);
-                        store = "";
-                      }
-                    }
-                    sendData(storeData);
-                  }, 1000);
+                    }, 500);
+                  }
                 }
               );
             });

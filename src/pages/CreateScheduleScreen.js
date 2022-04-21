@@ -86,6 +86,7 @@ class CreateScheduleScreen extends React.Component {
   }
 
   refreshList = async () => {
+    console.log(this.state.storedValues);
     this.state.petIDArrayStoring = [];
     this.state.storedValues = [];
     await AsyncStorage.getItem(userID)
@@ -101,21 +102,30 @@ class CreateScheduleScreen extends React.Component {
         }
       });
 
-    for(var i = 0; i < this.state.petIDArrayStoring.length; i++)
+    if(this.state.petIDArrayStoring.length != 0)
     {
-      await AsyncStorage.getItem(this.state.petIDArrayStoring[i])
-      .then(req => JSON.parse(req))
-      .then(json => {
-        let object = {
+      for(var i = 0; i < this.state.petIDArrayStoring.length; i++)
+      {
+        await AsyncStorage.getItem(this.state.petIDArrayStoring[i])
+        .then(req => JSON.parse(req))
+        .then(json => {
+          let object = {
 
-          // id: this.state.petIDArrayStoring[i],
-          // name: json.name,
-          // petWeight: json.petWeight
-        }
+            id: this.state.petIDArrayStoring[i],
+            name: json.name,
+            petWeight: json.petWeight
+          }
 
-        this.setState({
-          storedValues:[...this.state.storedValues, object]
+          this.setState({
+            storedValues:[...this.state.storedValues, object]
+          });
         });
+      }
+    }
+    else
+    {
+      this.setState({
+        storedValues: []
       });
     }
   }

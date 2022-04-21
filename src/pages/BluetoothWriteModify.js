@@ -69,6 +69,7 @@ const App = () => {
       setList(Array.from(peripherals.values()));
     }
     console.log('Disconnected from ' + data.peripheral);
+    // navigation.navigate("CreateSchedule");
   }
 
   const handleUpdateValueForCharacteristic = (data) => {
@@ -104,8 +105,28 @@ const App = () => {
   }
 
   const testPeripheral = (peripheral) => {
-    var writeData = "100";
-    var convertedWriteData = stringToBytes(writeData);
+    var writeDataArray = [];
+    var convertedWriteDataArray = [];
+    var writeDataSeparated = "";
+    var writeData = `${weightOfFood};${feedingHours[0]};${feedingMinutes[0]};${feedingHours[1]};${feedingMinutes[1]};${feedingHours[2]};${feedingMinutes[2]};`;
+    for(var i = 0; i < writeData.length; i++)
+    {
+      if(writeData[i] != ";")
+      {
+        writeDataSeparated = writeDataSeparated + writeData[i];
+      }
+      if(writeData[i] == ";")
+      {
+        writeDataArray.push(writeDataSeparated);
+        writeDataSeparated = "";
+      }
+    }
+
+    for(var i = 0; i < writeDataArray.length; i++)
+    {
+      convertedWriteDataArray.push(stringToBytes(writeDataArray[i]));
+    }
+
     if (peripheral){
       if (peripheral.connected){
         BleManager.disconnect(peripheral.id);
@@ -121,16 +142,33 @@ const App = () => {
             setTimeout(() => {
               BleManager.startNotification(peripheral.id, serviceUUID, charasteristicUUID).then(() => {
                 console.log('Started notification on ' + peripheral.id);
+                
                 setTimeout(() => {
-                  BleManager.write(peripheral.id, serviceUUID, charasteristicUUID, convertedWriteData).then(() => {
-                    console.log("Write: " + convertedWriteData);
-                    navigation.navigate("CreateSchedule");
+                  BleManager.write(peripheral.id, serviceUUID, charasteristicUUID, convertedWriteDataArray[0]).then(() => {
+                    console.log("Write: " + convertedWriteDataArray[0]);
+                    BleManager.write(peripheral.id, serviceUUID, charasteristicUUID, convertedWriteDataArray[1]).then(() => {
+                      console.log("Write: " + convertedWriteDataArray[1]);
+                      BleManager.write(peripheral.id, serviceUUID, charasteristicUUID, convertedWriteDataArray[2]).then(() => {
+                        console.log("Write: " + convertedWriteDataArray[2]);
+                        BleManager.write(peripheral.id, serviceUUID, charasteristicUUID, convertedWriteDataArray[3]).then(() => {
+                          console.log("Write: " + convertedWriteDataArray[3]);
+                          BleManager.write(peripheral.id, serviceUUID, charasteristicUUID, convertedWriteDataArray[4]).then(() => {
+                            console.log("Write: " + convertedWriteDataArray[4]);
+                            BleManager.write(peripheral.id, serviceUUID, charasteristicUUID, convertedWriteDataArray[5]).then(() => {
+                              console.log("Write: " + convertedWriteDataArray[5]);
+                              BleManager.write(peripheral.id, serviceUUID, charasteristicUUID, convertedWriteDataArray[6]).then(() => {
+                                console.log("Write: " + convertedWriteDataArray[6]);
+                              });
+                            });
+                          });
+                        });
+                      });
+                    });
                   })
                   .catch((error) => {
                     console.log(error);
                   });
                 }, 500);
-                BleManager.disconnect(peripheral.id);
               }).catch((error) => {
                 console.log('Notification error', error);
               });
@@ -139,7 +177,6 @@ const App = () => {
         })
         .catch((error) => {
           console.log('Connection error', error);
-          BleManager.disconnect(peripheral.id);
         });
       }
     }

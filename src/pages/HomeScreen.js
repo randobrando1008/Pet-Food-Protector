@@ -55,7 +55,7 @@ class HomeScreen extends React.Component {
     return (
       <View style={{flex: 1,backgroundColor: '#fff'}}>
         <Image
-        style={{ resizeMode:'contain', alignSelf: 'center', height: 70, width: 400, marginTop: 10 }}
+        style={{ resizeMode:'contain', alignSelf: 'center', height: 70, width: 360, marginTop: 10 }}
         source={require('./happyDoggo.png')}
         />
         <View style = {externalStyle.lineStyle} />

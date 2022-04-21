@@ -151,7 +151,7 @@ class AddPetScreen extends React.Component {
           JSON.stringify(object),
         );
 
-        let foodInGrams = parseFloat(this.state.foodQuantity) * 128;
+        let foodInGrams = Math.round(parseFloat(this.state.foodQuantity) * 128);
 
         let petObject = {
           name: this.state.feedName,
@@ -159,7 +159,7 @@ class AddPetScreen extends React.Component {
           foodQuantity: foodInGrams.toString(),
           numberOfFeedings: this.state.numberOfFeedings,
           feedingTimes: [],
-          foodConsumed: []
+          foodConsumed: ["", "", "", "", "", "", ""]
         };
 
         AsyncStorage.setItem(
@@ -290,7 +290,7 @@ class AddPetScreen extends React.Component {
                 numericvalue
                 keyboardType={'numeric'}
                 onChangeText={petWeight => this.setState({ petWeight })}
-                placeholder={'Weight'}
+                placeholder={'Pet Weight'}
                 style={externalStyle.inputStyle}
                 onBlur={()=>this.petWeightValidator()}
               />
@@ -319,7 +319,7 @@ class AddPetScreen extends React.Component {
                   numericvalue
                   keyboardType={'numeric'}
                   onChangeText={numberOfFeedings => this.setState({ numberOfFeedings })}
-                  placeholder={'Quantity'}
+                  placeholder={'Feeding Times Per Day(e.g. 1,2,3)'}
                   style={externalStyle.inputStyle}
                   onBlur={()=>this.numberOfFeedingsValidator()}
               />

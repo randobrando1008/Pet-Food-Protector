@@ -22,6 +22,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { format } from "date-fns";
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import { petID } from "./CreateScheduleScreen.js";
+import { userID } from './SignInScreen.js';
 
 import externalStyle from '../styles/externalStyle';
 import PawIcon from '../styles/PawIcon';
@@ -218,6 +219,62 @@ class HomeScreen extends React.Component {
     }
   }
 
+  deletePet = async () => {
+    var petIDArrayStore = [];
+
+    await AsyncStorage.getAllKeys((err, result) => {
+      console.log(result);
+    });
+
+    await AsyncStorage.getItem(userID)
+      .then(req => JSON.parse(req))
+      .then(json => {
+        var petIDs = JSON.parse(json.petID);
+        console.log(petIDs);
+        for(var i = 0; i < petIDs.length; i++)
+        {
+          if(petIDs[i] == petID)
+          {
+            petIDs[i] = "";
+            break;
+          }
+        }
+        console.log(petIDs);
+        for(var i = 0; i < petIDs.length; i++)
+        {
+          if(petIDs[i] != "")
+          {
+            petIDArrayStore[i] = petIDs[i];
+          }
+        }
+        console.log(petIDArrayStore);
+      });
+
+      
+    let object = {
+      petID: JSON.stringify(petIDArrayStore)
+    };
+
+    await AsyncStorage.mergeItem(
+      userID,
+      JSON.stringify(object),
+    );
+
+    await AsyncStorage.removeItem(petID);
+
+    await AsyncStorage.getAllKeys((err, result) => {
+      console.log(result);
+    });
+
+    await AsyncStorage.getItem(userID)
+      .then(req => JSON.parse(req))
+      .then(json => {
+        console.log(json);
+      });
+      
+    this.props.navigation.navigate('CreateSchedule');
+  }
+
   componentDidMount = () => {
     console.log(petID);
     petIDRead = petID;
@@ -245,8 +302,8 @@ class HomeScreen extends React.Component {
           <Text style={externalStyle.headerText}>Modify Schedule</Text>
           <TouchableOpacity
             style={{ backgroundColor:"#FFFFFF00", flexDirection: "row", padding: 2}}
-            onPress={() => this.props.navigation.navigate('Setting')}>
-            <Icon name="gear" size={30} color="#000000CC" backgroundColor="#FFFFFF00"/>
+            onPress={() => this.deletePet()}>
+            <Icon name="trash" size={30} color="#000000CC" backgroundColor="#FFFFFF00"/>
           </TouchableOpacity>
         </View>
 
@@ -269,7 +326,7 @@ class HomeScreen extends React.Component {
             numericvalue
             keyboardType={'numeric'}
             onChangeText={petWeight => this.setState({ petWeight })}
-            placeholder={'Weight'}
+            placeholder={'Pet Weight'}
             style={externalStyle.inputStyle}
             onBlur={()=>this.petWeightValidator()}
           />
@@ -298,7 +355,7 @@ class HomeScreen extends React.Component {
               numericvalue
               keyboardType={'numeric'}
               onChangeText={numberOfFeedings => this.setState({ numberOfFeedings })}
-              placeholder={'Quantity'}
+              placeholder={'Feeding Times Per Day(e.g. 1,2,3)'}
               style={externalStyle.inputStyle}
               onBlur={()=>this.numberOfFeedingsValidator()}
           />
@@ -334,49 +391,33 @@ class SettingsScreen extends React.Component {
     }
   }
 
-  // refreshList = async () => {
-  //   this.state.petIDArrayStoring = [];
-  //   this.state.storedValues = [];
-  //   await AsyncStorage.getItem(userID)
-  //     .then(req => JSON.parse(req))
-  //     .then(json => {
-  //       if(json.petID != '' && json.petID != undefined)
-  //       {
-  //         var petIDStore = JSON.parse(json.petID);
-  //         for(var i = 0; i < petIDStore.length; i++)
-  //         {
-  //           this.state.petIDArrayStoring[i] = petIDStore[i];
-  //         }
-  //       }
-  //     });
+  refreshList = async () => {
+    await AsyncStorage.getItem(petID)
+      .then(req => JSON.parse(req))
+      .then(json => {
+        console.log(json.foodConsumed);
+        // for(var i = 0; i < json.foodConsumed.length; i++)
+        // {
+        //   if(json.foodConsumed[i] == "")
+        //   {
+        //     json.foodConsumed[i] = '4/9/22, 30g';
+        //     break;
+        //   }
+        // }
+        this.setState({tableData: json.foodConsumed});
+        console.log(this.state.tableData);
+      });
+  }
 
-  //   for(var i = 0; i < this.state.petIDArrayStoring.length; i++)
-  //   {
-  //     await AsyncStorage.getItem(this.state.petIDArrayStoring[i])
-  //     .then(req => JSON.parse(req))
-  //     .then(json => {
-  //       if(json.petWeight != '' && json.petWeight != undefined)
-  //       {
-  //         var tableData[i] = JSON.parse(json.petID);
-  //         for(var i = 0; i < petIDStore.length; i++)
-  //         {
-  //           this.state.petIDArrayStoring[i] = petIDStore[i];
-  //         }
-  //       }
-  //     });
-  //       // let object = {
-  //       //   id: this.state.petIDArrayStoring[i],
-  //       //   foodConsumed: json.foodConsumed
-  //       //   // name: json.name,
-  //       //   // petWeight: json.petWeight
-  //       // }
-
-  //       this.setState({
-  //         tableData:[...this.state.storedValues, object]
-  //       });
-  //     });
-  //   }
-  // }
+  componentDidMount = async () => {
+    await AsyncStorage.getItem(petID)
+      .then(req => JSON.parse(req))
+      .then(json => {
+        console.log(json.foodConsumed);
+        this.setState({tableData: json.foodConsumed});
+        console.log(this.state.tableData);
+      });
+  };
 
   render () {
     return (
@@ -387,7 +428,7 @@ class SettingsScreen extends React.Component {
         </Table>
         <SignInButton title="Refresh Data" onPress={() => navigation.navigate('BluetoothRead')} />
         <TouchableOpacity
-            // onPress={() => this.refreshList()}
+            onPress={() => this.refreshList()}
             style={{backgroundColor:"#00A5FF", justifyContent: "center", width: 70, height: 70, borderRadius: 70/2, alignSelf: 'flex-end', position: 'absolute', bottom: 50, left: 40}}>
             <View style={{justifyContent: "center", alignSelf: "center"}}>
               <Icon name="refresh" size={40} color="#FFFFFF"/>
@@ -435,6 +476,6 @@ const AddButton = ({ onPress, title}) => (
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff' },
-  head: { height: 40,  width: '80%', boarderRadius:20, backgroundColor: '#ffffff' },
+  head: { height: 40,  width: '100%', boarderRadius:20, backgroundColor: '#ffffff' },
   text: { margin: 6, color: '#C4C4C4' }
 });

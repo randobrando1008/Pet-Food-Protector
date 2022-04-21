@@ -67,6 +67,7 @@ const App = () => {
       setList(Array.from(peripherals.values()));
     }
     console.log('Disconnected from ' + data.peripheral);
+    // navigation.navigate("ModifyPet");
   }
 
   const handleUpdateValueForCharacteristic = (data) => {
@@ -78,7 +79,7 @@ const App = () => {
       if (results.length == 0) {
         console.log('No connected peripherals')
       }
-      console.log(results);
+      // console.log(results);
       for (var i = 0; i < results.length; i++) {
         var peripheral = results[i];
         peripheral.connected = true;
@@ -101,9 +102,23 @@ const App = () => {
     }
   }
 
+  const sendData = async (storeData) => {
+    // console.log(storeData);
+    let petData = {
+      foodConsumed: storeData
+    }
+
+    // console.log(storeData);
+
+    await AsyncStorage.mergeItem(
+      petIDRead,
+      JSON.stringify(petData),
+    );
+  }
+
   const testPeripheral = (peripheral) => {
-    var readDataValues = [];
-    var readData = true;
+    var storeData = [];
+    var store = "";
     var stopping = true;
     if (peripheral){
       if (peripheral.connected){
@@ -115,60 +130,66 @@ const App = () => {
 
           // retrieve peripheral services info
           BleManager.retrieveServices(peripheral.id).then((peripheralInfo) => {
-            console.log('Retrieved peripheral services', peripheralInfo);
+            // console.log('Retrieved peripheral services', peripheralInfo);
 
             // test read and write data to peripheral
             const serviceUUID = '49535343-fe7d-4ae5-8fa9-9fafd205e455';
             const charasteristicUUID = '49535343-1e4d-4bd9-ba61-23c647249616';
 
-            console.log('peripheral id:', peripheral.id);
-            console.log('service:', serviceUUID);
-            console.log('characteristic:', charasteristicUUID);
+            // console.log('peripheral id:', peripheral.id);
+            // console.log('service:', serviceUUID);
+            // console.log('characteristic:', charasteristicUUID);
 
             BleManager.startNotification(peripheral.id, serviceUUID, charasteristicUUID).then(() => {
               bleManagerEmitter.addListener(
                 "BleManagerDidUpdateValueForCharacteristic",
+                //data:data:data:data:data:data:data:
                 ({ value, peripheral, charasteristicUUID, serviceUUID }) => {
-                  if(readData)
+                  const data = bytesToString(value);
+                  // console.log(data);
+                  if(data == undefined)
                   {
-                    // Convert bytes array to string
-                    const data = bytesToString(value);
-                    if(data != "")
-                    {
-                      AsyncStorage.getItem(petIDRead)
-                        .then(req => JSON.parse(req))
-                        .then(json => {
-                          console.log("Food Consumed:", json.foodConsumed);
-                          readDataValues = json.foodConsumed;
-                          console.log(readDataValues);
-
-                          console.log(data);
-
-                          readDataValues.push(data);
-
-                          let petObject = {
-                            foodConsumed: readDataValues,
-                          };
-                
-                          AsyncStorage.mergeItem(
-                            petIDRead,
-                            JSON.stringify(petObject),
-                          );
-                        });
-                        
-                      readData = false;
-                    }
+                    // do nothing
                   }
                   else
                   {
-                    if(stopping)
-                    {
-                      BleManager.stopNotification(peripheral.id, serviceUUID, charasteristicUUID);
-                      // BleManager.disconnect(peripheral.id);
-                      stopping = false;
-                      navigation.navigate('ModifyPet');
-                    }
-                    return;
+                    setTimeout(() => {
+                      console.log(data);
+                      console.log(data.length);
+                      for(var i = 0; i < data.length; i++)
+                      {
+                        if(data[i] != ":" && data[i] != "0")
+                        {
+                          store = store + data[i];
+                        }
+                        else if(data[i] == "0" && data[i+1] == "0")
+                        {
+                          store = "";
+                        }
+                        else
+                        {
+                          storeData.push(store);
+                          store = "";
+                        }
+                        if(i > 7)
+                        {
+                          for(var j = 0; j < 7; j++)
+                          {
+                            if(storeData[j] != undefined)
+                            {
+                              //do nothing
+                            }
+                            else
+                            {
+                              storeData[j] = "";
+                            }
+                          }
+                          sendData(storeData);
+                          storeData = [];
+                          break;
+                        }
+                      }
+                    }, 500);
                   }
                 }
               );

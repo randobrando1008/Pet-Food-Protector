@@ -27,7 +27,8 @@ import PawIcon from '../styles/PawIcon';
 import { quantitySentAdd } from './AddPetScreen.js';
 import { petIDAdd } from './AddPetScreen.js';
 
-export let feedingTimesArray;
+export let feedingHours;
+export let feedingMinutes;
 export let weightOfFood;
 export let feedingNumbers;
 export let navigation;
@@ -47,7 +48,6 @@ class DatePickerScreenAdd extends React.Component {
             minuteTime: [],
             key: -1,
             isDatePickerVisible: false,
-            feedingTimes: [],
             foodQuantity: "",
             numberOfFeeding: ""
         }
@@ -94,22 +94,22 @@ class DatePickerScreenAdd extends React.Component {
     writeToBluetooth = () => {
         for(var i = 0; i < 3; i++)
         {
-            if(this.state.hourTime[i] != undefined || this.state.minuteTime[i] != undefined)
+            if(this.state.hourTime[i] == undefined && this.state.minuteTime[i] == undefined)
             {
-                var feedingTime = "";
-                feedingTime = `${this.state.hourTime[i]}${this.state.minuteTime[i]}`;
-                this.state.feedingTimes.push(feedingTime);
-            }
-            else
-            {
-                var feedingTime = "";
-                feedingTime = `9999`;
-                this.state.feedingTimes.push(feedingTime);
+                this.state.hourTime[i] = "99";
+                this.state.minuteTime[i] = "99";
             }
         }
 
-        feedingTimesArray = this.state.feedingTimes;
-        weightOfFood = this.state.foodQuantity;
+        feedingHours = this.state.hourTime;
+        feedingMinutes = this.state.minuteTime;
+        var variable = this.state.foodQuantity;
+        if(parseFloat(this.state.foodQuantity) < 100)
+        {
+            variable = "0" + variable;
+        }
+        weightOfFood = variable;
+        // weightOfFood = this.state.foodQuantity;
         feedingNumbers = this.state.numberOfFeeding;
         navigation = this.props.navigation;
         this.props.navigation.navigate('BluetoothWriteAdd');
@@ -141,7 +141,7 @@ class DatePickerScreenAdd extends React.Component {
                     />
                     <View style={{ justifyContent: 'center',
                         alignSelf: "center"}}>
-                        <Text style={externalStyle.extraText}>Chanage Schedule</Text>
+                        <Text style={externalStyle.extraText}>Change Schedule</Text>
                         <TouchableOpacity
                             style={{ backgroundColor:"#FFFFFF00", padding: 1}}
                             onPress={this.showDatePicker} >

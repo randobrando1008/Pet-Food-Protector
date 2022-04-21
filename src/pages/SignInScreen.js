@@ -78,6 +78,16 @@ class SignInScreen extends React.Component {
       this.setState({passwordError: ""});
     }
 
+    if(!isValidPassword || !isValidEmail)
+    {
+      ToastAndroid.showWithGravity(
+        "Sign In Failed",
+        ToastAndroid.SHORT,
+        ToastAndroid.BOTTOM,
+      );
+      
+    }
+
     await AsyncStorage.getAllKeys((err, result) => {
       for(var i = 0; i < result.length; i++)
       {
@@ -154,6 +164,12 @@ class SignInScreen extends React.Component {
       this.setState({passwordError: ""});
     }
   }
+
+  // componentDidMount = async () => {
+  //   AsyncStorage.getAllKeys((err, result) => {
+  //     console.log(result);
+  //   });
+  // }
 
   render() {
     return (
